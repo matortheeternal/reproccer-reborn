@@ -1,0 +1,27 @@
+{
+  "name": "reproccer-reborn",
+  "productName": "Reproccer Reborn",
+  "description": "Re-imagined SkyRe Reproccer using zEdit UPF.",
+  "version": "0.1.0",
+  "author": "JD Smith",
+  "copyright": "© 2017, JD Smith",
+  "repository": "https://github.com/jdsmith2816/reproccer-reborn",
+  "license": "MIT",
+  "main": "dist/index.js",
+  "dependencies": {},
+  "devDependencies": {
+    "angular": "^1.6.6",
+    "rollup": "^0.49.3",
+    "rollup-plugin-copy": "^0.2.3",
+    "rollup-plugin-pug-html": "^0.0.2"
+  },
+  "scripts": {
+    "build": "rollup -c",
+    "dev": "rollup -c -w",
+    "test": "node test/test.js",
+    "pretest": "npm run build"
+  },
+  "files": [
+    "dist"
+  ]
+}

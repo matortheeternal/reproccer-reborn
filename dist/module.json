@@ -1,0 +1,12 @@
+{
+  "id":"reproccerReborn",
+  "name": "Reproccer Reborn",
+  "author": "JD Smith",
+  "version": "0.1",
+  "released": "9/5/2017",
+  "updated": "9/5/2017",
+  "description": "Re-imagined SkyRe Reproccer using zEdit UPF.",
+  "requires": ["unifiedPatchingFramework"],
+  "moduleType": "ZP1",
+  "canHotLoad": true
+}
