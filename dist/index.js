@@ -1,49 +1,3 @@
-class WeaponPatcher {
-  constructor(xelib) {
-    this.xelib = xelib;
-    this.load = this.load.bind(this);
-    this.patch = this.patch.bind(this);
-  }
-
-  load(plugin, settings, locals) {
-    if (!settings.patchWeapons) {
-      return false;
-    }
-
-    return {
-      signature: 'WEAP',
-      filter: () => true
-    }
-  }
-
-  patch(record, settings, locals) {
-    console.log(`Patching ${this.xelib.LongName(record)}`);
-  }
-}
-
-class ArmorPatcher {
-  constructor(xelib) {
-    this.xelib = xelib;
-    this.load = this.load.bind(this);
-    this.patch = this.patch.bind(this);
-  }
-
-  load(plugin, settings, locals) {
-    if (!settings.patcArmor) {
-      return false;
-    }
-
-    return {
-      signature: 'ARMO',
-      filter: () => true
-    }
-  }
-
-  patch(record, settings, locals) {
-    console.log(`Patching ${this.xelib.LongName(record)}`);
-  }
-}
-
 class AlchemyPatcher {
   constructor(xelib) {
     this.xelib = xelib;
@@ -58,29 +12,6 @@ class AlchemyPatcher {
 
     return {
       signature: 'INGR',
-      filter: () => true
-    }
-  }
-
-  patch(record, settings, locals) {
-    console.log(`Patching ${this.xelib.LongName(record)}`);
-  }
-}
-
-class ProjectilePatcher {
-  constructor(xelib) {
-    this.xelib = xelib;
-    this.load = this.load.bind(this);
-    this.patch = this.patch.bind(this);
-  }
-
-  load(plugin, settings, locals) {
-    if (!settings.patchProjectiles) {
-      return false;
-    }
-
-    return {
-      signature: 'AMMO',
       filter: () => true
     }
   }
@@ -163,7 +94,8 @@ var settings = {
 };
 
 class ReproccerReborn {
-  constructor(info, xelib) {
+  constructor(fh, info, xelib) {
+    this.fh = fh;
     this.info = info;
     this.xelib = xelib;
     this.gameModes = [xelib.gmTES5, xelib.gmSSE];
@@ -173,10 +105,10 @@ class ReproccerReborn {
       initialize: this.initialize.bind(this),
 
       process: [
-        new WeaponPatcher(xelib),
-        new ArmorPatcher(xelib),
-        new AlchemyPatcher(xelib),
-        new ProjectilePatcher(xelib)
+        // new WeaponPatcher(xelib),
+        // new ArmorPatcher(xelib),
+        new AlchemyPatcher(xelib)
+        // new ProjectilePatcher(xelib)
       ],
 
       finalize: this.finalize.bind(this)
@@ -184,14 +116,29 @@ class ReproccerReborn {
   }
 
   initialize(patch, helpers, settings$$1, locals) {
-
+    this.start = new Date();
+    this.buildRules(locals);
+    console.log(`started patching: ${this.start}`);
   }
 
   finalize(patch, helpers, settings$$1, locals) {
+    const end = new Date();
+    console.log('finished patching: ${end}');
+    console.log(Math.abs(this.start - end) / 1000 + 's');
+  }
 
+  buildRules(locals) {
+    const rules = {};
+
+    this.xelib.GetLoadedFileNames().forEach((plugin) => {
+      const data = fh.loadJsonFile(`modules/reproccer-reborn/data/${plugin.slice(0, -4)}.json`, null);
+      Object.deepAssign(rules, data);
+    });
+
+    locals.rules = rules;
   }
 }
 
 ngapp.run((patcherService) => {
-  patcherService.registerPatcher(new ReproccerReborn(info, xelib));
+  patcherService.registerPatcher(new ReproccerReborn(fh, info, xelib));
 });

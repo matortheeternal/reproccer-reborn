@@ -6,7 +6,7 @@ export default class ArmorPatcher {
   }
 
   load(plugin, settings, locals) {
-    if (!settings.patcArmor) {
+    if (!settings.patchArmor) {
       return false;
     }
 
