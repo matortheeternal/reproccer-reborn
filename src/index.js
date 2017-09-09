@@ -1,7 +1,5 @@
-import html from './template.pug';
-import {abc} from './abc';
+import ReproccerReborn from './reproccer-reborn';
 
-export default function logStuff() {
-  console.log('html:', html);
-  console.log('abc: ', abc);
-}
+ngapp.run((patcherService) => {
+  patcherService.registerPatcher(new ReproccerReborn(info, xelib));
+});

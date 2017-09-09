@@ -5,7 +5,7 @@ import pkg from './package.json';
 export default [
   {
     input: 'src/index.js',
-    external: [],
+    external: ['ngapp', 'info', 'xelib'],
     plugins: [
       pug({ include: 'src/**/*.pug', pretty: true }),
       copy({ 'static/module.json': 'dist/module.json', 'static/data': 'dist/data'})
