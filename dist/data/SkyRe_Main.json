@@ -2651,34 +2651,52 @@
     "materialOverride": "ELVEN"
   }],
   "dreamcloth_exclusion_strings": ["TEXT", "FX", "Manakin", "wound test", "Child's", "Temporary", "Non-playable"],
-  "base_stats_alchemy": {
-    "fMagnitudeFactorDamage": 0.75,
-    "fMagnitudeFactorFortify": 1.5,
-    "fMagnitudeFactorResist": 2,
-    "fMagnitudeFactorRestore": 0.25,
-    "fMagnitudeFactorRegen": 1.5,
-    "fMagnitudeFactorLingering": 0.2,
-    "fMagnitudeFactorRavage": 0.5,
-    "iDurationBase": 2,
-    "iDurationBonusDamage": 3,
-    "iDurationBonusFortify": 28,
-    "iDurationBonusLingering": 23,
-    "iDurationBonusResist": 28,
-    "iDurationBonusRestore": 4,
-    "iDurationBonusRegen": 178,
-    "iDurationBonusRavage": 8,
-    "sDamage": "Damage",
-    "sRestore": "Restore",
-    "sRegen": "Regen",
-    "sResist": "Resist",
-    "sFortify": "Fortify",
-    "sLingering": "Lingering",
-    "sRavage": "Ravage",
-    "bUsePriceLimits": true,
-    "priceLimitLower": 5,
-    "priceLimitUpper": 150
+  "alchemy": {
+    "excluded_effects": [],
+    "base_stats": {
+      "bUsePriceLimits": true,
+      "iDurationBase": 2,
+      "priceLimitLower": 5,
+      "priceLimitUpper": 150,
+      "effects": [
+        {
+          "name": "Damage",
+          "fMagnitudeFactor": 0.75,
+          "iDurationBonus": 3
+        },
+        {
+          "name": "Restore",
+          "fMagnitudeFactor": 0.25,
+          "iDurationBonus": 4
+        },
+        {
+          "name": "Regen",
+          "fMagnitudeFactor": 1.5,
+          "iDurationBonus": 178
+        },
+        {
+          "name": "Resist",
+          "fMagnitudeFactor": 2,
+          "iDurationBonus": 28
+        },
+        {
+          "name": "Fortify",
+          "fMagnitudeFactor": 0.75,
+          "iDurationBonus": 3
+        },
+        {
+          "name": "Lingering",
+          "fMagnitudeFactor": 0.2,
+          "iDurationBonus": 23
+        },
+        {
+          "name": "Ravage",
+          "fMagnitudeFactor": 0.5,
+          "iDurationBonus": 8
+        }
+      ]
+    }
   },
-  "alchemy_exclusion_strings": [],
   "base_stats_projectiles": [{
     "fRangeBase": 120000,
     "fSpeedBase": 5200,

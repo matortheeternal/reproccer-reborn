@@ -1,6 +1,5 @@
 export default class ArmorPatcher {
-  constructor(xelib) {
-    this.xelib = xelib;
+  constructor() {
     this.load = this.load.bind(this);
     this.patch = this.patch.bind(this);
   }
@@ -17,6 +16,6 @@ export default class ArmorPatcher {
   }
 
   patch(record, settings, locals) {
-    console.log(`Patching ${this.xelib.LongName(record)}`);
+    console.log(`Patching ${xelib.LongName(record)}`);
   }
 }

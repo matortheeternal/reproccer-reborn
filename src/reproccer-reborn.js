@@ -5,10 +5,9 @@ import ProjectilePatcher from './patchers/projectile-patcher';
 import settings from './settings/settings';
 
 export default class ReproccerReborn {
-  constructor(fh, info, xelib) {
+  constructor(fh, info) {
     this.fh = fh;
     this.info = info;
-    this.xelib = xelib;
     this.gameModes = [xelib.gmTES5, xelib.gmSSE];
     this.settings = settings;
 
@@ -16,10 +15,10 @@ export default class ReproccerReborn {
       initialize: this.initialize.bind(this),
 
       process: [
-        // new WeaponPatcher(xelib),
-        // new ArmorPatcher(xelib),
-        new AlchemyPatcher(xelib)
-        // new ProjectilePatcher(xelib)
+        // new WeaponPatcher(),
+        // new ArmorPatcher(),
+        new AlchemyPatcher()
+        // new ProjectilePatcher()
       ],
 
       finalize: this.finalize.bind(this)
@@ -34,14 +33,14 @@ export default class ReproccerReborn {
 
   finalize(patch, helpers, settings, locals) {
     const end = new Date();
-    console.log('finished patching: ${end}');
+    console.log(`finished patching: ${end}`);
     console.log(Math.abs(this.start - end) / 1000 + 's');
   }
 
   buildRules(locals) {
     const rules = {};
 
-    this.xelib.GetLoadedFileNames().forEach((plugin) => {
+    xelib.GetLoadedFileNames().forEach((plugin) => {
       const data = fh.loadJsonFile(`modules/reproccer-reborn/data/${plugin.slice(0, -4)}.json`, null);
       Object.deepAssign(rules, data);
     });
