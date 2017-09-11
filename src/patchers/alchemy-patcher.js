@@ -45,13 +45,13 @@ export default class AlchemyPatcher {
       newMagnitude *= e.fMagnitudeFactor;
     });
 
-    if (xelib.HasElement(mgef, 'Magic Effect Data') && !xelib.GetFlag(mgef, 'Magic Effect Data\\DATA\\Flags', 'No Duration')) {
-      xelib.SetValue(effect, 'EFIT\\Duration', `${newDuration}`);
+    if (xelib.HasElement(mgef, 'Magic Effect Data') && !xelib.GetFlag(mgef, 'Magic Effect DATA\\DATA\\Flags', 'No Duration')) {
+      xelib.SetIntValue(effect, 'EFIT\\Duration', newDuration);
     }
 
-    if (xelib.HasElement(mgef, 'Magic Effect Data') && !xelib.GetFlag(mgef, 'Magic Effect Data\\DATA\\Flags', 'No Magnitude')) {
+    if (xelib.HasElement(mgef, 'Magic Effect Data') && !xelib.GetFlag(mgef, 'Magic Effect DATA\\DATA\\Flags', 'No Magnitude')) {
       newMagnitude = Math.max(1.0, newMagnitude);
-      xelib.SetValue(effect, 'EFIT\\Magnitude', `${newMagnitude}`);
+      xelib.SetIntValue(effect, 'EFIT\\Magnitude', newMagnitude);
     }
   }
 
@@ -66,6 +66,6 @@ export default class AlchemyPatcher {
     const newValue = Math.min(Math.max(originalValue, min), max);
 
     xelib.SetFlag(ingredient, 'ENIT\\Flags', 'No auto-calculation', true);
-    xelib.SetValue(ingredient, 'DATA\\Value', `${newValue}`);
+    xelib.SetIntValue(ingredient, 'DATA\\Value', newValue);
   }
 };

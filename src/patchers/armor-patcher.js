@@ -9,13 +9,17 @@ export default class ArmorPatcher {
       return false;
     }
 
+    this.patch = locals.patch;
+    this.armor = locals.rules.armor;
+
+    this.updateGameSettings();
+
     return {
       signature: 'ARMO',
-      filter: () => true
-    }
-  }
+      filter: (armor) => { return true; }
 
-  patch(record, settings, locals) {
-    console.log(`Patching ${xelib.LongName(record)}`);
+        return true;
+      }
+    }
   }
 }
