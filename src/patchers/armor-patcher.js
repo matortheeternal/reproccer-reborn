@@ -9,7 +9,8 @@ export default class ArmorPatcher {
       return false;
     }
 
-    this.patch = locals.patch;
+    this.settings = settings;
+    this.patchFile = locals.patch;
     this.armor = locals.rules.armor;
     this.statics = locals.statics;
     this.cobj = locals.cobj
@@ -37,14 +38,14 @@ export default class ArmorPatcher {
 
   updateGameSettings() {
     const fArmorScalingFactorBaseRecord = xelib.GetRecord(0, parseInt(this.statics.gmstfArmorScalingFactor, 16));
-    const fArmorScalingFactor = xelib.CopyElement(fArmorScalingFactorBaseRecord, this.patch);
-    xelib.SetFloatValue(fArmorScalingFactor, 'DATA\\Float', this.armor.base_stats.fProtectionPerArmor);
+    const fArmorScalingFactor = xelib.CopyElement(fArmorScalingFactorBaseRecord, this.patchFile);
+    xelib.SetFloatValue(fArmorScalingFactor, 'DATA\\Float', this.settings.armorBaseStats.fProtectionPerArmor);
     // console.log(`1 point of armor provides ${this.statics.gmstfArmorScalingFactor}% protection now.`);
 
     const fMaxArmorRatingBaseRecord = xelib.GetRecord(0, parseInt(this.statics.gmstfMaxArmorRating, 16));
-    const fMaxArmorRating = xelib.CopyElement(fMaxArmorRatingBaseRecord, this.patch);
-    xelib.SetFloatValue(fArmorScalingFactor, 'DATA\\Float', this.armor.base_stats.fMaxProtection);
-    // console.log(`Maximum armor protection: ${this.armor.base_stats.fMaxProtection}%`);
+    const fMaxArmorRating = xelib.CopyElement(fMaxArmorRatingBaseRecord, this.patchFile);
+    xelib.SetFloatValue(fArmorScalingFactor, 'DATA\\Float', this.settings.armorBaseStats.fMaxProtection);
+    // console.log(`Maximum armor protection: ${this.settings.armorBaseStats.fMaxProtection}%`);
   }
 
   patch(armor, settings, locals) {
@@ -194,7 +195,7 @@ export default class ArmorPatcher {
     }
 
     const newName = `${name} [Dreamcloth]`;
-    const newDreamcloth = xelib.CopyElement(armor, this.patch, true);
+    const newDreamcloth = xelib.CopyElement(armor, this.patchFile, true);
     xelib.AddElementValue(newDreamcloth, 'EDID', `REP_DREAMCLOTH_${newName}`);
     xelib.AddElementValue(newDreamcloth, 'FULL', newName);
     xelib.RemoveElement(newDreamcloth, 'EITM');
@@ -237,7 +238,7 @@ export default class ArmorPatcher {
       // console.log(`${name}: Couldn't find slot.  Meltdown recipe might be inappropriate.`);
     }
 
-    const newRecipe = xelib.AddElement(this.patch, 'Constructible Object\\COBJ');
+    const newRecipe = xelib.AddElement(this.patchFile, 'Constructible Object\\COBJ');
     xelib.AddElementValue(newRecipe, 'EDID', `REP_MELTDOWN_CLOTHING_${name}`);
 
     xelib.AddElement(newRecipe, 'Items');
@@ -277,7 +278,7 @@ export default class ArmorPatcher {
 
   addClothingCraftingRecipe(armor, isDreamCloth) {
     const name = xelib.FullName(armor);
-    const newRecipe = xelib.AddElement(this.patch, 'Constructible Object\\COBJ');
+    const newRecipe = xelib.AddElement(this.patchFile, 'Constructible Object\\COBJ');
     xelib.AddElementValue(newRecipe, 'EDID', `REP_CRAFT_CLOTHING_${name}`);
 
     let quantityIngredient1 = 2;
@@ -406,7 +407,7 @@ export default class ArmorPatcher {
         return;
       }
 
-      const newRecipe = xelib.CopyElement(recipe, this.patch);
+      const newRecipe = xelib.CopyElement(recipe, this.patchFile);
       xelib.RemoveElement(newRecipe, 'Conditions');
 
       if (perk) {
@@ -430,11 +431,11 @@ export default class ArmorPatcher {
   }
 
   getArmorSlotMultiplier(armor) {
-    if (xelib.HasArrayItem(armor, 'KWDA', '', 'ArmorBoots')) { return this.armor.base_stats.fArmorFactorBoots; }
-    if (xelib.HasArrayItem(armor, 'KWDA', '', 'ArmorCuirass')) { return this.armor.base_stats.fArmorFactorCuirass; }
-    if (xelib.HasArrayItem(armor, 'KWDA', '', 'ArmorGauntlets')) { return this.armor.base_stats.fArmorFactorGauntlets; }
-    if (xelib.HasArrayItem(armor, 'KWDA', '', 'ArmorHelmet')) { return this.armor.base_stats.fArmorFactorHelmet; }
-    if (xelib.HasArrayItem(armor, 'KWDA', '', 'ArmorShield')) { return this.armor.base_stats.fArmorFactorShield; }
+    if (xelib.HasArrayItem(armor, 'KWDA', '', 'ArmorBoots')) { return this.settings.armorBaseStats.fArmorFactorBoots; }
+    if (xelib.HasArrayItem(armor, 'KWDA', '', 'ArmorCuirass')) { return this.settings.armorBaseStats.fArmorFactorCuirass; }
+    if (xelib.HasArrayItem(armor, 'KWDA', '', 'ArmorGauntlets')) { return this.settings.armorBaseStats.fArmorFactorGauntlets; }
+    if (xelib.HasArrayItem(armor, 'KWDA', '', 'ArmorHelmet')) { return this.settings.armorBaseStats.fArmorFactorHelmet; }
+    if (xelib.HasArrayItem(armor, 'KWDA', '', 'ArmorShield')) { return this.settings.armorBaseStats.fArmorFactorShield; }
 
     // console.log(`${xelib.FullName(armor)}: Couldn't determine slot.`);
     return 0;
@@ -442,7 +443,7 @@ export default class ArmorPatcher {
 
   getMaterialArmorModifier(armor) {
     const name = xelib.FullName(armor);
-    const armorRating = this.getMaterialArmorRatingFromName(name);
+    let armorRating = this.getMaterialArmorRatingFromName(name);
 
     if (armorRating !== -10) { return armorRating; }
 
@@ -493,7 +494,7 @@ export default class ArmorPatcher {
 
     if (!perk) { return; }
 
-    const newRecipe = xelib.CopyElement(recipe, this.patch);
+    const newRecipe = xelib.CopyElement(recipe, this.patchFile);
     const condition = xelib.AddElement(newRecipe, 'Conditions\\^0');
     xelib.SetIntValue(condition, 'CTDA\\Type', 10000000);
     xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', 1);
@@ -536,6 +537,23 @@ export default class ArmorPatcher {
 
     // console.log(`${xelib.FullName(armor)}: Couldn't determine material - tempering recipe not modified.`);
     return perk;
+  }
+
+  modifyLeatherCraftingRecipe(armor, recipe) {
+    if (!xelib.HasArrayItem(armor, 'KWDA', '', 'ArmorMaterialLeather')) { return; }
+
+    // console.log(`${xelib.FullName(armor)}: Trying to add leather requirements.`);
+
+    const cnam = xelib.GetLinksTo(recipe, 'CNAM');
+    if (!cnam || !xelib.ElementEquals(cnam, armor)) { return; }
+
+    const newRecipe = xelib.CopyElement(recipe, this.patchFile);
+    const condition = xelib.AddElement(newRecipe, 'Conditions\\.');
+    xelib.SetIntValue(condition, 'CTDA\\Type', 10000000);
+    xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', 1);
+    xelib.SetValue(condition, 'CTDA\\Function', 'HasPerk');
+    xelib.SetValue(condition, 'CTDA\\Perk', this.statics.perkSmithingLeather);
+    xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
   }
 
   addMeltdownRecipe(armor) {
@@ -611,7 +629,7 @@ export default class ArmorPatcher {
       return;
     }
 
-    const recipe = xelib.AddElement(this.patch, 'Constructible Object\\COBJ');
+    const recipe = xelib.AddElement(this.patchFile, 'Constructible Object\\COBJ');
     xelib.AddElementValue(recipe, 'EDID', `REP_MELTDOWN_${name}`);
     xelib.AddElementValue(recipe, 'BNAM', bnam);
     xelib.AddElementValue(recipe, 'CNAM', cnam);
@@ -648,22 +666,5 @@ export default class ArmorPatcher {
     xelib.SetValue(condition3, 'CTDA\\Run On', 'Subject');
 
     // console.log(`${name}: Added meltdown recipe.`);
-  }
-
-  modifyLeatherCraftingRecipe(armor, recipe) {
-    if (!xelib.HasArrayItem(armor, 'KWDA', '', 'ArmorMaterialLeather')) { return; }
-
-    // console.log(`${xelib.FullName(armor)}: Trying to add leather requirements.`);
-
-    const cnam = xelib.GetLinksTo(recipe, 'CNAM');
-    if (!cnam || !xelib.ElementEquals(cnam, armor)) { return; }
-
-    const newRecipe = xelib.CopyElement(recipe, this.patch);
-    const condition = xelib.AddElement(newRecipe, 'Conditions\\.');
-    xelib.SetIntValue(condition, 'CTDA\\Type', 10000000);
-    xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', 1);
-    xelib.SetValue(condition, 'CTDA\\Function', 'HasPerk');
-    xelib.SetValue(condition, 'CTDA\\Perk', this.statics.perkSmithingLeather);
-    xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
   }
 }

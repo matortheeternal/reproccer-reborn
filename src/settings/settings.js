@@ -12,6 +12,35 @@ export default {
     patchAlchemyIngredients: true,
     patchProjectiles: true,
 
+    alchemyBaseStats: {
+      bUsePriceLimits: true,
+      iDurationBase: 2,
+      priceLimitLower: 5,
+      priceLimitUpper: 150,
+    },
+
+    armorBaseStats: {
+      fArmorFactorBoots: 1,
+      fArmorFactorCuirass: 3,
+      fArmorFactorGauntlets: 1,
+      fArmorFactorHelmet: 1.5,
+      fArmorFactorShield: 1.5,
+      fProtectionPerArmor: 0.1,
+      fMaxProtection: 95
+    },
+
+    weaponBaseStats: {
+      fSpeedBonusArbalestCrossbow: -0.2,
+      fSpeedBonusLightweightCrossbow: 0.25,
+      fWeightFactorArbalestCrossbow: 1.25,
+      fWeightFactorLighweightCrossbow: 0.75,
+      iDamageBaseBow: 22,
+      iDamageBaseCrossbow: 30,
+      iDamageBaseOneHanded: 12,
+      iDamageBaseTwoHanded: 23,
+      iDamageBonusRecurveCrossbow: 8
+    },
+
     requiredFiles: [
       'SkyRe_Main.esp'
     ],

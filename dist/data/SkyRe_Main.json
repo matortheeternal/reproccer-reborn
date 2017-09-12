@@ -1,16 +1,5 @@
 {
   "weapons": {
-    "base_stats": {
-      "fSpeedBonusArbalestCrossbow": -0.2,
-      "fSpeedBonusLightweightCrossbow": 0.25,
-      "fWeightFactorArbalestCrossbow": 1.25,
-      "fWeightFactorLighweightCrossbow": 0.75,
-      "iDamageBaseBow": 22,
-      "iDamageBaseCrossbow": 30,
-      "iDamageBaseOneHanded": 12,
-      "iDamageBaseTwoHanded": 23,
-      "iDamageBonusRecurveCrossbow": 8
-    },
     "type_definitions": [
       {
         "sSkyReWeaponTypeBinding": "HATCHET",
@@ -1509,15 +1498,6 @@
     "excluded_crossbows": ["Enhanced"]
   },
   "armor": {
-    "base_stats": {
-      "fArmorFactorBoots": 1,
-      "fArmorFactorCuirass": 3,
-      "fArmorFactorGauntlets": 1,
-      "fArmorFactorHelmet": 1.5,
-      "fArmorFactorShield": 1.5,
-      "fProtectionPerArmor": 0.1,
-      "fMaxProtection": 95
-    },
     "materials": [
         {
         "iArmor": 36,
@@ -2458,52 +2438,48 @@
       }
     ],
     "keyword_material_map": [
-      { "sKeyword": "ArmorMaterialBlades",          "sMaterialName": "Blades"          },
-      { "sKeyword": "ArmorMaterialDaedric",         "sMaterialName": "Daedric"         },
-      { "sKeyword": "ArmorMaterialDawnguard",       "sMaterialName": "Dawnguard Light" },
-      { "sKeyword": "ArmorMaterialDragonplate",     "sMaterialName": "Dragonplate"     },
-      { "sKeyword": "ArmorMaterialDragonscale",     "sMaterialName": "Dragonscale"     },
-      { "sKeyword": "ArmorMaterialDraugr",          "sMaterialName": "Ancient Nord"    },
-      { "sKeyword": "ArmorMaterialDwarven",         "sMaterialName": "Dwarven"         },
-      { "sKeyword": "ArmorMaterialEbony",           "sMaterialName": "Ebony"           },
-      { "sKeyword": "ArmorMaterialElven",           "sMaterialName": "Elven"           },
-      { "sKeyword": "ArmorMaterialElvenGilded",     "sMaterialName": "Elven Gilded"    },
-      { "sKeyword": "ArmorMaterialFalmer",          "sMaterialName": "Falmer"          },
-      { "sKeyword": "ArmorMaterialFalmerHardened",  "sMaterialName": "Falmer Hardened" },
-      { "sKeyword": "ArmorMaterialFalmerHeavy",     "sMaterialName": "Falmer Heavy"    },
-      { "sKeyword": "ArmorMaterialFur",             "sMaterialName": "Fur"             },
-      { "sKeyword": "ArmorMaterialGlass",           "sMaterialName": "Glass"           },
-      { "sKeyword": "ArmorMaterialHide",            "sMaterialName": "Hide"            },
-      { "sKeyword": "ArmorMaterialHunter",          "sMaterialName": "Dawnguard Heavy" },
-      { "sKeyword": "ArmorMaterialImperialHeavy",   "sMaterialName": "Imperial Heavy"  },
-      { "sKeyword": "ArmorMaterialImperialLight",   "sMaterialName": "Imperial Light"  },
-      { "sKeyword": "ArmorMaterialImperialStudded", "sMaterialName": "Studded Imperial"},
-      { "sKeyword": "ArmorMaterialIron",            "sMaterialName": "Iron"            },
-      { "sKeyword": "ArmorMaterialIronBanded",      "sMaterialName": "Iron Banded"     },
-      { "sKeyword": "ArmorMaterialLeather",         "sMaterialName": "Leather"         },
-      { "sKeyword": "ArmorMaterialOrcish",          "sMaterialName": "Orcish"          },
-      { "sKeyword": "ArmorMaterialScaled",          "sMaterialName": "Scaled"          },
-      { "sKeyword": "ArmorMaterialSteel",           "sMaterialName": "Steel"           },
-      { "sKeyword": "ArmorMaterialSteelPlate",      "sMaterialName": "Steel Plate"     },
-      { "sKeyword": "ArmorMaterialStormcloak",      "sMaterialName": "Stormcloak"      },
-      { "sKeyword": "ArmorMaterialStudded",         "sMaterialName": "Studded"         },
-      { "sKeyword": "ArmorMaterialVampire",         "sMaterialName": "Vampire"         },
-      { "sKeyword": "ArmorMaterialDarkBrotherhood", "sMaterialName": "Shrouded"        },
-      { "sKeyword": "ArmorMaterialNightingale",     "sMaterialName": "Nightingale"     },
-      { "sKeyword": "ArmorMaterialBonemoldHeavy",   "sMaterialName": "Bonemold"        },
-      { "sKeyword": "ArmorMaterialNordicHeavy",     "sMaterialName": "Nordic"          },
-      { "sKeyword": "ArmorMaterialStalhrimLight",   "sMaterialName": "Stalhrim Light"  },
-      { "sKeyword": "ArmorMaterialStalhrimHeavy",   "sMaterialName": "Stalhrim Heavy"  }
+      { "sKeyword": "ArmorDarkBrotherhood",             "sMaterialName": "Shrouded"        },
+      { "sKeyword": "ArmorMaterialBladesDUPLICATE001",  "sMaterialName": "Blades"          },
+      { "sKeyword": "ArmorMaterialDaedric",             "sMaterialName": "Daedric"         },
+      { "sKeyword": "ArmorMaterialDragonplate",         "sMaterialName": "Dragonplate"     },
+      { "sKeyword": "ArmorMaterialDragonscale",         "sMaterialName": "Dragonscale"     },
+      { "sKeyword": "ArmorMaterialDraugr",              "sMaterialName": "Ancient Nord"    },
+      { "sKeyword": "ArmorMaterialDwarven",             "sMaterialName": "Dwarven"         },
+      { "sKeyword": "ArmorMaterialEbony",               "sMaterialName": "Ebony"           },
+      { "sKeyword": "ArmorMaterialElven",               "sMaterialName": "Elven"           },
+      { "sKeyword": "ArmorMaterialElvenGilded",         "sMaterialName": "Elven Gilded"    },
+      { "sKeyword": "ArmorMaterialFalmerDUPLICATE001",  "sMaterialName": "Falmer"          },
+      { "sKeyword": "ArmorMaterialFur",                 "sMaterialName": "Fur"             },
+      { "sKeyword": "ArmorMaterialGlass",               "sMaterialName": "Glass"           },
+      { "sKeyword": "ArmorMaterialHide",                "sMaterialName": "Hide"            },
+      { "sKeyword": "ArmorMaterialImperialHeavy",       "sMaterialName": "Imperial Heavy"  },
+      { "sKeyword": "ArmorMaterialImperialLight",       "sMaterialName": "Imperial Light"  },
+      { "sKeyword": "ArmorMaterialImperialStudded",     "sMaterialName": "Studded Imperial"},
+      { "sKeyword": "ArmorMaterialIron",                "sMaterialName": "Iron"            },
+      { "sKeyword": "ArmorMaterialIronBanded",          "sMaterialName": "Iron Banded"     },
+      { "sKeyword": "ArmorMaterialLeather",             "sMaterialName": "Leather"         },
+      { "sKeyword": "ArmorMaterialOrcish",              "sMaterialName": "Orcish"          },
+      { "sKeyword": "ArmorMaterialScaled",              "sMaterialName": "Scaled"          },
+      { "sKeyword": "ArmorMaterialSteel",               "sMaterialName": "Steel"           },
+      { "sKeyword": "ArmorMaterialSteelPlate",          "sMaterialName": "Steel Plate"     },
+      { "sKeyword": "ArmorMaterialStormcloak",          "sMaterialName": "Stormcloak"      },
+      { "sKeyword": "ArmorMaterialStudded",             "sMaterialName": "Studded"         },
+      { "sKeyword": "ArmorNightingale",                 "sMaterialName": "Nightingale"     },
+      { "sKeyword": "DLC1ArmorMaterialDawnguard",       "sMaterialName": "Dawnguard Light" },
+      { "sKeyword": "DLC1ArmorMaterialFalmerHardened",  "sMaterialName": "Falmer Hardened" },
+      { "sKeyword": "DLC1ArmorMaterialFalmerHeavy",     "sMaterialName": "Falmer Heavy"    },
+      { "sKeyword": "DLC1ArmorMaterialHunter",          "sMaterialName": "Dawnguard Heavy" },
+      { "sKeyword": "DLC1ArmorMaterialVampire",         "sMaterialName": "Vampire"         },
+      { "sKeyword": "DLC2ArmorMaterialBonemoldHeavy",   "sMaterialName": "Bonemold"        },
+      { "sKeyword": "DLC2ArmorMaterialNordicHeavy",     "sMaterialName": "Nordic"          },
+      { "sKeyword": "DLC2ArmorMaterialStalhrimHeavy",   "sMaterialName": "Stalhrim Heavy"  },
+      { "sKeyword": "DLC2ArmorMaterialStalhrimLight",   "sMaterialName": "Stalhrim Light"  }
     ],
     "excluded_dreamcloth": ["TEXT", "FX", "Manakin", "wound test", "Child's", "Temporary", "Non-playable"]
   },
   "alchemy": {
     "excluded_effects": [],
     "base_stats": {
-      "bUsePriceLimits": true,
-      "iDurationBase": 2,
-      "priceLimitLower": 5,
-      "priceLimitUpper": 150,
       "effects": [
         {
           "name": "Damage",

@@ -6,6 +6,7 @@ export default class AlchemyPatcher {
 
   load(plugin, settings, locals) {
     this.alchemy = locals.rules.alchemy;
+    this.settings = settings;
 
     if (!settings.patchAlchemyIngredients) {
       return false;
@@ -41,7 +42,7 @@ export default class AlchemyPatcher {
         return;
       }
 
-      newDuration = this.alchemy.base_stats.iDurationBase + e.iDurationBonus;
+      newDuration = this.settings.alchemyBaseStats.iDurationBase + e.iDurationBonus;
       newMagnitude *= e.fMagnitudeFactor;
     });
 
@@ -56,12 +57,12 @@ export default class AlchemyPatcher {
   }
 
   clampValue(ingredient) {
-    if (!this.alchemy.base_stats.bUsePriceLimits) {
+    if (!this.settings.alchemyBaseStats.bUsePriceLimits) {
       return;
     }
 
-    const min = this.alchemy.base_stats.priceLimitLower;
-    const max = this.alchemy.base_stats.priceLimitUpper;
+    const min = this.settings.alchemyBaseStats.priceLimitLower;
+    const max = this.settings.alchemyBaseStats.priceLimitUpper;
     const originalValue = xelib.GetValue(ingredient, 'DATA\\Value');
     const newValue = Math.min(Math.max(originalValue, min), max);
 

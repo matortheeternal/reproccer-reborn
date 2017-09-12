@@ -9,6 +9,9 @@ export default class WeaponPatcher {
       return false;
     }
 
+    this.settings = settings;
+    this.weapons = locals.rules.weapons;
+
     return {
       signature: 'WEAP',
       filter: () => true
