@@ -1,8 +1,4 @@
 {
-  "string_definitions": [{
-    "sDescriptor": "Dreamcloth",
-    "sDisplayString": "[Dreamcloth]"
-  }],
   "weapons": {
     "base_stats": {
       "fSpeedBonusArbalestCrossbow": -0.2,

@@ -27,13 +27,8 @@ export default class ProjectilePatcher {
   }
 
   patch(ammo, settings, locals) {
-    const name = xelib.FullName(ammo);
-    console.log(`${name}: Started Patching`);
-
     this.patchStats(ammo);
     this.addVariants(ammo);
-
-    console.log(`${name}: Stopped patching`);
   }
 
   patchStats(ammo) {
