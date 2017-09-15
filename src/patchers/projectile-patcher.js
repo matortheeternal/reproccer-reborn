@@ -1,3 +1,5 @@
+import * as h from './helpers';
+
 export default class ProjectilePatcher {
   constructor() {
     this.load = this.load.bind(this);
@@ -243,40 +245,29 @@ export default class ProjectilePatcher {
   }
 
   createVariants(ammo) {
-    const secondaryIngredients = [];
-    const requiredPerks = [];
+    const s = this.statics;
+    let ingredients = [];
+    let perks = [];
 
     const explodingAmmo = this.createExplodingAmmo(ammo);
-    secondaryIngredients.push(this.statics.ale);
-    secondaryIngredients.push(this.statics.torchbugThorax);
-    requiredPerks.push(this.statics.perkAlchemyFuse);
-    this.addCraftingRecipe(ammo, explodingAmmo, secondaryIngredients, requiredPerks);
-    secondaryIngredients.length = 0;
-    requiredPerks.length = 0;
+    ingredients = [s.ale, s.torchbugThorax];
+    perks = [s.perkAlchemyFuse];
+    this.addCraftingRecipe(ammo, explodingAmmo, ingredients, perks);
 
     const timebombAmmo = this.createTimebombAmmo(ammo);
-    secondaryIngredients.push(this.statics.fireSalt);
-    secondaryIngredients.push(this.statics.torchbugThorax);
-    requiredPerks.push(this.statics.perkAlchemyAdvancedExplosives);
-    this.addCraftingRecipe(ammo, timebombAmmo, secondaryIngredients, requiredPerks);
-    secondaryIngredients.length = 0;
-    requiredPerks.length = 0;
+    ingredients = [s.fireSalt, s.torchbugThorax];
+    perks = [s.perkAlchemyAdvancedExplosives];
+    this.addCraftingRecipe(ammo, timebombAmmo, ingredients, perks);
 
     const lightsourceAmmo = this.createLightsourceAmmo(ammo);
-    secondaryIngredients.push(this.statics.torchbugThorax);
-    secondaryIngredients.push(this.statics.leatherStrips);
-    requiredPerks.push(this.statics.perkSneakThiefsToolbox0);
-    this.addCraftingRecipe(ammo, lightsourceAmmo, secondaryIngredients, requiredPerks);
-    secondaryIngredients.length = 0;
-    requiredPerks.length = 0;
+    ingredients = [s.torchbugThorax, s.leatherStrips];
+    perks = [s.perkSneakThiefsToolbox0];
+    this.addCraftingRecipe(ammo, lightsourceAmmo, ingredients, perks);
 
     const noisemakerAmmo = this.createNoisemakerAmmo(ammo);
-    secondaryIngredients.push(this.statics.pettySoulGem);
-    secondaryIngredients.push(this.statics.boneMeal);
-    requiredPerks.push(this.statics.perkSneakThiefsToolbox0);
-    this.addCraftingRecipe(ammo, noisemakerAmmo, secondaryIngredients, requiredPerks);
-    secondaryIngredients.length = 0;
-    requiredPerks.length = 0;
+    ingredients = [s.pettySoulGem, s.boneMeal];
+    perks = [s.perkSneakThiefsToolbox0];
+    this.addCraftingRecipe(ammo, noisemakerAmmo, ingredients, perks);
 
     const name = xelib.FullName(ammo);
     if (this.projectiles.base_stats.find((bs) => name.includes(bs.sIdentifier) && bs.sType !== 'ARROW')) {
@@ -286,54 +277,39 @@ export default class ProjectilePatcher {
 
   createCrossbowOnlyVariants(ammo) {
     const name = xelib.FullName(ammo);
-    const secondaryIngredients = [];
-    const requiredPerks = [];
+    const s = this.statics;
+    let ingredients = [];
+    let perks = [];
 
     const fireAmmo = this.createFireAmmo(ammo);
-    secondaryIngredients.push(this.statics.pettySoulGem);
-    secondaryIngredients.push(this.statics.fireSalt);
-    requiredPerks.push(this.statics.perkEnchantingElementalBombard0);
-    this.addCraftingRecipe(ammo, fireAmmo, secondaryIngredients, requiredPerks);
-    secondaryIngredients.length = 0;
-    requiredPerks.length = 0;
+    ingredients = [s.pettySoulGem, s.fireSalt];
+    perks = [s.perkEnchantingElementalBombard0];
+    this.addCraftingRecipe(ammo, fireAmmo, ingredients, perks);
 
     const frostAmmo = this.createFrostAmmo(ammo);
-    secondaryIngredients.push(this.statics.pettySoulGem);
-    secondaryIngredients.push(this.statics.frostSalt);
-    requiredPerks.push(this.statics.perkEnchantingElementalBombard0);
-    this.addCraftingRecipe(ammo, frostAmmo, secondaryIngredients, requiredPerks);
-    secondaryIngredients.length = 0;
-    requiredPerks.length = 0;
+    ingredients = [s.pettySoulGem, s.frostSalt];
+    perks = [s.perkEnchantingElementalBombard0];
+    this.addCraftingRecipe(ammo, frostAmmo, ingredients, perks);
 
     const shockAmmo = this.createShockAmmo(ammo);
-    secondaryIngredients.push(this.statics.pettySoulGem);
-    secondaryIngredients.push(this.statics.voidSalt);
-    requiredPerks.push(this.statics.perkEnchantingElementalBombard0);
-    this.addCraftingRecipe(ammo, shockAmmo, secondaryIngredients, requiredPerks);
-    secondaryIngredients.length = 0;
-    requiredPerks.length = 0;
+    ingredients = [s.pettySoulGem, s.voidSalt];
+    perks = [s.perkEnchantingElementalBombard0];
+    this.addCraftingRecipe(ammo, shockAmmo, ingredients, perks);
 
     const neuralgiaAmmo = this.createNeuralgiaAmmo(ammo);
-    secondaryIngredients.push(this.statics.pettySoulGem);
-    secondaryIngredients.push(this.statics.deathBell);
-    requiredPerks.push(this.statics.perkEnchantingElementalBombard1);
-    this.addCraftingRecipe(ammo, neuralgiaAmmo, secondaryIngredients, requiredPerks);
-    secondaryIngredients.length = 0;
-    requiredPerks.length = 0;
+    ingredients = [s.pettySoulGem, s.deathBell];
+    perks = [s.perkEnchantingElementalBombard1];
+    this.addCraftingRecipe(ammo, neuralgiaAmmo, ingredients, perks);
 
     const barbedAmmo = this.createBarbedAmmo(ammo);
-    secondaryIngredients.push(this.statics.ingotSteel);
-    secondaryIngredients.push(this.statics.deathBell);
-    requiredPerks.push(this.statics.perkMarksmanshipAdvancedMissilecraft1);
-    this.addCraftingRecipe(ammo, barbedAmmo, secondaryIngredients, requiredPerks);
-    secondaryIngredients.length = 0;
-    requiredPerks.length = 0;
+    ingredients = [s.ingotSteel, s.deathBell];
+    perks = [s.perkMarksmanshipAdvancedMissilecraft1];
+    this.addCraftingRecipe(ammo, barbedAmmo, ingredients, perks);
 
     const heavyweightAmmo = this.createHeavyweightAmmo(ammo);
-    secondaryIngredients.push(this.statics.ingotSteel);
-    secondaryIngredients.push(this.statics.boneMeal);
-    requiredPerks.push(this.statics.perkMarksmanshipAdvancedMissilecraft2);
-    this.addCraftingRecipe(ammo, heavyweightAmmo, secondaryIngredients, requiredPerks);
+    ingredients = [s.ingotSteel, s.boneMeal];
+    perks = [s.perkMarksmanshipAdvancedMissilecraft2];
+    this.addCraftingRecipe(ammo, heavyweightAmmo, ingredients, perks);
   }
 
   addCraftingRecipe(baseAmmo, newAmmo, secondaryIngredients, requiredPerks) {
@@ -371,18 +347,9 @@ export default class ProjectilePatcher {
         condition = xelib.AddElement(newRecipe, 'Conditions\\.');
       }
 
-      xelib.SetIntValue(condition, 'CTDA\\Type', 10000000);
-      xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', 1);
-      xelib.SetValue(condition, 'CTDA\\Function', 'HasPerk');
-      xelib.SetValue(condition, 'CTDA\\Perk', perk);
-      xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
+      h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
     });
 
-    const condition = xelib.AddElement(newRecipe, 'Conditions\\.');
-    xelib.SetIntValue(condition, 'CTDA\\Type', 11000000);
-    xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', ammoReforgeInputCount);
-    xelib.SetValue(condition, 'CTDA\\Function', 'GetItemCount');
-    xelib.SetValue(condition, 'CTDA\\Inventory Object', xelib.GetHexFormID(baseAmmo));
-    xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
+    h.createGetItemCountCondition(newRecipe, 11000000, ammoReforgeInputCount, baseAmmo);
   }
 }
