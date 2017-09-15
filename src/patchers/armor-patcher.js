@@ -1,4 +1,4 @@
-import * as helpers from './helpers';
+import * as h from './helpers';
 
 export default class ArmorPatcher {
   constructor() {
@@ -6,7 +6,7 @@ export default class ArmorPatcher {
     this.patch = this.patch.bind(this);
   }
 
-  load(plugin, settings, locals) {
+  load(plugin, helpers, settings, locals) {
     if (!settings.patchArmor) {
       return false;
     }
@@ -50,7 +50,7 @@ export default class ArmorPatcher {
     // console.log(`Maximum armor protection: ${this.settings.armorBaseStats.fMaxProtection}%`);
   }
 
-  patch(armor, settings, locals) {
+  patch(armor, helpers, settings, locals) {
     const name = xelib.FullName(armor);
 
     if (xelib.HasElement(armor, 'TNAM')) {
@@ -204,7 +204,7 @@ export default class ArmorPatcher {
     xelib.RemoveElement(newDreamcloth, 'DESC');
     xelib.AddElement(newDreamcloth, 'KWDA\\.', this.statics.kwArmorDreamcloth);
 
-    helpers.addPerkScript(newDreamcloth, 'xxxDreamCloth', 'p', dreamclothPerk);
+    h.addPerkScript(newDreamcloth, 'xxxDreamCloth', 'p', dreamclothPerk);
     // console.log(`${newName}: Generated`);
 
     return newDreamcloth;
@@ -236,14 +236,14 @@ export default class ArmorPatcher {
 
     xelib.AddElement(newRecipe, 'Conditions');
     const condition = xelib.GetElement(newRecipe, 'Conditions\\[0]');
-    helpers.updateHasPerkCondition(newRecipe, condition, 10000000, 1, this.statics.perkSmithingMeltdown);
+    h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, this.statics.perkSmithingMeltdown);
 
     if (isDreamCloth) {
-      helpers.createHasPerkCondition(newRecipe, 10000000, 1, this.statics.perkSmithingWeavingMill);
+      h.createHasPerkCondition(newRecipe, 10000000, 1, this.statics.perkSmithingWeavingMill);
       const condition2 = xelib.AddElement(newRecipe, 'Conditions\\.');
     }
 
-    helpers.createGetItemCountCondition(newRecipe, 11000000, 1, armor);
+    h.createGetItemCountCondition(newRecipe, 11000000, 1, armor);
 
     // console.log(`${name}: Added meltdown recipe.`);
   }
@@ -279,7 +279,7 @@ export default class ArmorPatcher {
 
       xelib.AddElement(newRecipe, 'Conditions');
       const condition = xelib.AddElement(newRecipe, 'Conditions\\[0]');
-      helpers.updateHasPerkCondition(newRecipe, condition, 10000000, 1, this.statics.perkSmithingWeavingMill);
+      h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, this.statics.perkSmithingWeavingMill);
     }
 
     secondaryIngredients.forEach((hexcode) => {
@@ -332,7 +332,7 @@ export default class ArmorPatcher {
 
     if (overrideMap[override]) {
       xelib.AddElement(armor, 'KWDA\\.', overrideMap[override].kwda);
-      helpers.overrideCraftingRecipes(this.cobj, armor, overrideMap[override].perk, this.patchFile);
+      h.overrideCraftingRecipes(this.cobj, armor, overrideMap[override].perk, this.patchFile);
       return;
     }
 
@@ -386,7 +386,7 @@ export default class ArmorPatcher {
 
   getMaterialArmorModifier(armor) {
     const name = xelib.FullName(armor);
-    let armorRating = helpers.getValueFromName(this.armor.materials, name, 'name', 'iArmor');
+    let armorRating = h.getValueFromName(this.armor.materials, name, 'name', 'iArmor');
 
     if (armorRating !== null) { return armorRating; }
 
@@ -394,7 +394,7 @@ export default class ArmorPatcher {
 
     this.armor.keyword_material_map.every((pair) => {
       if (xelib.HasArrayItem(armor, 'KWDA', '', pair.sKeyword)) {
-        armorRating = helpers.getValueFromName(this.armor.materials, name, 'name', 'iArmor');
+        armorRating = h.getValueFromName(this.armor.materials, name, 'name', 'iArmor');
         return false;
       }
     });
@@ -425,7 +425,7 @@ export default class ArmorPatcher {
 
     const newRecipe = xelib.CopyElement(recipe, this.patchFile);
     const condition = xelib.AddElement(newRecipe, 'Conditions\\^0');
-    helpers.updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
+    h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
   }
 
   temperingPerkFromKeyword(armor) {
@@ -473,7 +473,7 @@ export default class ArmorPatcher {
     if (!cnam || !xelib.ElementEquals(cnam, armor)) { return; }
 
     const newRecipe = xelib.CopyElement(recipe, this.patchFile);
-    helpers.createHasPerkCondition(newRecipe, 10000000, 1, this.statics.perkSmithingLeather);
+    h.createHasPerkCondition(newRecipe, 10000000, 1, this.statics.perkSmithingLeather);
   }
 
   addMeltdownRecipe(armor) {
@@ -562,13 +562,13 @@ export default class ArmorPatcher {
 
     xelib.AddElement(recipe, 'Conditions');
     const condition = xelib.GetElement(recipe, 'Conditions\\[0]');
-    helpers.updateHasPerkCondition(recipe, condition, 10000000, 1, this.statics.perkSmithingMeltdown);
+    h.updateHasPerkCondition(recipe, condition, 10000000, 1, this.statics.perkSmithingMeltdown);
 
     if (perk) {
-      helpers.createHasPerkCondition(recipe, 10000000, 1, perk);
+      h.createHasPerkCondition(recipe, 10000000, 1, perk);
     }
 
-    helpers.createGetItemCountCondition(recipe, 11000000, 1.0, armor);
+    h.createGetItemCountCondition(recipe, 11000000, 1.0, armor);
 
     // console.log(`${name}: Added meltdown recipe.`);
   }

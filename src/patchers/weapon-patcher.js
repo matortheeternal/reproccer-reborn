@@ -1,4 +1,4 @@
-import * as helpers from './helpers';
+import * as h from './helpers';
 
 export default class WeaponPatcher {
   constructor() {
@@ -6,7 +6,7 @@ export default class WeaponPatcher {
     this.patchFile = this.patch.bind(this);
   }
 
-  load(plugin, settings, locals) {
+  load(plugin, helpers, settings, locals) {
     if (!settings.patchWeapons) {
       return false;
     }
@@ -33,7 +33,7 @@ export default class WeaponPatcher {
     }
   }
 
-  patch(weapon, settings, locals) {
+  patch(weapon, helpers, settings, locals) {
     if (xelib.HasElement(weapon, 'CNAM')) {
       this.checkBroadswordName(weapon);
       this.patchBowType(weapon);
@@ -59,7 +59,7 @@ export default class WeaponPatcher {
   }
 
   patchBowType(weapon) {
-    const kwda = helpers.getKwda(weapon);
+    const kwda = h.getKwda(weapon);
     if (!kwda(this.statics.kwWeapTypeBow) || !kwda(this.statics.kwWeapTypeCrossbow)) { return; }
     if (kwda(this.statics.kwWeapTypeLongbow) || kwda(this.statics.kwWeapTypeShortbow)) { return; }
 
@@ -109,7 +109,7 @@ export default class WeaponPatcher {
 
     if (overrideMap[override]) {
       xelib.AddElement(weapon, 'KWDA\\.', overrideMap[override].kwda);
-      helpers.overrideCraftingRecipes(this.cobj, armor, overrideMap[override].perk, this.patchFile);
+      h.overrideCraftingRecipes(this.cobj, armor, overrideMap[override].perk, this.patchFile);
     }
   }
 
@@ -142,7 +142,7 @@ export default class WeaponPatcher {
     }
 
     const noop = function(perk) { return; };
-    const addp = function(weapon, perk) { helpers.addPerkScript(weapon, 'xxxAddPerkWhileEquipped', 'p', perk); };
+    const addp = function(weapon, perk) { h.addPerkScript(weapon, 'xxxAddPerkWhileEquipped', 'p', perk); };
     const broad = function(weapon) { this.checkBradSwordName(weapon); };
 
     const weaponKeywordMap = {
@@ -194,7 +194,7 @@ export default class WeaponPatcher {
 
   getBaseDamage(weapon) {
     const s = this.statics;
-    const kwda = helpers.getKwda(weapon);
+    const kwda = h.getKwda(weapon);
     let base = null;
 
     if (kwda(s.kwWeapTypeSword) || kwda(s.kwWeapTypeWaraxe) || kwda(s.kwWeapTypeMace) || kwda(s.kwWeapTypeDagger)) {
@@ -223,11 +223,11 @@ export default class WeaponPatcher {
   getWeaponMaterialDamageModifier(weapon) {
     const name = xelib.FullName(weapon);
     let modifier = null;
-    modifier = helpers.getValueFromName(this.weapons.materials, name, 'name', 'iDamage');
+    modifier = h.getValueFromName(this.weapons.materials, name, 'name', 'iDamage');
 
     if (modifier) { return modifier; }
 
-    modifier = helpers.getModifierFromMap(this.keywordMaterialMap, this.weapons.materials, weapon, 'name', 'iDamage');
+    modifier = h.getModifierFromMap(this.keywordMaterialMap, this.weapons.materials, weapon, 'name', 'iDamage');
 
     if (modifier === null) {
       console.log(`${name}: Couldn't find material damage modifier for weapon.`);
@@ -239,7 +239,7 @@ export default class WeaponPatcher {
   getWeaponTypeDamageModifier(weapon) {
     let modifier;
 
-    modifier = helpers.getModifierFromMap(this.keywordTypesMap, this.weapons.types, weapon, 'name', 'iDamage');
+    modifier = h.getModifierFromMap(this.keywordTypesMap, this.weapons.types, weapon, 'name', 'iDamage');
 
     if (modifier === null) {
       console.log(`${name}: Couldn't find type damage modifier for weapon.`);
@@ -259,15 +259,15 @@ export default class WeaponPatcher {
   }
 
   getWeaponTypeFloatValueModifier(weapon, field2) {
-    let modifier = helpers.getModifierFromMap(this.skyreTypesMap, this.weapons.types, weapon, 'name', field2);
+    let modifier = h.getModifierFromMap(this.skyreTypesMap, this.weapons.types, weapon, 'name', field2);
 
     if (modifier) { return modifier; }
 
-    modifier = helpers.getValueFromName(this.weapons.types, xelib.FullName(weapon), 'name', field2);
+    modifier = h.getValueFromName(this.weapons.types, xelib.FullName(weapon), 'name', field2);
 
     if (modifier) { return modifier; }
 
-    modifier = helpers.getModifierFromMap(this.vanillaTypesMap, this.weapons.types, weapon, 'name', field2);
+    modifier = h.getModifierFromMap(this.vanillaTypesMap, this.weapons.types, weapon, 'name', field2);
 
     if (modifier === null) {
       console.log(`${name}: Couldn't find type ${which} modifier for weapon.`);
@@ -293,7 +293,7 @@ export default class WeaponPatcher {
       }
 
       const recipe = xelib.CopyElement(cobj, this.patchFile);
-      helpers.createHasPerkCondition(recipe, 10000000, 1, this.statics.perkMarksmanshipBallistics);
+      h.createHasPerkCondition(recipe, 10000000, 1, this.statics.perkMarksmanshipBallistics);
     });
   }
 
@@ -329,7 +329,7 @@ export default class WeaponPatcher {
     xelib.AddElementValue(newArbalestCrossbow, 'EDID', `REP_WEAPON_${newName}`);
     xelib.AddElementValue(newArbalestCrossbow, 'FULL', newName);
     this.applyArbalestCrossbowChanges(newArbalestCrossbow);
-    helpers.addPerkScript(newArbalestCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowArbalest);
+    h.addPerkScript(newArbalestCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowArbalest);
     this.addTemperingRecipe(newArbalestCrossbow);
     this.addMeltdownRecipe(newArbalestCrossbow);
     requiredPerks.push(this.statics.perkMarksmanshipBallistics);
@@ -362,7 +362,7 @@ export default class WeaponPatcher {
     xelib.AddElementValue(newSilencedCrossbow, 'EDID', `REP_WEAPON_${newName}`);
     xelib.AddElementValue(newSilencedCrossbow, 'FULL', newName);
     this.applySilencedCrossbowChanges(newSilencedCrossbow);
-    helpers.addPerkScript(newSilencedCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowSilenced);
+    h.addPerkScript(newSilencedCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowSilenced);
     this.addTemperingRecipe(newSilencedCrossbow);
     this.addMeltdownRecipe(newSilencedCrossbow);
     requiredPerks.push(this.statics.perkMarksmanshipBallistics);
@@ -380,7 +380,7 @@ export default class WeaponPatcher {
     xelib.AddElementValue(newRecurveArbalestCrossbow, 'FULL', newName);
     this.applyRecurveCrossbowChanges(newRecurveArbalestCrossbow);
     this.applyArbalestCrossbowChanges(newRecurveArbalestCrossbow);
-    helpers.addPerkScript(newArbalestCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowArbalest);
+    h.addPerkScript(newArbalestCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowArbalest);
     this.addTemperingRecipe(newRecurveArbalestCrossbow);
     this.addMeltdownRecipe(newRecurveArbalestCrossbow);
     requiredPerks.push(this.statics.perkMarksmanshipBallistics);
@@ -419,7 +419,7 @@ export default class WeaponPatcher {
     xelib.AddElementValue(newRecurveSilencedCrossbow, 'FULL', newName);
     this.applyRecurveCrossbowChanges(newRecurveSilencedCrossbow);
     this.applySilencedCrossbowChanges(newRecurveSilencedCrossbow);
-    helpers.addPerkScript(newRecurveSilencedCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowSilenced);
+    h.addPerkScript(newRecurveSilencedCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowSilenced);
     this.addTemperingRecipe(newRecurveSilencedCrossbow);
     this.addMeltdownRecipe(newRecurveSilencedCrossbow);
     requiredPerks.push(this.statics.perkMarksmanshipBallistics);
@@ -439,7 +439,7 @@ export default class WeaponPatcher {
     xelib.AddElementValue(newLightweightArbalestCrossbow, 'FULL', newName);
     this.applyArbalestCrossbowChanges(newLightweightArbalestCrossbow);
     this.applyLightweightCrossbowChanges(newLightweightArbalestCrossbow);
-    helpers.addPerkScript(newLightweightArbalestCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowArbalest);
+    h.addPerkScript(newLightweightArbalestCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowArbalest);
     this.addTemperingRecipe(newLightweightArbalestCrossbow);
     this.addMeltdownRecipe(newLightweightArbalestCrossbow);
     requiredPerks.push(this.statics.perkMarksmanshipBallistics);
@@ -459,7 +459,7 @@ export default class WeaponPatcher {
     xelib.AddElementValue(newSilencedArbalestCrossbow, 'FULL', newName);
     this.applyArbalestCrossbowChanges(newSilencedArbalestCrossbow);
     this.applySilencedCrossbowChanges(newSilencedArbalestCrossbow);
-    helpers.addPerkScript(newSilencedArbalestCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowArbalestSilenced);
+    h.addPerkScript(newSilencedArbalestCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowArbalestSilenced);
     this.addTemperingRecipe(newSilencedArbalestCrossbow);
     this.addMeltdownRecipe(newSilencedArbalestCrossbow);
     requiredPerks.push(this.statics.perkMarksmanshipBallistics);
@@ -479,7 +479,7 @@ export default class WeaponPatcher {
     xelib.AddElementValue(newLightweightSilencedCrossbow, 'FULL', newName);
     this.applyLightweightCrossbowChanges(newLightweightSilencedCrossbow);
     this.applySilencedCrossbowChanges(newLightweightSilencedCrossbow);
-    helpers.addPerkScript(newLightweightSilencedCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowSilenced);
+    h.addPerkScript(newLightweightSilencedCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowSilenced);
     this.addTemperingRecipe(newLightweightSilencedCrossbow);
     this.addMeltdownRecipe(newLightweightSilencedCrossbow);
     requiredPerks.push(this.statics.perkMarksmanshipBallistics);
@@ -493,7 +493,7 @@ export default class WeaponPatcher {
     requiredPerks = [];
     secondaryIngredients = [];
 
-    helpers.addPerkScript(weapon, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbow);
+    h.addPerkScript(weapon, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbow);
   }
 
   applyRecurveCrossbowChanges(weapon) {
@@ -595,13 +595,13 @@ export default class WeaponPatcher {
     if (perk) {
       xelib.AddElement(newRecipe, 'Conditions');
       const condition = xelib.GetElement(newRecipe, 'Conditions\\[0]');
-      helpers.updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
+      h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
     }
   }
 
   addMeltdownRecipe(weapon) {
     const s = this.statics;
-    const kwda = helpers.getKwda(weapon);
+    const kwda = h.getKwda(weapon);
     let outputQuantity = 1;
     let inputQuantity = 1;
     let output, perk, station;
@@ -646,13 +646,13 @@ export default class WeaponPatcher {
 
     xelib.AddElement(newRecipe, 'Conditions');
     const condition = xelib.GetElement(newRecipe, 'Conditions\\[0]');
-    helpers.updateHasPerkCondition(newRecipe, condition, 10000000, 1, s.perkSmithingMeltdown);
+    h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, s.perkSmithingMeltdown);
 
     if (perk) {
-      helpers.createHasPerkCondition(newRecipe, 10000000, 1, perk);
+      h.createHasPerkCondition(newRecipe, 10000000, 1, perk);
     }
 
-    helpers.createGetItemCountCondition(newRecipe, 11000000, 1, xelib.GetHexFormID(weapon));
+    h.createGetItemCountCondition(newRecipe, 11000000, 1, xelib.GetHexFormID(weapon));
   }
 
   addCraftingRecipe(weapon, requiredPerks, secondaryIngredients) {
@@ -701,7 +701,7 @@ export default class WeaponPatcher {
     });
 
     if (perk) {
-      helpers.createHasPerkCondition(recipe, 10000000, 1, perk);
+      h.createHasPerkCondition(recipe, 10000000, 1, perk);
     }
   }
 

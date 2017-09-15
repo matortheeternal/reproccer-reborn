@@ -81,7 +81,7 @@ class ArmorPatcher {
     this.patch = this.patch.bind(this);
   }
 
-  load(plugin, settings, locals) {
+  load(plugin, helpers, settings, locals) {
     if (!settings.patchArmor) {
       return false;
     }
@@ -125,7 +125,7 @@ class ArmorPatcher {
     // console.log(`Maximum armor protection: ${this.settings.armorBaseStats.fMaxProtection}%`);
   }
 
-  patch(armor, settings, locals) {
+  patch(armor, helpers, settings, locals) {
     const name = xelib.FullName(armor);
 
     if (xelib.HasElement(armor, 'TNAM')) {
@@ -655,7 +655,7 @@ class AlchemyPatcher {
     this.patch = this.patch.bind(this);
   }
 
-  load(plugin, settings, locals) {
+  load(plugin, helpers, settings, locals) {
     this.alchemy = locals.rules.alchemy;
     this.settings = settings;
 
@@ -668,7 +668,7 @@ class AlchemyPatcher {
     }
   }
 
-  patch(ingredient, settings, locals) {
+  patch(ingredient, helpers, settings, locals) {
     this.updateEffects(ingredient);
     this.clampValue(ingredient);
   }
@@ -728,7 +728,7 @@ class ProjectilePatcher {
     this.patch = this.patch.bind(this);
   }
 
-  load(plugin, settings, locals) {
+  load(plugin, helpers, settings, locals) {
     if (!settings.patchProjectiles) {
       return false;
     }
@@ -750,7 +750,7 @@ class ProjectilePatcher {
     }
   }
 
-  patch(ammo, settings, locals) {
+  patch(ammo, helpers, settings, locals) {
     this.patchStats(ammo);
     this.addVariants(ammo);
   }
@@ -1235,16 +1235,16 @@ class ReproccerReborn {
 
   initialize(patch, helpers, settings$$1, locals) {
     this.start = new Date();
+    console.log(`started patching: ${this.start}`);
+
     locals.patch = patch;
     this.buildRules(locals);
     this.loadStatics(locals);
-    locals.cobj = helpers.LoadRecords('COBJ');
-    locals.refinedSilverWeapons = helpers.LoadRecords('WEAP').filter((w) => {
+    locals.cobj = helpers.loadRecords('COBJ');
+    locals.refinedSilverWeapons = helpers.loadRecords('WEAP').filter((w) => {
       if (!xelib.HasElement(w, 'KWDA')) { return; }
       return xelib.HasArrayItem(w, 'KWDA', '', locals.statics.kwWeapMaterialSilverRefined);
     });
-
-    console.log(`started patching: ${this.start}`);
   }
 
   loadStatics(locals) {
@@ -1415,6 +1415,4 @@ class ReproccerReborn {
   }
 }
 
-ngapp.run((patcherService) => {
-  patcherService.registerPatcher(new ReproccerReborn(fh, info));
-});
+registerPatcher(new ReproccerReborn(fh, info));

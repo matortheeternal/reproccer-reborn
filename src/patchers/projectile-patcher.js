@@ -4,7 +4,7 @@ export default class ProjectilePatcher {
     this.patch = this.patch.bind(this);
   }
 
-  load(plugin, settings, locals) {
+  load(plugin, helpers, settings, locals) {
     if (!settings.patchProjectiles) {
       return false;
     }
@@ -26,7 +26,7 @@ export default class ProjectilePatcher {
     }
   }
 
-  patch(ammo, settings, locals) {
+  patch(ammo, helpers, settings, locals) {
     this.patchStats(ammo);
     this.addVariants(ammo);
   }

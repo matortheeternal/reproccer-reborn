@@ -4,7 +4,7 @@ export default class AlchemyPatcher {
     this.patch = this.patch.bind(this);
   }
 
-  load(plugin, settings, locals) {
+  load(plugin, helpers, settings, locals) {
     this.alchemy = locals.rules.alchemy;
     this.settings = settings;
 
@@ -17,7 +17,7 @@ export default class AlchemyPatcher {
     }
   }
 
-  patch(ingredient, settings, locals) {
+  patch(ingredient, helpers, settings, locals) {
     this.updateEffects(ingredient);
     this.clampValue(ingredient);
   }

@@ -27,16 +27,16 @@ export default class ReproccerReborn {
 
   initialize(patch, helpers, settings, locals) {
     this.start = new Date();
+    console.log(`started patching: ${this.start}`);
+
     locals.patch = patch;
     this.buildRules(locals);
     this.loadStatics(locals);
-    locals.cobj = helpers.LoadRecords('COBJ');
-    locals.refinedSilverWeapons = helpers.LoadRecords('WEAP').filter((w) => {
+    locals.cobj = helpers.loadRecords('COBJ');
+    locals.refinedSilverWeapons = helpers.loadRecords('WEAP').filter((w) => {
       if (!xelib.HasElement(w, 'KWDA')) { return; }
       return xelib.HasArrayItem(w, 'KWDA', '', locals.statics.kwWeapMaterialSilverRefined);
     });
-
-    console.log(`started patching: ${this.start}`);
   }
 
   loadStatics(locals) {
