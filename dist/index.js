@@ -1,3 +1,80 @@
+function overrideCraftingRecipes(cobj, armor, perk, patchFile) {
+  cobj.forEach((recipe) => {
+    const result = xelib.GetLinksTo(recipe, 'CNAM');
+
+    if (!result || xelib.GetHexFormID(result) !== xelib.GetHexFormID(armor)) {
+      return;
+    }
+
+    const newRecipe = xelib.CopyElement(recipe, patchFile);
+    xelib.RemoveElement(newRecipe, 'Conditions');
+
+    if (perk) {
+      xelib.AddElement(newRecipe, 'Conditions');
+      const condition = xelib.GetElement(newRecipe, 'Conditions\\[0]');
+      updateHasPerkCondition(recipe, condition, 10000000, 1, perk);
+    }
+  });
+}
+
+function createHasPerkCondition(recipe, type, value, perk) {
+  const condition = xelib.AddElement(recipe, 'Conditions\\.');
+  updateHasPerkCondition(recipe, condition, type, value, perk);
+  return condition;
+}
+
+function updateHasPerkCondition(recipe, condition, type, value, perk) {
+  xelib.SetIntValue(condition, 'CTDA\\Type', type);
+  xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', value);
+  xelib.SetValue(condition, 'CTDA\\Function', 'HasPerk');
+  xelib.SetValue(condition, 'CTDA\\Perk', perk);
+  xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
+}
+
+function createGetItemCountCondition(recipe, type, value, object) {
+  const condition = xelib.AddElement(recipe, 'Conditions\\.');
+  updateGetItemCountCondition(recipe, condition, type, value, object);
+  return condition;
+}
+
+function updateGetItemCountCondition(recipe, condition, type, value, object) {
+  xelib.SetIntValue(condition, 'CTDA\\Type', type);
+  xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', value);
+  xelib.SetValue(condition, 'CTDA\\Function', 'GetItemCount');
+  xelib.SetValue(condition, 'CTDA\\Inventory Object', xelib.GetHexFormID(object));
+  xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
+}
+
+function getValueFromName(collection, name, field1, field2) {
+  let maxLength = 0;
+  let value = null;
+
+  collection.forEach((thing) => {
+    if (name.includes(thing[field1]) && thing[field1].length > maxLength) {
+      value = thing[field2];
+      maxLength = thing[field2].length;
+    }
+  });
+
+  return value;
+}
+
+
+
+
+
+function addPerkScript(weapon, scriptName, propertyName, perk) {
+  const vmad = xelib.AddElement(weapon, 'VMAD');
+  xelib.SetIntValue(vmad, 'Version', 5);
+  xelib.SetIntValue(vmad, 'Object Format', 2);
+  const script = xelib.AddElement(vmad, 'Scripts\\.');
+  xelib.SetValue(script, 'scriptName', scriptName);
+  const property = xelib.AddElement(script, 'Properties\\.');
+  xelib.SetValue(property, 'propertyName', propertyName);
+  xelib.SetIntValue(property, 'Type', 1);
+  xelib.SetValue(property, 'Value\\Object Union\\Object v2\\FormID', perk);
+}
+
 class ArmorPatcher {
   constructor() {
     this.load = this.load.bind(this);
@@ -202,27 +279,10 @@ class ArmorPatcher {
     xelib.RemoveElement(newDreamcloth, 'DESC');
     xelib.AddElement(newDreamcloth, 'KWDA\\.', this.statics.kwArmorDreamcloth);
 
-    // TODO: Fix adding dream cloth perk script
-    // this.addDreamClothPerkScript(newDreamcloth, dreamclothPerk);
+    addPerkScript(newDreamcloth, 'xxxDreamCloth', 'p', dreamclothPerk);
     // console.log(`${newName}: Generated`);
 
     return newDreamcloth;
-  }
-
-  addDreamClothPerkScript(armor, perk) {
-    const vmad = xelib.AddElement(armor, 'VMAD');
-    xelib.SetIntValue(vmad, 'Version', 5);
-    xelib.SetIntValue(vmad, 'Object Format', 2);
-
-    const script = xelib.AddElement(vmad, 'Data\\Scripts\\.');
-    xelib.SetValue(script, 'scriptName', 'xxxDreamcloth');
-    xelib.SetFlag(script, 'Flags', 'Local', true);
-
-    const property = xelib.AddElement(script, 'Properties\\.');
-    xelib.SetValue(property, 'propertyName', 'pDream');
-    xelib.SetIntValue(property, 'Type', 1);
-    xelib.SetFlag(property, 'Flags', 'Edited', true);
-    xelib.SetValue(property, 'Value\\Object Union\\Object v2\\FormID', perk);
   }
 
   addClothingMeltdownRecipe(armor, isDreamCloth) {
@@ -251,27 +311,14 @@ class ArmorPatcher {
 
     xelib.AddElement(newRecipe, 'Conditions');
     const condition = xelib.GetElement(newRecipe, 'Conditions\\[0]');
-    xelib.SetIntValue(condition, 'CTDA\\Type', 10000000);
-    xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', 1);
-    xelib.SetValue(condition, 'CTDA\\Function', 'HasPerk');
-    xelib.SetValue(condition, 'CTDA\\Perk', this.statics.perkSmithingMeltdown);
-    xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
+    updateHasPerkCondition(newRecipe, condition, 10000000, 1, this.statics.perkSmithingMeltdown);
 
     if (isDreamCloth) {
+      createHasPerkCondition(newRecipe, 10000000, 1, this.statics.perkSmithingWeavingMill);
       const condition2 = xelib.AddElement(newRecipe, 'Conditions\\.');
-      xelib.SetIntValue(condition2, 'CTDA\\Type', 10000000);
-      xelib.SetFloatValue(condition2, 'CTDA\\Comparison Value - Float', 1);
-      xelib.SetValue(condition2, 'CTDA\\Function', 'HasPerk');
-      xelib.SetValue(condition2, 'CTDA\\Perk', this.statics.perkSmithingWeavingMill);
-      xelib.SetValue(condition2, 'CTDA\\Run On', 'Subject');
     }
 
-    const condition3 = xelib.AddElement(newRecipe, 'Conditions\\.');
-    xelib.SetIntValue(condition3, 'CTDA\\Type', 11000000);
-    xelib.SetFloatValue(condition3, 'CTDA\\Comparison Value - Float', 1);
-    xelib.SetValue(condition3, 'CTDA\\Function', 'GetItemCount');
-    xelib.SetValue(condition3, 'CTDA\\Inventory Object', xelib.GetHexFormID(armor));
-    xelib.SetValue(condition3, 'CTDA\\Run On', 'Subject');
+    createGetItemCountCondition(newRecipe, 11000000, 1, armor);
 
     // console.log(`${name}: Added meltdown recipe.`);
   }
@@ -307,11 +354,7 @@ class ArmorPatcher {
 
       xelib.AddElement(newRecipe, 'Conditions');
       const condition = xelib.AddElement(newRecipe, 'Conditions\\[0]');
-      xelib.SetIntValue(condition, 'CTDA\\Type', 10000000);
-      xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', 1);
-      xelib.SetValue(condition, 'CTDA\\Function', 'HasPerk');
-      xelib.SetValue(condition, 'CTDA\\Perk', this.statics.perkSmithingWeavingMill);
-      xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
+      updateHasPerkCondition(newRecipe, condition, 10000000, 1, this.statics.perkSmithingWeavingMill);
     }
 
     secondaryIngredients.forEach((hexcode) => {
@@ -340,31 +383,31 @@ class ArmorPatcher {
     }
 
     const overrideMap = {
-      IRON:           { kwda: this.statics.kwArmorMaterialIron,           perk: null                              },
-      STEEL:          { kwda: this.statics.kwArmorMaterialSteel,          perk: this.statics.perkSmithingSteel    },
-      DWARVEN:        { kwda: this.statics.kwArmorMaterialDwarven,        perk: this.statics.perkSmithingDwarven  },
-      FALMER:         { kwda: this.statics.kwArmorMaterialFalmer,         perk: this.statics.perkSmithingAdvanced },
-      ORCISH:         { kwda: this.statics.kwArmorMaterialOrcish,         perk: this.statics.perkSmithingOrcish   },
-      STEELPLATE:     { kwda: this.statics.kwArmorMaterialSteelPlate,     perk: this.statics.perkSmithingAdvanced },
-      EBONY:          { kwda: this.statics.kwArmorMaterialEbony,          perk: this.statics.perkSmithingEbony    },
-      DRAGONPLATE:    { kwda: this.statics.kwArmorMaterialDragonPlate,    perk: this.statics.perkSmithingDragon   },
+      BONEMOLD_HEAVY: { kwda: this.statics.kwArmorMaterialNordicLight,    perk: this.statics.perkSmithingAdvanced },
       DAEDRIC:        { kwda: this.statics.kwArmorMaterialDaedric,        perk: this.statics.perkSmithingDaedric  },
-      FUR:            { kwda: this.statics.kwArmorMaterialFur,            perk: null                              },
-      HIDE:           { kwda: this.statics.kwArmorMaterialHide,           perk: null                              },
-      LEATHER:        { kwda: this.statics.kwArmorMaterialLeather,        perk: this.statics.perkSmithingLeather  },
-      ELVEN:          { kwda: this.statics.kwArmorMaterialElven,          perk: this.statics.perkSmithingElven    },
-      SCALED:         { kwda: this.statics.kwArmorMaterialScaled,         perk: this.statics.perkSmithingAdvanced },
-      GLASS:          { kwda: this.statics.kwArmorMaterialGlass,          perk: this.statics.perkSmithingGlass    },
+      DRAGONPLATE:    { kwda: this.statics.kwArmorMaterialDragonPlate,    perk: this.statics.perkSmithingDragon   },
       DRAGONSCALE:    { kwda: this.statics.kwArmorMaterialDragonscale,    perk: this.statics.perkSmithingDragon   },
+      DWARVEN:        { kwda: this.statics.kwArmorMaterialDwarven,        perk: this.statics.perkSmithingDwarven  },
+      EBONY:          { kwda: this.statics.kwArmorMaterialEbony,          perk: this.statics.perkSmithingEbony    },
+      ELVEN:          { kwda: this.statics.kwArmorMaterialElven,          perk: this.statics.perkSmithingElven    },
+      FALMER:         { kwda: this.statics.kwArmorMaterialFalmer,         perk: this.statics.perkSmithingAdvanced },
+      FUR:            { kwda: this.statics.kwArmorMaterialFur,            perk: null                              },
+      GLASS:          { kwda: this.statics.kwArmorMaterialGlass,          perk: this.statics.perkSmithingGlass    },
+      HIDE:           { kwda: this.statics.kwArmorMaterialHide,           perk: null                              },
+      IRON:           { kwda: this.statics.kwArmorMaterialIron,           perk: null                              },
+      LEATHER:        { kwda: this.statics.kwArmorMaterialLeather,        perk: this.statics.perkSmithingLeather  },
+      NORDIC_HEAVY:   { kwda: this.statics.kwArmorMaterialNordicHeavy,    perk: this.statics.perkSmithingAdvanced },
+      ORCISH:         { kwda: this.statics.kwArmorMaterialOrcish,         perk: this.statics.perkSmithingOrcish   },
+      SCALED:         { kwda: this.statics.kwArmorMaterialScaled,         perk: this.statics.perkSmithingAdvanced },
       STALHRIM_HEAVY: { kwda: this.statics.kwArmorMaterialStalhrimHeavy,  perk: this.statics.perkSmithingAdvanced },
       STALHRIM_LIGHT: { kwda: this.statics.kwArmorMaterialStalhrimLight,  perk: this.statics.perkSmithingAdvanced },
-      NORDIC_HEAVY:   { kwda: this.statics.kwArmorMaterialNordicHeavy,    perk: this.statics.perkSmithingAdvanced },
-      BONEMOLD_HEAVY: { kwda: this.statics.kwArmorMaterialNordicLight,    perk: this.statics.perkSmithingAdvanced },
+      STEEL:          { kwda: this.statics.kwArmorMaterialSteel,          perk: this.statics.perkSmithingSteel    },
+      STEELPLATE:     { kwda: this.statics.kwArmorMaterialSteelPlate,     perk: this.statics.perkSmithingAdvanced }
     };
 
     if (overrideMap[override]) {
       xelib.AddElement(armor, 'KWDA\\.', overrideMap[override].kwda);
-      this.overrideCraftingRecipes(armor, overrideMap[override].perk);
+      overrideCraftingRecipes(this.cobj, armor, overrideMap[override].perk, this.patchFile);
       return;
     }
 
@@ -399,31 +442,6 @@ class ArmorPatcher {
            xelib.HasArrayItem(armor, 'KWDA', '', 'DLC2ArmorMaterialBonemoldHeavy');
   }
 
-  overrideCraftingRecipes(armor, perk) {
-    this.cobj.forEach((recipe) => {
-      const result = xelib.GetLinksTo(recipe, 'CNAM');
-
-      if (!result || xelib.GetHexFormID(result) !== xelib.GetHexFormID(armor)) {
-        return;
-      }
-
-      const newRecipe = xelib.CopyElement(recipe, this.patchFile);
-      xelib.RemoveElement(newRecipe, 'Conditions');
-
-      if (perk) {
-        xelib.AddElement(newRecipe, 'Conditions');
-        const condition = xelib.GetElement(newRecipe, 'Conditions\\[0]');
-        xelib.SetIntValue(condition, 'CTDA\\Type', 10000000);
-        xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', 1);
-        xelib.SetValue(condition, 'CTDA\\Function', 'HasPerk');
-        xelib.SetValue(condition, 'CTDA\\Perk', perk);
-        xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
-      }
-
-      // console.log(`${xelib.FullName(armor)}: Added crafting or tempering requirement.`);
-    });
-  }
-
   patchArmorRating(armor) {
     const rating = this.getArmorSlotMultiplier(armor) * this.getMaterialArmorModifier(armor);
     xelib.SetFloatValue(armor, 'DNAM', rating);
@@ -443,37 +461,23 @@ class ArmorPatcher {
 
   getMaterialArmorModifier(armor) {
     const name = xelib.FullName(armor);
-    let armorRating = this.getMaterialArmorRatingFromName(name);
+    let armorRating = getValueFromName(this.armor.materials, name, 'name', 'iArmor');
 
-    if (armorRating !== -10) { return armorRating; }
+    if (armorRating !== null) { return armorRating; }
 
     // console.log(`${name}: Material not classified by name.  Trying keywords instead.`);
 
     this.armor.keyword_material_map.every((pair) => {
       if (xelib.HasArrayItem(armor, 'KWDA', '', pair.sKeyword)) {
-        armorRating = this.getMaterialArmorRatingFromName(pair.sMaterialName);
+        armorRating = getValueFromName(this.armor.materials, name, 'name', 'iArmor');
         return false;
       }
     });
 
-    if (armorRating !== -10) { return armorRating; }
+    if (armorRating !== null) { return armorRating; }
 
     // console.log(`${name}: Failed to find material armor base.`);
     return 0;
-  }
-
-  getMaterialArmorRatingFromName(name) {
-    let maxLength = 0;
-    let armor = -10;
-
-    this.armor.materials.forEach((material) => {
-      if (name.includes(material.sMaterialName) && material.sMaterialName.length > maxLength) {
-        armor = material.iArmor;
-        maxLength = material.sMaterialName.length;
-      }
-    });
-
-    return armor;
   }
 
   modifyRecipes(armor) {
@@ -496,11 +500,7 @@ class ArmorPatcher {
 
     const newRecipe = xelib.CopyElement(recipe, this.patchFile);
     const condition = xelib.AddElement(newRecipe, 'Conditions\\^0');
-    xelib.SetIntValue(condition, 'CTDA\\Type', 10000000);
-    xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', 1);
-    xelib.SetValue(condition, 'CTDA\\Function', 'HasPerk');
-    xelib.SetValue(condition, 'CTDA\\Perk', perk);
-    xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
+    updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
   }
 
   temperingPerkFromKeyword(armor) {
@@ -548,12 +548,7 @@ class ArmorPatcher {
     if (!cnam || !xelib.ElementEquals(cnam, armor)) { return; }
 
     const newRecipe = xelib.CopyElement(recipe, this.patchFile);
-    const condition = xelib.AddElement(newRecipe, 'Conditions\\.');
-    xelib.SetIntValue(condition, 'CTDA\\Type', 10000000);
-    xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', 1);
-    xelib.SetValue(condition, 'CTDA\\Function', 'HasPerk');
-    xelib.SetValue(condition, 'CTDA\\Perk', this.statics.perkSmithingLeather);
-    xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
+    createHasPerkCondition(newRecipe, 10000000, 1, this.statics.perkSmithingLeather);
   }
 
   addMeltdownRecipe(armor) {
@@ -640,30 +635,15 @@ class ArmorPatcher {
     xelib.SetValue(baseItem, 'CNTO\\Item', xelib.GetHexFormID(armor));
     xelib.SetIntValue(baseItem, 'CNTO\\Count', inputQuantity);
 
-
     xelib.AddElement(recipe, 'Conditions');
     const condition = xelib.GetElement(recipe, 'Conditions\\[0]');
-    xelib.SetIntValue(condition, 'CTDA\\Type', 10000000);
-    xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', 1);
-    xelib.SetValue(condition, 'CTDA\\Function', 'HasPerk');
-    xelib.SetValue(condition, 'CTDA\\Perk', statics.perkSmithingMeltdown);
-    xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
+    updateHasPerkCondition(recipe, condition, 10000000, 1, this.statics.perkSmithingMeltdown);
 
     if (perk) {
-      const condition2 = xelib.AddElement(recipe, 'Conditions\\.');
-      xelib.SetIntValue(condition2, 'CTDA\\Type', 10000000);
-      xelib.SetFloatValue(condition2, 'CTDA\\Comparison Value - Float', 1);
-      xelib.SetValue(condition2, 'CTDA\\Function', 'HasPerk');
-      xelib.SetValue(condition2, 'CTDA\\Perk', perk);
-      xelib.SetValue(condition2, 'CTDA\\Run On', 'Subject');
+      createHasPerkCondition(recipe, 10000000, 1, perk);
     }
 
-    const condition3 = xelib.AddElement(recipe, 'Conditions\\.');
-    xelib.SetIntValue(condition3, 'CTDA\\Type', 11000000);
-    xelib.SetFloatValue(condition3, 'CTDA\\Comparison Value - Float', 1.0);
-    xelib.SetValue(condition3, 'CTDA\\Function', 'GetItemCount');
-    xelib.SetValue(condition3, 'CTDA\\Inventory Object', xelib.GetHexFormID(armor));
-    xelib.SetValue(condition3, 'CTDA\\Run On', 'Subject');
+    createGetItemCountCondition(recipe, 11000000, 1.0, armor);
 
     // console.log(`${name}: Added meltdown recipe.`);
   }
@@ -1259,6 +1239,11 @@ class ReproccerReborn {
     this.buildRules(locals);
     this.loadStatics(locals);
     locals.cobj = helpers.LoadRecords('COBJ');
+    locals.refinedSilverWeapons = helpers.LoadRecords('WEAP').filter((w) => {
+      if (!xelib.HasElement(w, 'KWDA')) { return; }
+      return xelib.HasArrayItem(w, 'KWDA', '', locals.statics.kwWeapMaterialSilverRefined);
+    });
+
     console.log(`started patching: ${this.start}`);
   }
 
@@ -1375,6 +1360,7 @@ class ReproccerReborn {
       kwMasqueradeImperial: GetHex(0x037D31, "SkyRe_Main.esp"),
       kwMasqueradeStormcloak: GetHex(0x037D2F, "SkyRe_Main.esp"),
       kwMasqueradeThalmor: GetHex(0x037D2B, "SkyRe_Main.esp"),
+      kwWeapMaterialSilverRefined: GetHex(0x24f987, "SkyRe_Main.esp"),
 
       // Lights
       lightLightsource: GetHex(0x03A335, "SkyRe_Main.esp"),

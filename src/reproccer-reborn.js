@@ -31,6 +31,11 @@ export default class ReproccerReborn {
     this.buildRules(locals);
     this.loadStatics(locals);
     locals.cobj = helpers.LoadRecords('COBJ');
+    locals.refinedSilverWeapons = helpers.LoadRecords('WEAP').filter((w) => {
+      if (!xelib.HasElement(w, 'KWDA')) { return; }
+      return xelib.HasArrayItem(w, 'KWDA', '', locals.statics.kwWeapMaterialSilverRefined);
+    });
+
     console.log(`started patching: ${this.start}`);
   }
 
@@ -147,6 +152,7 @@ export default class ReproccerReborn {
       kwMasqueradeImperial: GetHex(0x037D31, "SkyRe_Main.esp"),
       kwMasqueradeStormcloak: GetHex(0x037D2F, "SkyRe_Main.esp"),
       kwMasqueradeThalmor: GetHex(0x037D2B, "SkyRe_Main.esp"),
+      kwWeapMaterialSilverRefined: GetHex(0x24f987, "SkyRe_Main.esp"),
 
       // Lights
       lightLightsource: GetHex(0x03A335, "SkyRe_Main.esp"),
