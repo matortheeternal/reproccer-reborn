@@ -4,6 +4,7 @@ export default class AlchemyPatcher {
     this.patch = this.patch.bind(this);
   }
 
+  // eslint-disable-next-line no-unused-vars
   load(plugin, helpers, settings, locals) {
     this.alchemy = locals.rules.alchemy;
     this.settings = settings;
@@ -17,6 +18,7 @@ export default class AlchemyPatcher {
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
   patch(ingredient, helpers, settings, locals) {
     this.updateEffects(ingredient);
     this.clampValue(ingredient);
@@ -69,4 +71,4 @@ export default class AlchemyPatcher {
     xelib.SetFlag(ingredient, 'ENIT\\Flags', 'No auto-calculation', true);
     xelib.SetIntValue(ingredient, 'DATA\\Value', newValue);
   }
-};
+}

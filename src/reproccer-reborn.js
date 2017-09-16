@@ -1,7 +1,7 @@
-import WeaponPatcher from './patchers/weapon-patcher';
-import ArmorPatcher from './patchers/armor-patcher';
 import AlchemyPatcher from './patchers/alchemy-patcher';
+import ArmorPatcher from './patchers/armor-patcher';
 import ProjectilePatcher from './patchers/projectile-patcher';
+import WeaponPatcher from './patchers/weapon-patcher';
 import settings from './settings/settings';
 
 export default class ReproccerReborn {
@@ -15,16 +15,17 @@ export default class ReproccerReborn {
       initialize: this.initialize.bind(this),
 
       process: [
-        // new WeaponPatcher(),
-        new ArmorPatcher(),
         new AlchemyPatcher(),
-        new ProjectilePatcher()
+        new ArmorPatcher(),
+        new ProjectilePatcher(),
+        new WeaponPatcher()
       ],
 
       finalize: this.finalize.bind(this)
     };
   }
 
+  // eslint-disable-next-line no-unused-vars
   initialize(patch, helpers, settings, locals) {
     this.start = new Date();
     console.log(`started patching: ${this.start}`);
@@ -39,6 +40,7 @@ export default class ReproccerReborn {
     });
   }
 
+  // eslint-disable-next-line no-unused-vars
   loadStatics(locals) {
     const files = {};
     const loadOrders = {};
@@ -53,7 +55,7 @@ export default class ReproccerReborn {
 
     function GetHex(formId, filename) {
       const loadOrder = getLoadOrder(getFile(filename));
-      return xelib.Hex((loadOrder << 24) | formId);
+      return xelib.Hex(loadOrder << 24 | formId);
     }
 
     const statics = locals.statics = {
@@ -257,10 +259,11 @@ export default class ReproccerReborn {
     console.log(statics);
   }
 
+  // eslint-disable-next-line no-unused-vars
   finalize(patch, helpers, settings, locals) {
     const end = new Date();
     console.log(`finished patching: ${end}`);
-    console.log(Math.abs(this.start - end) / 1000 + 's');
+    console.log(`${Math.abs(this.start - end) / 1000}s`);
   }
 
   buildRules(locals) {

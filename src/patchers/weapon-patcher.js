@@ -3,9 +3,10 @@ import * as h from './helpers';
 export default class WeaponPatcher {
   constructor() {
     this.load = this.load.bind(this);
-    this.patchFile = this.patch.bind(this);
+    this.patch = this.patch.bind(this);
   }
 
+  // eslint-disable-next-line no-unused-vars
   load(plugin, helpers, settings, locals) {
     if (!settings.patchWeapons) {
       return false;
@@ -15,6 +16,7 @@ export default class WeaponPatcher {
     this.weapons = locals.rules.weapons;
     this.statics = locals.statics;
     this.cobj = locals.cobj;
+    this.patchFile = locals.patch;
     this.refinedSilverWeapons = locals.refinedSilverWeapons;
 
     this.createKeywordMaps();
@@ -24,15 +26,18 @@ export default class WeaponPatcher {
       filter: (weapon) => {
         const name = xelib.FullName(weapon);
 
-        if (this.weapons.excluded_weapons.find((e) => name.includes(e))) { return false; }
-        if (xelib.HasArrayItem(weapon, 'KWDA', '', 'WeapTypeStaff')) { return false; }
+        if (name && this.weapons.excludedWeapons.find((e) => name.includes(e))) { return false; }
+        if (xelib.HasElement(weapon, 'KWDA') && xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeStaff)) { return false; }
         if (xelib.HasElement(weapon, 'CNAM')) { return true; }
-        if (xelib.GetFlag(weapon, 'DATA\\Flags', 'Non-playable')) { return false; }
+        if (xelib.GetFlag(weapon, 'DNAM\\Flags', 'Non-playable')) { return false; }
         if (!name) { return false; }
+
+        return true;
       }
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
   patch(weapon, helpers, settings, locals) {
     if (xelib.HasElement(weapon, 'CNAM')) {
       this.checkBroadswordName(weapon);
@@ -40,12 +45,12 @@ export default class WeaponPatcher {
       return;
     }
 
-    this.checkOverrides(wepaon);
+    this.checkOverrides(weapon);
     this.patchWeaponKeywords(weapon);
     this.patchWeaponDamage(weapon);
     this.patchWeaponReach(weapon);
     this.modifyCrossbowCraftingRecipe(weapon);
-    this.processCrossbow(Weapon);
+    this.processCrossbow(weapon);
     this.processSilverWeapon(weapon);
     this.addMeltdownRecipe(weapon);
     this.modifyTemperingRecipes(weapon);
@@ -109,17 +114,17 @@ export default class WeaponPatcher {
 
     if (overrideMap[override]) {
       xelib.AddElement(weapon, 'KWDA\\.', overrideMap[override].kwda);
-      h.overrideCraftingRecipes(this.cobj, armor, overrideMap[override].perk, this.patchFile);
+      h.overrideCraftingRecipes(this.cobj, weapon, overrideMap[override].perk, this.patchFile);
     }
   }
 
   getWeaponTypeOverride(name) {
-    const override = this.weapons.type_overrides.find((t) => name === t.weaponName);
+    const override = this.weapons.typeOverrides.find((t) => name === t.weaponName);
     return override ? override.weaponType : null;
   }
 
   getWeaponMaterialOverrideString(name) {
-    const override = this.weapons.material_overrides.find((o) => name.includes(o.weaponSubstring));
+    const override = this.weapons.materialOverrides.find((o) => name.includes(o.weaponSubstring));
     return override ? override.materialOverride : null;
   }
 
@@ -135,54 +140,56 @@ export default class WeaponPatcher {
 
   patchWeaponKeywords(weapon) {
     const name = xelib.FullName(weapon);
-    const typeString = helper.getValueFromName(this.weapon.typeDefinitions, name, 'substring', 'typeBinding');
+    const typeString = h.getValueFromName(this.weapons.typeDefinitions, name, 'substring', 'typeBinding');
 
     if (!typeString) {
       this.patchBowType(weapon);
+      return;
     }
 
-    const noop = function(perk) { return; };
+    const s = this.statics;
+    const noop = function() { return; };
     const addp = function(weapon, perk) { h.addPerkScript(weapon, 'xxxAddPerkWhileEquipped', 'p', perk); };
     const broad = function(weapon) { this.checkBradSwordName(weapon); };
-
     const weaponKeywordMap = {
-      BASTARDSWORD: { kwda: 'xxxWeapTypeBastardSword',  func: noop,   perk: null                              },
-      BATTLESTAFF:  { kwda: 'xxxWeapTypeBattleStaff',   func: noop,   perk: null                              },
-      BROADSWORD:   { kwda: 'xxxWeapTypeBroadsword',    func: broad,  perk: null                              },
-      CLUB:         { kwda: 'xxxWeapTypeClub',          func: noop,   perk: null                              },
-      CROSSBOW:     { kwda: 'MothNest1',                func: noop,   perk: null                              },
-      GLAIVE:       { kwda: 'xxxWeapTypeGlaive',        func: noop,   perk: null                              },
-      HALBERD:      { kwda: 'xxxWeapTypeHalberd',       func: noop,   perk: null                              },
-      HATCHET:      { kwda: 'xxxWeapType',              func: noop,   perk: null                              },
-      KATANA:       { kwda: 'xxxWeapTypeKatana',        func: noop,   perk: null                              },
-      LONGBOW:      { kwda: 'MothNest2',                func: noop,   perk: null                              },
-      LONGMACE:     { kwda: 'xxxWeapTypeLongmace',      func: noop,   perk: null                              },
-      LONGSWORD:    { kwda: 'xxxWeapTypeLongsword',     func: noop,   perk: null                              },
-      MAUL:         { kwda: 'xxxWeapTypeMaul',          func: noop,   perk: null                              },
-      NODACHI:      { kwda: 'xxxWeapTypeNodachi',       func: noop,   perk: null                              },
-      SABRE:        { kwda: 'xxxWeapTypeSabre',         func: noop,   perk: null                              },
-      SCIMITAR:     { kwda: 'xxxWeapTypeScimitar',      func: noop,   perk: null                              },
-      SHORTBOW:     { kwda: 'xxxWeapTypeBowShort',      func: noop,   perk: null                              },
-      SHORTSPEAR:   { kwda: 'xxxWeapTypeShortspear',    func: addp,   perk: this.statics.perkWeaponShortspear },
-      SHORTSWORD:   { kwda: 'xxxWeapTypeShortsword',    func: noop,   perk: null                              },
-      TANTO:        { kwda: 'xxxWeapTypeTanto',         func: noop,   perk: null                              },
-      UNARMED:      { kwda: 'xxxWeapTypeUnarmed',       func: noop,   perk: null                              },
-      WAKIZASHI:    { kwda: 'xxxWeapTypeWakizashi',     func: noop,   perk: null                              },
-      YARI:         { kwda: 'xxxWeapTypeYari',          func: addp,   perk: this.statics.perkWeaponYari       },
+      BASTARDSWORD: { kwda: s.kwWeapTypeBastardSword, func: noop,   perk: null                              },
+      BATTLESTAFF:  { kwda: s.kwWeapTypeBattlestaff,  func: noop,   perk: null                              },
+      BROADSWORD:   { kwda: s.kwWeapTypeBroadsword,   func: broad,  perk: null                              },
+      CLUB:         { kwda: s.kwWeapTypeClub,         func: noop,   perk: null                              },
+      CROSSBOW:     { kwda: s.kwWeapTypeCrossbow,     func: noop,   perk: null                              },
+      GLAIVE:       { kwda: s.kwWeapTypeGlaive,       func: noop,   perk: null                              },
+      HALBERD:      { kwda: s.kwWeapTypeHalberd,      func: noop,   perk: null                              },
+      HATCHET:      { kwda: s.kwWeapType,             func: noop,   perk: null                              },
+      KATANA:       { kwda: s.kwWeapTypeKatana,       func: noop,   perk: null                              },
+      LONGBOW:      { kwda: s.kwWeapTypeLongbow,      func: noop,   perk: null                              },
+      LONGMACE:     { kwda: s.kwWeapTypeLongmace,     func: noop,   perk: null                              },
+      LONGSWORD:    { kwda: s.kwWeapTypeLongsword,    func: noop,   perk: null                              },
+      MAUL:         { kwda: s.kwWeapTypeMaul,         func: noop,   perk: null                              },
+      NODACHI:      { kwda: s.kwWeapTypeNodachi,      func: noop,   perk: null                              },
+      SABRE:        { kwda: s.kwWeapTypeSabre,        func: noop,   perk: null                              },
+      SCIMITAR:     { kwda: s.kwWeapTypeScimitar,     func: noop,   perk: null                              },
+      SHORTBOW:     { kwda: s.kwWeapTypeBowShort,     func: noop,   perk: null                              },
+      SHORTSPEAR:   { kwda: s.kwWeapTypeShortspear,   func: addp,   perk: this.statics.perkWeaponShortspear },
+      SHORTSWORD:   { kwda: s.kwWeapTypeShortsword,   func: noop,   perk: null                              },
+      TANTO:        { kwda: s.kwWeapTypeTanto,        func: noop,   perk: null                              },
+      UNARMED:      { kwda: s.kwWeapTypeUnarmed,      func: noop,   perk: null                              },
+      WAKIZASHI:    { kwda: s.kwWeapTypeWakizashi,    func: noop,   perk: null                              },
+      YARI:         { kwda: s.kwWeapTypeYari,         func: addp,   perk: this.statics.perkWeaponYari       },
     };
 
-    weaponKeywordMap.some((e) => {
-      if (!xelib.HasArrayItem(weapon, 'KWDA', '', e.kwda)) {
-        xelib.AddElement(weapon, 'KWDA\\.', e.kwda);
-        e.func(weapon, e.perk);
-        return true;
-      }
-    });
+    const map = weaponKeywordMap[typeString];
+    if (map && !xelib.HasElement(weapon, 'KWDA') || !xelib.HasArrayItem(weapon, 'KWDA', '', map.kwda)) {
+      xelib.AddArrayItem(weapon, 'KWDA', '', map.kwda);
+      map.func(weapon, map.perk);
+    } else {
+      console.log(`${name}: Warning: ${typeString} not found in statics or weapon already contains keyword.`);
+      debugger;
+    }
   }
 
   patchWeaponDamage(weapon) {
     let baseDamage = this.getBaseDamage(weapon);
-    let materialDamage = this.getWeaponMaterialDamageModifier(weeapon);
+    let materialDamage = this.getWeaponMaterialDamageModifier(weapon);
     let typeDamage = this.getWeaponTypeDamageModifier(weapon);
 
     if (baseDamage === null || materialDamage === null || typeDamage === null) {
@@ -270,7 +277,7 @@ export default class WeaponPatcher {
     modifier = h.getModifierFromMap(this.vanillaTypesMap, this.weapons.types, weapon, 'name', field2);
 
     if (modifier === null) {
-      console.log(`${name}: Couldn't find type ${which} modifier for weapon.`);
+      console.log(`${name}: Couldn't find type ${field2} modifier for weapon.`);
     }
 
     return modifier;
@@ -280,7 +287,7 @@ export default class WeaponPatcher {
     const name = xelib.FullName(weapon);
 
     if (!xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeCrossbow)) { return; }
-    if (this.weapons.excluded_crossbows.find((e) => name.includes(e))) { return; }
+    if (this.weapons.excludedCrossbows.find((e) => name.includes(e))) { return; }
 
     this.cobj.forEach((cobj) => {
       const bnam = xelib.GetLinksTo(recipe, 'BNAM');
@@ -530,7 +537,7 @@ export default class WeaponPatcher {
   }
 
   processSilverWeapon(weapon) {
-    if (!xelib.HasArrayItem(weapon, this.statics.kwWeapMaterialSilver)) { return; }
+    if (!xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapMaterialSilver)) { return; }
 
     for (let i = 0; i < this.refinedSilverWeapons.length; i++) {
       if (!xelib.FullName('weapon').includes(xelib.FullName('w'))) {
@@ -561,7 +568,7 @@ export default class WeaponPatcher {
       xelib.SetValue(property, 'Value\\Object Union\\Object v2\\FormID', this.statics.perkWeaponSilverRefined);
     }
 
-    this.addTemperingRecipe(patch, newRefinedSilverWeapon);
+    this.addTemperingRecipe(newRefinedSilverWeapon);
     const ingredients = [this.statics.ingotGold, this.statics.ingotQuicksilver, xelib.GetHexFormID(newRefinedSilverWeapon)];
     this.addCraftingRecipe(newRefinedSilverWeapon, [this.statics.perkSmithingSilverRefined], ingredients);
     this.addWeaponMeltdownRecipe(newRefinedSilverWeapon);
@@ -604,7 +611,7 @@ export default class WeaponPatcher {
     const kwda = h.getKwda(weapon);
     let outputQuantity = 1;
     let inputQuantity = 1;
-    let output, perk, station;
+    let input, perk;
 
     if (kwda(s.kwWeapTypeBattleaxe) || kwda(s.kwWeapTypeGreatsword) ||
         kwda(s.kwWeapTypeWarhammer) || kwda(s.kwWeapTypeBow)) {
@@ -638,9 +645,9 @@ export default class WeaponPatcher {
     xelib.AddElement(newRecipe, 'Items');
 
     const ingredient = xelib.GetElement(newRecipe, 'Items\\[0]');
-    xelib.SetValue(ingredient, 'CNTO\\Item', input);
-    xelib.SetIntValue(ingredient, 'CNTO\\Count', 1);
-    xelib.AddElementValue(newRecipe, 'NAM1', '1');
+    xelib.SetValue(ingredient, 'CNTO\\Item', xelib.GetHexFormID(input));
+    xelib.SetIntValue(ingredient, 'CNTO\\Count', inputQuantity);
+    xelib.AddElementValue(newRecipe, 'NAM1',`${outputQuantity}`);
     xelib.AddElementValue(newRecipe, 'CNAM', xelib.GetHexFormID(weapon));
     xelib.AddElementValue(newRecipe, 'BNAM', this.statics.kwCraftingSmelter);
 
@@ -697,11 +704,11 @@ export default class WeaponPatcher {
         condition = xelib.AddElement(newRecipe, 'Conditions\\.');
       }
 
-      xelib.updateHasPerkCondition(recipe, condition, 10000000, 1, perk);
+      xelib.updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
     });
 
     if (perk) {
-      h.createHasPerkCondition(recipe, 10000000, 1, perk);
+      h.createHasPerkCondition(newRecipe, 10000000, 1, perk);
     }
   }
 

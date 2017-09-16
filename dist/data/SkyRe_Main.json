@@ -833,7 +833,7 @@
         "name": "Crossbow"
       }
     ],
-    "type_overrides": [
+    "typeOverrides": [
       {
         "weaponName": "Bearded Axe",
         "weaponType": "Waraxe"
@@ -1286,7 +1286,7 @@
         "weaponType": "Unarmed"
       }
     ],
-    "material_overrides": [
+    "materialOverrides": [
       {
         "weaponSubstring": "Ice Blade of the Monarch",
         "materialOverride": "Daedric"
@@ -1496,8 +1496,8 @@
         "materialOverride": "Elven"
       }
     ],
-    "excluded_weapons": ["Dart Trap", "FXdust", "Dummy", "TEXT", "Test"],
-    "excluded_crossbows": ["Enhanced"]
+    "excludedWeapons": ["Dart Trap", "FXdust", "Dummy", "TEXT", "Test"],
+    "excludedCrossbows": ["Enhanced"]
   },
   "armor": {
     "materials": [

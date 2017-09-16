@@ -11,8 +11,10 @@
   "dependencies": {},
   "devDependencies": {
     "angular": "^1.6.6",
+    "eslint": "^4.7.0",
     "rollup": "^0.49.3",
     "rollup-plugin-copy": "^0.2.3",
+    "rollup-plugin-eslint": "^4.0.0",
     "rollup-plugin-pug-html": "^0.0.2"
   },
   "scripts": {

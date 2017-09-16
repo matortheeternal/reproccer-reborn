@@ -15,13 +15,13 @@ export function overrideCraftingRecipes(cobj, armor, perk, patchFile) {
       updateHasPerkCondition(recipe, condition, 10000000, 1, perk);
     }
   });
-};
+}
 
 export function createHasPerkCondition(recipe, type, value, perk) {
   const condition = xelib.AddElement(recipe, 'Conditions\\.');
   updateHasPerkCondition(recipe, condition, type, value, perk);
   return condition;
-};
+}
 
 export function updateHasPerkCondition(recipe, condition, type, value, perk) {
   xelib.SetIntValue(condition, 'CTDA\\Type', type);
@@ -63,7 +63,7 @@ export function getKwda(handle) {
   return function(kwda) {
     return xelib.HasArrayItem(handle, 'KWDA', '', kwda);
   }
-};
+}
 
 export function getModifierFromMap(map, collection, handle, field1, field2) {
   let modifier = null;

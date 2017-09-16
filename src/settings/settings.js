@@ -41,9 +41,7 @@ export default {
       iDamageBonusRecurveCrossbow: 8
     },
 
-    requiredFiles: [
-      'SkyRe_Main.esp'
-    ],
+    requiredFiles: ['SkyRe_Main.esp'],
 
     ignoredFiles: [
       'The Huntsman.esp',

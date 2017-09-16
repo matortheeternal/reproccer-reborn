@@ -6,6 +6,7 @@ export default class ArmorPatcher {
     this.patch = this.patch.bind(this);
   }
 
+  // eslint-disable-next-line no-unused-vars
   load(plugin, helpers, settings, locals) {
     if (!settings.patchArmor) {
       return false;
@@ -45,12 +46,11 @@ export default class ArmorPatcher {
 
     const fMaxArmorRatingBaseRecord = xelib.GetRecord(0, parseInt(this.statics.gmstfMaxArmorRating, 16));
     const fMaxArmorRating = xelib.CopyElement(fMaxArmorRatingBaseRecord, this.patchFile);
-    xelib.SetFloatValue(fArmorScalingFactor, 'DATA\\Float', this.settings.armorBaseStats.fMaxProtection);
+    xelib.SetFloatValue(fMaxArmorRating, 'DATA\\Float', this.settings.armorBaseStats.fMaxProtection);
   }
 
+  // eslint-disable-next-line no-unused-vars
   patch(armor, helpers, settings, locals) {
-    const name = xelib.FullName(armor);
-
     if (xelib.HasElement(armor, 'TNAM')) {
       this.patchShieldWeight(armor);
       return;
@@ -77,7 +77,7 @@ export default class ArmorPatcher {
     }
 
     if (this.hasHeavyMaterialKeyword(armor)) {
-      const keyword = xelib.AddElement(armor, 'KWDA\\.', this.statics.kwArmorShieldHeavy);
+      xelib.AddElement(armor, 'KWDA\\.', this.statics.kwArmorShieldHeavy);
 
       if (!name.includes('Heavy Shield')) {
         xelib.AddElementValue(armor, 'FULL', name.replace('Shield', 'Heavy Shield'));
@@ -211,7 +211,6 @@ export default class ArmorPatcher {
 
     if (isDreamCloth) {
       h.createHasPerkCondition(newRecipe, 10000000, 1, s.perkSmithingWeavingMill);
-      const condition2 = xelib.AddElement(newRecipe, 'Conditions\\.');
     }
 
     h.createGetItemCountCondition(newRecipe, 11000000, 1, armor);
@@ -436,7 +435,7 @@ export default class ArmorPatcher {
       perk = s.perkSmithingDwarven;
     } else if (kwda(s.kwArmorMaterialEbony)) {
       perk = s.perkSmithingEbony;
-    } else if (kwda(w.kwArmorMaterialElven)  || kwda(s.kwArmorMaterialElvenGilded)) {
+    } else if (kwda(s.kwArmorMaterialElven)  || kwda(s.kwArmorMaterialElvenGilded)) {
       perk = s.perkSmithingElven;
     } else if (kwda(s.kwArmorMaterialFalmer) || kwda(s.kwArmorMaterialFalmerHardened) ||
                kwda(s.kwArmorMaterialFalmerHeavy) || kwda(s.kwArmorMaterialFalmerHeavyOriginal)) {

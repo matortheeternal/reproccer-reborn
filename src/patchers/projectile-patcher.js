@@ -20,7 +20,7 @@ export default class ProjectilePatcher {
       filter: (ammo) => {
         const name = xelib.FullName(ammo);
         if (!name) { return false; }
-        if (this.projectiles.excluded_ammunition.find((ex) => name.includes(ex))) { return false; };
+        if (this.projectiles.excluded_ammunition.find((ex) => name.includes(ex))) { return false; }
         if (!this.projectiles.base_stats.find((bs) => name.includes(bs.sIdentifier))) { return false; }
 
         return true;
@@ -28,6 +28,7 @@ export default class ProjectilePatcher {
     }
   }
 
+  // eslint-disable-next-line no-unused-vars
   patch(ammo, helpers, settings, locals) {
     this.patchStats(ammo);
     this.addVariants(ammo);
@@ -276,7 +277,6 @@ export default class ProjectilePatcher {
   }
 
   createCrossbowOnlyVariants(ammo) {
-    const name = xelib.FullName(ammo);
     const s = this.statics;
     let ingredients = [];
     let perks = [];
