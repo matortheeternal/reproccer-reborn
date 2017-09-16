@@ -59,7 +59,11 @@ function getValueFromName(collection, name, field1, field2) {
   return value;
 }
 
-
+function getKwda(handle) {
+  return function(kwda) {
+    return xelib.HasArrayItem(handle, 'KWDA', '', kwda);
+  }
+}
 
 
 
@@ -129,7 +133,7 @@ class ArmorPatcher {
     if (xelib.HasElement(armor, 'TNAM')) {
       this.patchShieldWeight(armor);
       return;
-    } else if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.VendorItemClothing)) {
+    } else if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwVendorItemClothing)) {
       this.patchMasqueradeKeywords(armor);
       this.processClothing(armor);
       return;
@@ -173,7 +177,7 @@ class ArmorPatcher {
            kwda(this.statics.kwArmorMaterialIron) ||
            kwda(this.statics.kwArmorMaterialDwarven) ||
            kwda(this.statics.kwArmorMaterialOrcish) ||
-           kwda(this.statics.kwArmorMaterialFalmer1) ||
+           kwda(this.statics.kwArmorMaterialFalmer) ||
            kwda(this.statics.kwArmorMaterialFalmerHeavyOriginal) ||
            kwda(this.statics.kwArmorMaterialDaedric) ||
            kwda(this.statics.kwArmorMaterialEbony) ||
@@ -219,10 +223,7 @@ class ArmorPatcher {
     if (xelib.HasElement(armor, 'EITM')) { return; }
 
     const dreamcloth = this.createDreamcloth(armor);
-    if (!dreamcloth) {
-      console.log(`${name}: Failed to generate dreamcloth variant.`);
-      return;
-    }
+    if (!dreamcloth) { return; }
 
     this.addClothingCraftingRecipe(dreamcloth, true);
     this.addClothingMeltdownRecipe(dreamcloth, true);
@@ -238,17 +239,13 @@ class ArmorPatcher {
       dreamclothPerk = this.statics.perkDreamclothHands;
     } else if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwClothingHead)) {
       dreamclothPerk = this.statics.perkDreamclothHead;
-    } else if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwclothingheaq)) {
+    } else if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwClothingFeet)) {
       dreamclothPerk = this.statics.perkDreamclothFeet;
     } else {
-      console.log(`${name}: Flagged as clothing but lacking slot keywords.  No dreamcloth generated`);
       return null;
     }
 
-    if (!dreamclothPerk) {
-      console.log(`${name}: Could not find which perk to assign.  No dreamcloth generated`);
-      return null;
-    }
+    if (!dreamclothPerk) { return null; }
 
     const newName = `${name} [Dreamcloth]`;
     const newDreamcloth = xelib.CopyElement(armor, this.patchFile, true);
@@ -265,17 +262,15 @@ class ArmorPatcher {
 
   addClothingMeltdownRecipe(armor, isDreamCloth) {
     const s = this.statics;
-    const kwda = helpers.getKwda(armor);
+    const kwda = getKwda(armor);
     const name = xelib.FullName(armor);
     let returnQuantity = 1;
     let inputQuantity = 1;
 
     if (kwda(s.kwClothingBody)) {
-      returnQuantity += 2;
+      returnQuantity = returnQuantity + 2;
     } else if (kwda(s.kwClothingHands) || kwda(s.kwClothingHead) || kwda(s.kwClothingFeet)) {
-      returnQuantity++;
-    } else {
-      console.log(`${name}: Couldn't find slot.  Meltdown recipe might be inappropriate.`);
+      returnQuantity + returnQuantity + 1;
     }
 
     const newRecipe = xelib.AddElement(this.patchFile, 'Constructible Object\\COBJ');
@@ -303,19 +298,17 @@ class ArmorPatcher {
 
   addClothingCraftingRecipe(armor, isDreamCloth) {
     const s = this.statics;
-    const kwda = helpers.getKwda(armor);
+    const kwda = getKwda(armor);
     const name = xelib.FullName(armor);
     const newRecipe = xelib.AddElement(this.patchFile, 'Constructible Object\\COBJ');
     xelib.AddElementValue(newRecipe, 'EDID', `REP_CRAFT_CLOTHING_${name}`);
 
     let quantityIngredient1 = 2;
 
-    if (kwda(s.kwClothingHands)) {
-      quantityIngredient1 += 2;
+    if (kwda(s.kwClothingBody)) {
+      quantityIngredient1 = quantityIngredient1 + 2;
     } else if (kwda(s.kwClothingHead)) {
-      quantityIngredient1++;
-    } else if (!kwda(s.kwClothingHands) && !kwda(s.kwClothingFeet)) {
-      console.log(`${name}: Couldn't find slot.  Crafting recipe might be inappropriate.`);
+      quantityIngredient1 = quantityIngredient1 + 1;
     }
 
     xelib.AddElement(newRecipe, 'Items');
@@ -380,8 +373,6 @@ class ArmorPatcher {
       overrideCraftingRecipes(this.cobj, armor, overrideMap[override].perk, this.patchFile);
       return;
     }
-
-    console.log(`${name}: Couldn't map override ${override} to any material.`);
   }
 
   getArmorMaterialOverride(name) {
@@ -418,13 +409,13 @@ class ArmorPatcher {
   }
 
   getArmorSlotMultiplier(armor) {
-    if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorSlotBoots)) { return this.settings.armorBaseStats.fArmorFactorBoots; }
-    if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorSlotCuirass)) { return this.settings.armorBaseStats.fArmorFactorCuirass; }
-    if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorSlotGauntlets)) { return this.settings.armorBaseStats.fArmorFactorGauntlets; }
-    if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorSlotHelmet)) { return this.settings.armorBaseStats.fArmorFactorHelmet; }
-    if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorSlotShield)) { return this.settings.armorBaseStats.fArmorFactorShield; }
+    const kwda = getKwda(armor);
+    if (kwda(this.statics.kwArmorSlotBoots)) { return this.settings.armorBaseStats.fArmorFactorBoots; }
+    if (kwda(this.statics.kwArmorSlotCuirass)) { return this.settings.armorBaseStats.fArmorFactorCuirass; }
+    if (kwda(this.statics.kwArmorSlotGauntlets)) { return this.settings.armorBaseStats.fArmorFactorGauntlets; }
+    if (kwda(this.statics.kwArmorSlotHelmet)) { return this.settings.armorBaseStats.fArmorFactorHelmet; }
+    if (kwda(this.statics.kwArmorSlotShield)) { return this.settings.armorBaseStats.fArmorFactorShield; }
 
-    console.log(`${xelib.FullName(armor)}: Couldn't determine slot.`);
     return 0;
   }
 
@@ -434,16 +425,55 @@ class ArmorPatcher {
 
     if (armorRating !== null) { return armorRating; }
 
-    this.armor.keyword_material_map.every((pair) => {
-      if (xelib.HasArrayItem(armor, 'KWDA', '', pair.sKeyword)) {
-        armorRating = getValueFromName(this.armor.materials, name, 'name', 'iArmor');
-        return false;
+    const s = this.statics;
+    const keywordMaterialMap = [
+      { kwda: s.kwArmorMaterialBlades,           name: "Blades"          },
+      { kwda: s.kwArmorMaterialBonemoldHeavy,    name: "Bonemold"        },
+      { kwda: s.kwArmorMaterialDarkBrotherhood,  name: "Shrouded"        },
+      { kwda: s.kwArmorMaterialDaedric,          name: "Daedric"         },
+      { kwda: s.kwArmorMaterialDawnguard,        name: "Dawnguard Light" },
+      { kwda: s.kwArmorMaterialDragonplate,      name: "Dragonplate"     },
+      { kwda: s.kwArmorMaterialDragonscale,      name: "Dragonscale"     },
+      { kwda: s.kwArmorMaterialDraugr,           name: "Ancient Nord"    },
+      { kwda: s.kwArmorMaterialDwarven,          name: "Dwarven"         },
+      { kwda: s.kwArmorMaterialEbony,            name: "Ebony"           },
+      { kwda: s.kwArmorMaterialElven,            name: "Elven"           },
+      { kwda: s.kwArmorMaterialElvenGilded,      name: "Elven Gilded"    },
+      { kwda: s.kwArmorMaterialFalmer,           name: "Falmer"          },
+      { kwda: s.kwArmorMaterialFalmerHardened,   name: "Falmer Hardened" },
+      { kwda: s.kwArmorMaterialFalmerHeavy,      name: "Falmer Heavy"    },
+      { kwda: s.kwArmorMaterialFur,              name: "Fur"             },
+      { kwda: s.kwArmorMaterialGlass,            name: "Glass"           },
+      { kwda: s.kwArmorMaterialHide,             name: "Hide"            },
+      { kwda: s.kwArmorMaterialHunter,           name: "Dawnguard Heavy" },
+      { kwda: s.kwArmorMaterialImperialHeavy,    name: "Imperial Heavy"  },
+      { kwda: s.kwArmorMaterialImperialLight,    name: "Imperial Light"  },
+      { kwda: s.kwArmorMaterialImperialStudded,  name: "Studded Imperial"},
+      { kwda: s.kwArmorMaterialIron,             name: "Iron"            },
+      { kwda: s.kwArmorMaterialIronBanded,       name: "Iron Banded"     },
+      { kwda: s.kwArmorMaterialLeather,          name: "Leather"         },
+      { kwda: s.kwArmorMaterialNightingale,      name: "Nightingale"     },
+      { kwda: s.kwArmorMaterialNordicHeavy,      name: "Nordic"          },
+      { kwda: s.kwArmorMaterialOrcish,           name: "Orcish"          },
+      { kwda: s.kwArmorMaterialScaled,           name: "Scaled"          },
+      { kwda: s.kwArmorMaterialStalhrimHeavy,    name: "Stalhrim Heavy"  },
+      { kwda: s.kwArmorMaterialStalhrimLight,    name: "Stalhrim Light"  },
+      { kwda: s.kwArmorMaterialSteel,            name: "Steel"           },
+      { kwda: s.kwArmorMaterialSteelPlate,       name: "Steel Plate"     },
+      { kwda: s.kwArmorMaterialStormcloak,       name: "Stormcloak"      },
+      { kwda: s.kwArmorMaterialStudded,          name: "Studded"         },
+      { kwda: s.kwArmorMaterialVampire,          name: "Vampire"         }
+    ];
+
+    keywordMaterialMap.some((pair) => {
+      if (xelib.HasArrayItem(armor, 'KWDA', '', pair.kwda)) {
+        armorRating = getValueFromName(this.armor.materials, pair.name, 'name', 'iArmor');
+        return true;
       }
     });
 
     if (armorRating !== null) { return armorRating; }
 
-    console.log(`${name}: Failed to find material armor base.`);
     return 0;
   }
 
@@ -512,7 +542,6 @@ class ArmorPatcher {
       }
     }
 
-    console.log(`${xelib.FullName(armor)}: Couldn't determine material - tempering recipe not modified.`);
     return perk;
   }
 
@@ -530,7 +559,7 @@ class ArmorPatcher {
     const s = this.statics;
     const name = xelib.FullName(armor);
     const kwda = function(kwda) { return xelib.HasArrayItem(armor, 'KWDA', '', kwda); };
-    const incr = function(v) { return v++; };
+    const incr = function(v) { return v + 1; };
     const noop = function(v) { return v; };
     const keywordMap = [
       { kwda: s.kwArmorMaterialBlades,          cnam: s.ingotSteel,       perk: s.perkSmithingSteel,    bnam: s.kwCraftingSmelter    , func: noop  },
@@ -574,14 +603,14 @@ class ArmorPatcher {
     let bnam;
 
     if (kwda('ArmorCuirass') || kwda('ArmorShield')) {
-      outputQuantity++;
+      outputQuantity = outputQuantity + 1;
     }
 
     if (kwda(s.kwArmorMaterialDraugr)) {
       cnam = s.dragonScale;
       bnam = s.kwCraftingSmelter;
       perk = s.perkSmithingSteel;
-      inputQuantity++;
+      inputQuantity = inputQuantity + 1;
     } else {
       keywordMap.some((e) => {
         if (kwda(e.kwda)) {
@@ -594,10 +623,7 @@ class ArmorPatcher {
       });
     }
 
-    if (!cnam) {
-      console.log(`${name}: Couldn't determine material - no meltdown recipe generated.`);
-      return;
-    }
+    if (!cnam) { return; }
 
     const recipe = xelib.AddElement(this.patchFile, 'Constructible Object\\COBJ');
     xelib.AddElementValue(recipe, 'EDID', `REP_MELTDOWN_${name}`);
@@ -1215,7 +1241,7 @@ class ReproccerReborn {
       expTimebomb: GetHex(0x00F944, "SkyRe_Main.esp"),
 
       // Game Settings
-      gmstfArmorScalingFactor: GetHex(0x021a72, 'Skyrim.esm'),
+      gmstfArmorScalingFactor: GetHex(0x021A72, 'Skyrim.esm'),
       gmstfMaxArmorRating: GetHex(0x037DEB, 'Skyrim.esm'),
 
       // Items
@@ -1250,6 +1276,13 @@ class ReproccerReborn {
       voidSalt: GetHex(0x03AD60, "Skyrim.esm"),
 
       // Keywords
+      kwClothingHands: GetHex(0x10CD13, "Skyrim.esm"),
+      kwClothingHead: GetHex(0x10CD11, "Skyrim.esm"),
+      kwClothingFeet: GetHex(0x10CD12, "Skyrim.esm"),
+      kwClothingBody: GetHex(0x0A8657, "Skyrim.esm"),
+      kwArmorClothing: GetHex(0x06BB8, "Skyrim.esm"),
+      kwArmorHeavy: GetHex(0x06BBD2, "Skyrim.esm"),
+      kwArmorLight: GetHex(0x06BBD3, "Skyrim.esm"),
       kwArmorDreamcloth: GetHex(0x05C2C4, "SkyRe_Main.esp"),
       kwArmorMaterialBlades: GetHex(0x008255, "SkyRe_Main.esp"),
       kwArmorMaterialBonemoldHeavy: GetHex(0x024101, "Dragonborn.esm"),
@@ -1278,9 +1311,11 @@ class ReproccerReborn {
       kwArmorMaterialIronBanded: GetHex(0x06BBE4, "Skyrim.esm"),
       kwArmorMaterialLeather: GetHex(0x06BBDB, "Skyrim.esm"),
       kwArmorMaterialNightingale: GetHex(0x10FD61, "Skyrim.esm"),
-      kwArmorMaterialOrcish: GetHex(0x06BBE5, "Skyrim.esm"),
       kwArmorMaterialNordicHeavy: GetHex(0x024105, "Dragonborn.esm"),
+      kwArmorMaterialOrcish: GetHex(0x06BBE5, "Skyrim.esm"),
       kwArmorMaterialScaled: GetHex(0x06BBDE, "Skyrim.esm"),
+      kwArmorMaterialStalhrimHeavy: GetHex(0x024106, "Dragonborn.esm"),
+      kwArmorMaterialStalhrimLight: GetHex(0x024107, "Dragonborn.esm"),
       kwArmorMaterialSteel: GetHex(0x06BBE6, "Skyrim.esm"),
       kwArmorMaterialSteelPlate: GetHex(0x06BBE7, "Skyrim.esm"),
       kwArmorMaterialStormcloak: GetHex(0x0AC13A, "Skyrim.esm"),
@@ -1288,24 +1323,81 @@ class ReproccerReborn {
       kwArmorMaterialVampire: GetHex(0x01463E, "Dawnguard.esm"),
       kwArmorShieldHeavy: GetHex(0x08F265, "SkyRe_Main.esp"),
       kwArmorShieldLight: GetHex(0x08F266, "SkyRe_Main.esp"),
+      kwArmorSlotGauntlets: GetHex(0x06C0EF, "Skyrim.esm"),
+      kwArmorSlotHelmet: GetHex(0x06C0EE, "Skyrim.esm"),
+      kwArmorSlotBoots: GetHex(0x06C0ED, "Skyrim.esm"),
+      kwArmorSlotCuirass: GetHex(0x06C0EC, "Skyrim.esm"),
+      kwArmorSlotShield: GetHex(0x0965B2, "Skyrim.esm"),
       kwCraftingSmelter: GetHex(0x00A5CCE, "Skyrim.esm"),
       kwCraftingSmithingArmorTable: GetHex(0x0ADB78, "Skyrim.esm"),
       kwCraftingSmithingForge: GetHex(0x088105, "Skyrim.esm"),
       kwCraftingSmithingSharpeningWheel: GetHex(0x088108, "Skyrim.esm"),
       kwCraftingTanningRack: GetHex(0x07866A, "Skyrim.esm"),
+      kwJewelry: GetHex(0x08F95A, "Skyrim.esm"),
       kwMasqueradeBandit: GetHex(0x03A8AA, "SkyRe_Main.esp"),
       kwMasqueradeForsworn: GetHex(0x03A8A9, "SkyRe_Main.esp"),
       kwMasqueradeImperial: GetHex(0x037D31, "SkyRe_Main.esp"),
       kwMasqueradeStormcloak: GetHex(0x037D2F, "SkyRe_Main.esp"),
       kwMasqueradeThalmor: GetHex(0x037D2B, "SkyRe_Main.esp"),
-      kwWeapMaterialSilverRefined: GetHex(0x24f987, "SkyRe_Main.esp"),
+      kwVendorItemClothing: GetHex(0x08F95B, "Skyrim.esm"),
+      kwWeapMaterialDaedric: GetHex(0x01E71F, "Skyrim.esm"),
+      kwWeapMaterialDragonbone: GetHex(0x019822, "Dawnguard.esm"),
+      kwWeapMaterialDraugr: GetHex(0x0C5C01, "Skyrim.esm"),
+      kwWeapMaterialDraugrHoned: GetHex(0x0C5C02, "Skyrim.esm"),
+      kwWeapMaterialDwarven: GetHex(0x01E71A, "Skyrim.esm"),
+      kwWeapMaterialEbony: GetHex(0x01E71E, "Skyrim.esm"),
+      kwWeapMaterialElven: GetHex(0x01E71B, "Skyrim.esm"),
+      kwWeapMaterialFalmer: GetHex(0x0C5C03, "Skyrim.esm"),
+      kwWeapMaterialFalmerHoned: GetHex(0x0C5C04, "Skyrim.esm"),
+      kwWeapMaterialGlass: GetHex(0x01E71D, "Skyrim.esm"),
+      kwWeapMaterialImperial: GetHex(0x0C5C00, "Skyrim.esm"),
+      kwWeapMaterialIron: GetHex(0x01E718, "Skyrim.esm"),
+      kwWeapMaterialNordic: GetHex(0x026230, "Dragonborn.esm"),
+      kwWeapMaterialOrcish: GetHex(0x01E71C, "Skyrim.esm"),
+      kwWeapMaterialSilver: GetHex(0x10AA1A, "Skyrim.esm"),
+      kwWeapMaterialSilverRefined: GetHex(0x24F987, "SkyRe_Main.esp"),
+      kwWeapMaterialStalhrim: GetHex(0x02622F, "Dragonborn.esm"),
+      kwWeapMaterialSteel: GetHex(0x01E719, "Skyrim.esm"),
+      kwWeapMaterialWood: GetHex(0x01E717, "Skyrim.esm"),
+      kwWeapTypeBastardSword: GetHex(0x054FF1, "SkyRe_Main.esp"),
+      kwWeapTypeBattleaxe: GetHex(0x06D932, "Skyrim.esm"),
+      kwWeapTypeBattlestaff: GetHex(0x020857, "SkyRe_Main.esp"),
+      kwWeapTypeBow: GetHex(0x01E715, "Skyrim.esm"),
+      kwWeapTypeBroadsword: GetHex(0x05451F, "SkyRe_Main.esp"),
+      kwWeapTypeClub: GetHex(0x09BA23, "SkyRe_Main.esp"),
+      kwWeapTypeCrossbow: GetHex(0x06F3FD, "Skyrim.esm"),
+      kwWeapTypeDagger: GetHex(0x01E713, "Skyrim.esm"),
+      kwWeapTypeGlaive: GetHex(0x09BA40, "SkyRe_Main.esp"),
+      kwWeapTypeGreatsword: GetHex(0x06D931, "Skyrim.esm"),
+      kwWeapTypeHalberd: GetHex(0x09BA3E, "SkyRe_Main.esp"),
+      kwWeapTypeHatchet: GetHex(0x333676, "SkyRe_Main.esp"),
+      kwWeapTypeKatana: GetHex(0x054523, "SkyRe_Main.esp"),
+      kwWeapTypeLongbow: GetHex(0x06F3FE, "Skyrim.esm"),
+      kwWeapTypeLongmace: GetHex(0x0A068F, "SkyRe_Main.esp"),
+      kwWeapTypeLongsword: GetHex(0x054520, "SkyRe_Main.esp"),
+      kwWeapTypeMace: GetHex(0x01E714, "Skyrim.esm"),
+      kwWeapTypeMaul: GetHex(0x333677, "SkyRe_Main.esp"),
+      kwWeapTypeNodachi: GetHex(0x054A88, "SkyRe_Main.esp"),
+      kwWeapTypeSaber: GetHex(0x054A87, "SkyRe_Main.esp"),
+      kwWeapTypeScimitar: GetHex(0x054A87, "SkyRe_Main.esp"),
+      kwWeapTypeShortbow: GetHex(0x056B5F, "SkyRe_Main.esp"),
+      kwWeapTypeShortspear: GetHex(0x1AC2B9, "SkyRe_Main.esp"),
+      kwWeapTypeShortsword: GetHex(0x085067, "SkyRe_Main.esp"),
+      kwWeapTypeStaff: GetHex(0x01E716, "Skyrim.esm"),
+      kwWeapTypeSword: GetHex(0x01E711, "Skyrim.esm"),
+      kwWeapTypeTanto: GetHex(0x054522, "SkyRe_Main.esp"),
+      kwWeapTypeUnarmed: GetHex(0x066F62, "SkyRe_Main.esp"),
+      kwWeapTypeWakizashi: GetHex(0x054521, "SkyRe_Main.esp"),
+      kwWeapTypeWaraxe: GetHex(0x01E712, "Skyrim.esm"),
+      kwWeapTypeWarhammer: GetHex(0x06D930, "Skyrim.esm"),
+      kwWeapTypeYari: GetHex(0x09BA3F, "SkyRe_Main.esp"),
 
       // Lights
       lightLightsource: GetHex(0x03A335, "SkyRe_Main.esp"),
 
       // Perks
       perkAlchemyFuse: GetHex(0x00FEDA, "SkyRe_Main.esp"),
-      perkAlchemyAdvancedExplosives: GetHex(0x00fED9, "SkyRe_Main.esp"),
+      perkAlchemyAdvancedExplosives: GetHex(0x00FED9, "SkyRe_Main.esp"),
       perkDreamclothBody: GetHex(0x5CDA5, "SkyRe_Main.esp"),
       perkDreamclothHands: GetHex(0x5CDA8, "SkyRe_Main.esp"),
       perkDreamclothHead: GetHex(0x5CDA4, "SkyRe_Main.esp"),
@@ -1347,7 +1439,7 @@ class ReproccerReborn {
     const rules = locals.rules = {};
 
     xelib.GetLoadedFileNames().forEach((plugin) => {
-      const data = fh.loadJsonFile(`modules/reproccer-reborn/data/${plugin.slice(0, -4)}.json`, null);
+      const data = fh.loadJsonFile(`modules/reproccerReborn/data/${plugin.slice(0, -4)}.json`, null);
       Object.deepAssign(rules, data);
     });
   }

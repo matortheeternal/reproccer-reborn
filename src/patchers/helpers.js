@@ -61,7 +61,7 @@ export function getValueFromName(collection, name, field1, field2) {
 
 export function getKwda(handle) {
   return function(kwda) {
-    xelib.HasArrayItem(handle, 'KWDA', '', kwda);
+    return xelib.HasArrayItem(handle, 'KWDA', '', kwda);
   }
 };
 

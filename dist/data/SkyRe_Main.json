@@ -1501,72 +1501,540 @@
   },
   "armor": {
     "materials": [
-        {
-        "iArmor": 36,
-        "name": "Daedric Assassin Light"
-      }, {
-        "iArmor": 50,
-        "name": "Daedric Assassin Heavy"
-      }, {
-        "iArmor": 33,
-        "name": "Steelgaze"
-      }, {
-        "iArmor": 18,
-        "name": "Blade Dancer"
-      }, {
-        "iArmor": 23,
-        "name": "Savior"
-      }, {
-        "iArmor": 41,
-        "name": "Dwarven Power"
+      {
+        "iArmor": 21,
+        "name": "(old)"
       }, {
         "iArmor": 33,
         "name": "Aetherium"
       }, {
+        "iArmor": 38,
+        "name": "Ahzidal"
+      }, {
+        "iArmor": 44,
+        "name": "Akaviri Samurai"
+      }, {
         "iArmor": 25,
-        "name": "Gildhorn"
+        "name": "Ancient"
       }, {
-        "iArmor": 13,
-        "name": "Hide"
+        "iArmor": 34,
+        "name": "Ancient Explorer"
       }, {
-        "iArmor": 21,
-        "name": "Armored Fur"
-      }, {
-        "iArmor": 17,
-        "name": "Padded Fur"
-      }, {
-        "iArmor": 14,
-        "name": "Fur"
-      }, {
-        "iArmor": 15,
-        "name": "Forsworn"
-      }, {
-        "iArmor": 18,
-        "name": "Leather"
-      }, {
-        "iArmor": 19,
-        "name": "Vampire"
-      }, {
-        "iArmor": 17,
-        "name": "Guard"
-      }, {
-        "iArmor": 20,
-        "name": "Thieve"
-      }, {
-        "iArmor": 20,
-        "name": "Dark Brotherhood"
-      }, {
-        "iArmor": 20,
-        "name": "Shroud"
-      }, {
-        "iArmor": 20,
-        "name": "Shrouded"
+        "iArmor": 25,
+        "name": "Ancient Nordic"
       }, {
         "iArmor": 20,
         "name": "Ancient Shrouded"
       }, {
+        "iArmor": 30,
+        "name": "Apotheus"
+      }, {
+        "iArmor": 36,
+        "name": "Arcadia"
+      }, {
+        "iArmor": 19,
+        "name": "Arena Mage"
+      }, {
+        "iArmor": 21,
+        "name": "Armored Fur"
+      }, {
+        "iArmor": 47,
+        "name": "Ascendant"
+      }, {
+        "iArmor": 42,
+        "name": "Atroscine"
+      }, {
+        "iArmor": 48,
+        "name": "Azura"
+      }, {
+        "iArmor": 35,
+        "name": "BSA Archer's Barrette"
+      }, {
+        "iArmor": 35,
+        "name": "BSA Assassin's Barrette"
+      }, {
+        "iArmor": 23,
+        "name": "Banded Iron"
+      }, {
+        "iArmor": 31,
+        "name": "Bandit Iron"
+      }, {
+        "iArmor": 24,
+        "name": "Bandit Studded"
+      }, {
+        "iArmor": 16,
+        "name": "Barbarian"
+      }, {
+        "iArmor": 34,
+        "name": "Barbarian Heavy"
+      }, {
+        "iArmor": 29,
+        "name": "Barbarian Light"
+      }, {
+        "iArmor": 28,
+        "name": "Battle Mage"
+      }, {
+        "iArmor": 24,
+        "name": "Battle-mage"
+      }, {
+        "iArmor": 18,
+        "name": "Bear"
+      }, {
+        "iArmor": 40,
+        "name": "Berserker Metal"
+      }, {
         "iArmor": 20,
         "name": "Black Sacrament"
+      }, {
+        "iArmor": 28,
+        "name": "Blackguard's"
+      }, {
+        "iArmor": 18,
+        "name": "Blade Dancer"
+      }, {
+        "iArmor": 18,
+        "name": "Blade Dancer"
+      }, {
+        "iArmor": 36,
+        "name": "Blades"
+      }, {
+        "iArmor": 28,
+        "name": "Bonemold"
+      }, {
+        "iArmor": 16,
+        "name": "Brigand Fauld"
+      }, {
+        "iArmor": 11,
+        "name": "Brigand's Clothes"
+      }, {
+        "iArmor": 27,
+        "name": "Brigandine"
+      }, {
+        "iArmor": 55,
+        "name": "Brutal Dragonslayer's"
+      }, {
+        "iArmor": 44,
+        "name": "Buckler of Sithis"
+      }, {
+        "iArmor": 32,
+        "name": "Buckler of Solitude"
+      }, {
+        "iArmor": 34,
+        "name": "Buckler of Winterhold"
+      }, {
+        "iArmor": 32,
+        "name": "Buckler of Ysgramor"
+      }, {
+        "iArmor": 30,
+        "name": "Buckler of the Blooded"
+      }, {
+        "iArmor": 21,
+        "name": "Castanic Hunter"
+      }, {
+        "iArmor": 24,
+        "name": "Chain Cloths"
+      }, {
+        "iArmor": 46,
+        "name": "Champion"
+      }, {
+        "iArmor": 25,
+        "name": "Chitin"
+      }, {
+        "iArmor": 33,
+        "name": "Chitin Heavy"
+      }, {
+        "iArmor": 30,
+        "name": "Chitin Plates"
+      }, {
+        "iArmor": 32,
+        "name": "Coat of Plates"
+      }, {
+        "iArmor": 15,
+        "name": "Colovian Leather"
+      }, {
+        "iArmor": 30,
+        "name": "Common Buckler of Solitude"
+      }, {
+        "iArmor": 33,
+        "name": "Common Heavy Buckler of Solitude"
+      }, {
+        "iArmor": 33,
+        "name": "Common Light Shield of Solitude"
+      }, {
+        "iArmor": 32,
+        "name": "Common Shield of Solitude"
+      }, {
+        "iArmor": 27,
+        "name": "Conqueror"
+      }, {
+        "iArmor": 27,
+        "name": "Conqueror Heavy"
+      }, {
+        "iArmor": 21,
+        "name": "Conqueror Light"
+      }, {
+        "iArmor": 25,
+        "name": "Corundum Plates"
+      }, {
+        "iArmor": 18,
+        "name": "Cultist Gloves"
+      }, {
+        "iArmor": 25,
+        "name": "Cultist Mask"
+      }, {
+        "iArmor": 50,
+        "name": "Daedric"
+      }, {
+        "iArmor": 32,
+        "name": "Dark Alchemist"
+      }, {
+        "iArmor": 20,
+        "name": "Dark Brotherhood"
+      }, {
+        "iArmor": 40,
+        "name": "Dark Plates"
+      }, {
+        "iArmor": 28,
+        "name": "Dawnguard"
+      }, {
+        "iArmor": 28,
+        "name": "Dawnguard Heavy"
+      }, {
+        "iArmor": 24,
+        "name": "Dawnguard Light"
+      }, {
+        "iArmor": 37,
+        "name": "Deadly Dragonslayer's"
+      }, {
+        "iArmor": 34,
+        "name": "Deathbrand"
+      }, {
+        "iArmor": 48,
+        "name": "Deathshell"
+      }, {
+        "iArmor": 34,
+        "name": "Deathskin"
+      }, {
+        "iArmor": 15,
+        "name": "Dented Iron"
+      }, {
+        "iArmor": 47,
+        "name": "Dragon Knight"
+      }, {
+        "iArmor": 55,
+        "name": "Dragon-Bane"
+      }, {
+        "iArmor": 55,
+        "name": "Dragonbane"
+      }, {
+        "iArmor": 48,
+        "name": "Dragonbone Ebonsteel"
+      }, {
+        "iArmor": 40,
+        "name": "Dragonhide"
+      }, {
+        "iArmor": 55,
+        "name": "Dragonhide Heavy"
+      }, {
+        "iArmor": 48,
+        "name": "Dragonhide Light"
+      }, {
+        "iArmor": 55,
+        "name": "Dragonplate"
+      }, {
+        "iArmor": 36,
+        "name": "Dragonscale"
+      }, {
+        "iArmor": 55,
+        "name": "Dragonslayer's Bone"
+      }, {
+        "iArmor": 37,
+        "name": "Dragonslayer's Leather"
+      }, {
+        "iArmor": 37,
+        "name": "Dragonslayer's Light"
+      }, {
+        "iArmor": 37,
+        "name": "Dragonslayer's Mithril"
+      }, {
+        "iArmor": 55,
+        "name": "Dragonslayer's Plate"
+      }, {
+        "iArmor": 37,
+        "name": "Dragonslayer's Scale"
+      }, {
+        "iArmor": 37,
+        "name": "Dragonslayer's Silver"
+      }, {
+        "iArmor": 48,
+        "name": "Drakul"
+      }, {
+        "iArmor": 32,
+        "name": "Dwarven"
+      }, {
+        "iArmor": 26,
+        "name": "Dwarven Mage"
+      }, {
+        "iArmor": 41,
+        "name": "Dwarven Power"
+      }, {
+        "iArmor": 0,
+        "name": "Dwarven SpyGlass"
+      }, {
+        "iArmor": 0,
+        "name": "Dwarven Telescope"
+      }, {
+        "iArmor": 55,
+        "name": "Earthshatter's"
+      }, {
+        "iArmor": 44,
+        "name": "Ebony"
+      }, {
+        "iArmor": 33,
+        "name": "Einherjar"
+      }, {
+        "iArmor": 29,
+        "name": "Elenium"
+      }, {
+        "iArmor": 37,
+        "name": "Elseworlder"
+      }, {
+        "iArmor": 23,
+        "name": "Elven"
+      }, {
+        "iArmor": 25,
+        "name": "Elven Gilded"
+      }, {
+        "iArmor": 35,
+        "name": "Elven Inquisitor"
+      }, {
+        "iArmor": 21,
+        "name": "Elven Light"
+      }, {
+        "iArmor": 31,
+        "name": "Elven Scaled"
+      }, {
+        "iArmor": 25,
+        "name": "Empire Royal"
+      }, {
+        "iArmor": 33,
+        "name": "Falkreath"
+      }, {
+        "iArmor": 29,
+        "name": "Falmer"
+      }, {
+        "iArmor": 35,
+        "name": "Falmer Hardened"
+      }, {
+        "iArmor": 39,
+        "name": "Falmer Heavy"
+      }, {
+        "iArmor": 23,
+        "name": "Forest Archer"
+      }, {
+        "iArmor": 15,
+        "name": "Forsworn"
+      }, {
+        "iArmor": 34,
+        "name": "Fortified Buckler of Solitude"
+      }, {
+        "iArmor": 37,
+        "name": "Fortified Heavy Buckler of Solitude"
+      }, {
+        "iArmor": 37,
+        "name": "Fortified Light Shield of Solitude"
+      }, {
+        "iArmor": 36,
+        "name": "Fortified Shield of Solitude"
+      }, {
+        "iArmor": 14,
+        "name": "Fur"
+      }, {
+        "iArmor": 18,
+        "name": "Fur Guard's"
+      }, {
+        "iArmor": 37,
+        "name": "Furious Dragonslayer's"
+      }, {
+        "iArmor": 14,
+        "name": "Furry Hide"
+      }, {
+        "iArmor": 33,
+        "name": "General Carius"
+      }, {
+        "iArmor": 30,
+        "name": "Gildhorn"
+      }, {
+        "iArmor": 25,
+        "name": "Gildhorn"
+      }, {
+        "iArmor": 33,
+        "name": "Glass"
+      }, {
+        "iArmor": 17,
+        "name": "Guard"
+      }, {
+        "iArmor": 26,
+        "name": "Guild Master"
+      }, {
+        "iArmor": 55,
+        "name": "Hateful Dragonslayer's"
+      }, {
+        "iArmor": 27,
+        "name": "Heavy Ancient Nordic"
+      }, {
+        "iArmor": 25,
+        "name": "Heavy Banded Iron"
+      }, {
+        "iArmor": 23,
+        "name": "Heavy Banded Iron Buckler"
+      }, {
+        "iArmor": 38,
+        "name": "Heavy Blades"
+      }, {
+        "iArmor": 36,
+        "name": "Heavy Blades Buckler"
+      }, {
+        "iArmor": 46,
+        "name": "Heavy Buckler of Sithis"
+      }, {
+        "iArmor": 35,
+        "name": "Heavy Buckler of Solitude"
+      }, {
+        "iArmor": 38,
+        "name": "Heavy Buckler of Winterhold"
+      }, {
+        "iArmor": 36,
+        "name": "Heavy Buckler of Ysgramor"
+      }, {
+        "iArmor": 34,
+        "name": "Heavy Buckler of the Blooded"
+      }, {
+        "iArmor": 52,
+        "name": "Heavy Daedric"
+      }, {
+        "iArmor": 50,
+        "name": "Heavy Daedric Buckler"
+      }, {
+        "iArmor": 55,
+        "name": "Heavy Dragonplate"
+      }, {
+        "iArmor": 43,
+        "name": "Heavy Dragonplate Buckler"
+      }, {
+        "iArmor": 37,
+        "name": "Heavy Dragonscale"
+      }, {
+        "iArmor": 43,
+        "name": "Heavy Dragonscale Buckler"
+      }, {
+        "iArmor": 34,
+        "name": "Heavy Dwarven"
+      }, {
+        "iArmor": 32,
+        "name": "Heavy Dwarven Buckler"
+      }, {
+        "iArmor": 46,
+        "name": "Heavy Ebony"
+      }, {
+        "iArmor": 44,
+        "name": "Heavy Ebony Buckler"
+      }, {
+        "iArmor": 25,
+        "name": "Heavy Elven"
+      }, {
+        "iArmor": 23,
+        "name": "Heavy Elven Buckler"
+      }, {
+        "iArmor": 27,
+        "name": "Heavy Elven Gilded"
+      }, {
+        "iArmor": 35,
+        "name": "Heavy Glass"
+      }, {
+        "iArmor": 33,
+        "name": "Heavy Glass Buckler"
+      }, {
+        "iArmor": 15,
+        "name": "Heavy Hide"
+      }, {
+        "iArmor": 13,
+        "name": "Heavy Hide Buckler"
+      }, {
+        "iArmor": 28,
+        "name": "Heavy Imperial"
+      }, {
+        "iArmor": 26,
+        "name": "Heavy Imperial Buckler"
+      }, {
+        "iArmor": 30,
+        "name": "Heavy Imperial Steel"
+      }, {
+        "iArmor": 22,
+        "name": "Heavy Iron"
+      }, {
+        "iArmor": 20,
+        "name": "Heavy Iron Buckler"
+      }, {
+        "iArmor": 23,
+        "name": "Heavy Leather"
+      }, {
+        "iArmor": 28,
+        "name": "Heavy Nordic Steel"
+      }, {
+        "iArmor": 40,
+        "name": "Heavy Orcish"
+      }, {
+        "iArmor": 38,
+        "name": "Heavy Orcish Buckler"
+      }, {
+        "iArmor": 48,
+        "name": "Heavy Shield of Sithis"
+      }, {
+        "iArmor": 40,
+        "name": "Heavy Shield of Ysgramor"
+      }, {
+        "iArmor": 40,
+        "name": "Heavy Spellbreaker Buckler"
+      }, {
+        "iArmor": 28,
+        "name": "Heavy Steel"
+      }, {
+        "iArmor": 26,
+        "name": "Heavy Steel Buckler"
+      }, {
+        "iArmor": 35,
+        "name": "Heavy Steel Plate"
+      }, {
+        "iArmor": 33,
+        "name": "Hedge"
+      }, {
+        "iArmor": 38,
+        "name": "Helm of Ysgramor"
+      }, {
+        "iArmor": 35,
+        "name": "Heroic Imperial"
+      }, {
+        "iArmor": 35,
+        "name": "Heroic Stormcloak"
+      }, {
+        "iArmor": 13,
+        "name": "Hide"
+      }, {
+        "iArmor": 32,
+        "name": "High Elf Paladin"
+      }, {
+        "iArmor": 22,
+        "name": "Highwayman Armor"
+      }, {
+        "iArmor": 27,
+        "name": "Hunter"
+      }, {
+        "iArmor": 22,
+        "name": "Hunters"
+      }, {
+        "iArmor": 34,
+        "name": "Icy Champion"
       }, {
         "iArmor": 25,
         "name": "Imperial"
@@ -1574,74 +2042,554 @@
         "iArmor": 18,
         "name": "Imperial Light"
       }, {
-        "iArmor": 18,
-        "name": "Stormcloak"
+        "iArmor": 26,
+        "name": "Imperial Steel"
       }, {
         "iArmor": 19,
         "name": "Imperial Studded"
       }, {
-        "iArmor": 16,
-        "name": "Studded"
-      }, {
-        "iArmor": 23,
-        "name": "Elven"
-      }, {
-        "iArmor": 23,
-        "name": "Linwe"
-      }, {
-        "iArmor": 21,
-        "name": "Elven Light"
-      }, {
-        "iArmor": 23,
-        "name": "Royal Vampire"
-      }, {
-        "iArmor": 29,
-        "name": "Falmer"
-      }, {
-        "iArmor": 32,
-        "name": "Dwarven"
-      }, {
-        "iArmor": 33,
-        "name": "Steel Plate"
-      }, {
         "iArmor": 34,
-        "name": "Hoth's"
-      }, {
-        "iArmor": 33,
-        "name": "Steelplate"
-      }, {
-        "iArmor": 35,
-        "name": "Falmer Hardened"
-      }, {
-        "iArmor": 36,
-        "name": "Blades"
-      }, {
-        "iArmor": 38,
-        "name": "Orcish"
-      }, {
-        "iArmor": 39,
-        "name": "Falmer Heavy"
-      }, {
-        "iArmor": 39,
-        "name": "Shellbug"
-      }, {
-        "iArmor": 55,
-        "name": "Dragonplate"
-      }, {
-        "iArmor": 44,
-        "name": "Ebony"
-      }, {
-        "iArmor": 50,
-        "name": "Daedric"
+        "name": "Improved Bonemold"
       }, {
         "iArmor": 20,
-        "name": "White Tree"
+        "name": "Iron"
+      }, {
+        "iArmor": 0,
+        "name": "Iron Cased Telescope"
+      }, {
+        "iArmor": 24,
+        "name": "Iron Island"
+      }, {
+        "iArmor": 31,
+        "name": "Iron Master"
+      }, {
+        "iArmor": 23,
+        "name": "Jalmarak"
+      }, {
+        "iArmor": 18,
+        "name": "Jehennian Leather"
+      }, {
+        "iArmor": 19,
+        "name": "Karassia"
+      }, {
+        "iArmor": 49,
+        "name": "Kynareth Master"
       }, {
         "iArmor": 28,
         "name": "Lannister"
       }, {
+        "iArmor": 18,
+        "name": "Leather"
+      }, {
+        "iArmor": 22,
+        "name": "Leather Bear"
+      }, {
+        "iArmor": 22,
+        "name": "Leather Black"
+      }, {
+        "iArmor": 0,
+        "name": "Leather Cased Telescope"
+      }, {
+        "iArmor": 22,
+        "name": "Leather Fur"
+      }, {
+        "iArmor": 22,
+        "name": "Leather Ornate"
+      }, {
+        "iArmor": 23,
+        "name": "Leather Rare"
+      }, {
+        "iArmor": 22,
+        "name": "Leather White"
+      }, {
+        "iArmor": 22,
+        "name": "Leather Wolf"
+      }, {
+        "iArmor": 28,
+        "name": "Leather and Chainmail"
+      }, {
+        "iArmor": 23,
+        "name": "Light Ancient Nordic"
+      }, {
+        "iArmor": 21,
+        "name": "Light Banded Iron"
+      }, {
         "iArmor": 19,
-        "name": "Arena Mage"
+        "name": "Light Banded Iron Buckler"
+      }, {
+        "iArmor": 34,
+        "name": "Light Blades"
+      }, {
+        "iArmor": 32,
+        "name": "Light Blades Buckler"
+      }, {
+        "iArmor": 42,
+        "name": "Light Buckler of Sithis"
+      }, {
+        "iArmor": 30,
+        "name": "Light Buckler of Ysgramor"
+      }, {
+        "iArmor": 48,
+        "name": "Light Daedric"
+      }, {
+        "iArmor": 46,
+        "name": "Light Daedric Buckler"
+      }, {
+        "iArmor": 39,
+        "name": "Light Dragonplate"
+      }, {
+        "iArmor": 37,
+        "name": "Light Dragonplate Buckler"
+      }, {
+        "iArmor": 33,
+        "name": "Light Dragonscale"
+      }, {
+        "iArmor": 31,
+        "name": "Light Dragonscale Buckler"
+      }, {
+        "iArmor": 30,
+        "name": "Light Dwarven"
+      }, {
+        "iArmor": 28,
+        "name": "Light Dwarven Buckler"
+      }, {
+        "iArmor": 42,
+        "name": "Light Ebony"
+      }, {
+        "iArmor": 40,
+        "name": "Light Ebony Buckler"
+      }, {
+        "iArmor": 28,
+        "name": "Light Einherjar"
+      }, {
+        "iArmor": 21,
+        "name": "Light Elven"
+      }, {
+        "iArmor": 19,
+        "name": "Light Elven Buckler"
+      }, {
+        "iArmor": 23,
+        "name": "Light Elven Gilded"
+      }, {
+        "iArmor": 29,
+        "name": "Light Glass"
+      }, {
+        "iArmor": 27,
+        "name": "Light Glass Buckler"
+      }, {
+        "iArmor": 13,
+        "name": "Light Hide"
+      }, {
+        "iArmor": 11,
+        "name": "Light Hide Buckler"
+      }, {
+        "iArmor": 18,
+        "name": "Light Imperial"
+      }, {
+        "iArmor": 16,
+        "name": "Light Imperial Buckler"
+      }, {
+        "iArmor": 20,
+        "name": "Light Imperial Steel"
+      }, {
+        "iArmor": 18,
+        "name": "Light Iron"
+      }, {
+        "iArmor": 16,
+        "name": "Light Iron Buckler"
+      }, {
+        "iArmor": 24,
+        "name": "Light Nordic Steel"
+      }, {
+        "iArmor": 36,
+        "name": "Light Orcish"
+      }, {
+        "iArmor": 34,
+        "name": "Light Orcish Buckler"
+      }, {
+        "iArmor": 44,
+        "name": "Light Shield of Sithis"
+      }, {
+        "iArmor": 35,
+        "name": "Light Shield of Solitude"
+      }, {
+        "iArmor": 38,
+        "name": "Light Shield of Winterhold"
+      }, {
+        "iArmor": 36,
+        "name": "Light Shield of Ysgramor"
+      }, {
+        "iArmor": 27,
+        "name": "Light Sithis"
+      }, {
+        "iArmor": 28,
+        "name": "Light Sons of Skyrim"
+      }, {
+        "iArmor": 40,
+        "name": "Light Spellbreaker"
+      }, {
+        "iArmor": 24,
+        "name": "Light Steel"
+      }, {
+        "iArmor": 22,
+        "name": "Light Steel Buckler"
+      }, {
+        "iArmor": 31,
+        "name": "Light Steel Plate"
+      }, {
+        "iArmor": 34,
+        "name": "Light Targe of the Blooded"
+      }, {
+        "iArmor": 50,
+        "name": "Lilith's"
+      }, {
+        "iArmor": 40,
+        "name": "Lilith's Hood (light)"
+      }, {
+        "iArmor": 18,
+        "name": "Lilith's Leather"
+      }, {
+        "iArmor": 23,
+        "name": "Linwe"
+      }, {
+        "iArmor": 35,
+        "name": "Lustmord"
+      }, {
+        "iArmor": 26,
+        "name": "Mage Armor"
+      }, {
+        "iArmor": 28,
+        "name": "Marauder"
+      }, {
+        "iArmor": 32,
+        "name": "Markarth"
+      }, {
+        "iArmor": 29,
+        "name": "Master Ranger"
+      }, {
+        "iArmor": 43,
+        "name": "Medusa"
+      }, {
+        "iArmor": 20,
+        "name": "Mercenary"
+      }, {
+        "iArmor": 37,
+        "name": "Merciless Dragonslayer's"
+      }, {
+        "iArmor": 24,
+        "name": "Morag Tong"
+      }, {
+        "iArmor": 45,
+        "name": "Mountain"
+      }, {
+        "iArmor": 20,
+        "name": "Myrmidon"
+      }, {
+        "iArmor": 26,
+        "name": "Nightingale"
+      }, {
+        "iArmor": 24,
+        "name": "Nightshade"
+      }, {
+        "iArmor": 25,
+        "name": "Nord Ranger"
+      }, {
+        "iArmor": 40,
+        "name": "Nordic"
+      }, {
+        "iArmor": 40,
+        "name": "Nordic Carved"
+      }, {
+        "iArmor": 27,
+        "name": "Nordic Conqueror"
+      }, {
+        "iArmor": 24,
+        "name": "Nordic Iron Cuirass"
+      }, {
+        "iArmor": 25,
+        "name": "Nordic Ranger"
+      }, {
+        "iArmor": 26,
+        "name": "Nordic Steel"
+      }, {
+        "iArmor": 31,
+        "name": "North Rider"
+      }, {
+        "iArmor": 22,
+        "name": "Northman"
+      }, {
+        "iArmor": 17,
+        "name": "Old Gods"
+      }, {
+        "iArmor": 38,
+        "name": "Orcish"
+      }, {
+        "iArmor": 17,
+        "name": "Padded Fur"
+      }, {
+        "iArmor": 44,
+        "name": "Paladin"
+      }, {
+  			"iArmor": 25,
+			  "name": "Penitus Oculatus"
+		  }, {
+        "iArmor": 38,
+        "name": "Perfect Buckler of Solitude"
+      }, {
+        "iArmor": 41,
+        "name": "Perfect Heavy Buckler of Solitude"
+      }, {
+        "iArmor": 41,
+        "name": "Perfect Light Shield of Solitude"
+      }, {
+        "iArmor": 40,
+        "name": "Perfect Shield of Solitude"
+      }, {
+        "iArmor": 16,
+        "name": "Pillager Armor"
+      }, {
+        "iArmor": 16,
+        "name": "Poacher's Hide"
+      }, {
+        "iArmor": 33,
+        "name": "Protector's"
+      }, {
+        "iArmor": 29,
+        "name": "Quality Leather"
+      }, {
+        "iArmor": 34,
+        "name": "Quantum"
+      }, {
+        "iArmor": 25,
+        "name": "Ranger"
+      }, {
+        "iArmor": 25,
+        "name": "Ranger's"
+      }, {
+        "iArmor": 25,
+        "name": "Rangers"
+      }, {
+        "iArmor": 28,
+        "name": "Redguard Heavy"
+      }, {
+        "iArmor": 28,
+        "name": "Redguard Knight Heavy"
+      }, {
+        "iArmor": 22,
+        "name": "Redguard Knight Light"
+      }, {
+        "iArmor": 22,
+        "name": "Redguard Light"
+      }, {
+        "iArmor": 55,
+        "name": "Reinforced Dragonslayer's"
+      }, {
+        "iArmor": 55,
+        "name": "Relentless Dragonslayer's"
+      }, {
+        "iArmor": 37,
+        "name": "Relentless Dragonslayer's"
+      }, {
+        "iArmor": 19,
+        "name": "Ringmail"
+      }, {
+        "iArmor": 38,
+        "name": "Ritual"
+      }, {
+        "iArmor": 23,
+        "name": "Royal Vampire"
+      }, {
+        "iArmor": 37,
+        "name": "Rubicite"
+      }, {
+        "iArmor": 55,
+        "name": "Ruthless Dragonslayer's"
+      }, {
+        "iArmor": 35,
+        "name": "Rysio"
+      }, {
+        "iArmor": 28,
+        "name": "Savage"
+      }, {
+        "iArmor": 23,
+        "name": "Savior"
+      }, {
+        "iArmor": 27,
+        "name": "Scaled"
+      }, {
+        "iArmor": 27,
+        "name": "Scaled and Fur"
+      }, {
+        "iArmor": 34,
+        "name": "Scion Plate"
+      }, {
+        "iArmor": 26,
+        "name": "Scoia'tael Captain's"
+      }, {
+        "iArmor": 20,
+        "name": "Scoia'tael Commando"
+      }, {
+        "iArmor": 35,
+        "name": "Scout"
+      }, {
+        "iArmor": 31,
+        "name": "Seadog"
+      }, {
+        "iArmor": 44,
+        "name": "Sententia"
+      }, {
+        "iArmor": 39,
+        "name": "Shellbug"
+      }, {
+        "iArmor": 42,
+        "name": "Shield of Sithis"
+      }, {
+        "iArmor": 34,
+        "name": "Shield of Solitude"
+      }, {
+        "iArmor": 42,
+        "name": "Shield of Winterhold"
+      }, {
+        "iArmor": 38,
+        "name": "Shield of Ysgramor"
+      }, {
+        "iArmor": 20,
+        "name": "Shroud"
+      }, {
+        "iArmor": 20,
+        "name": "Shrouded"
+      }, {
+        "iArmor": 27,
+        "name": "Shrouded Mail"
+      }, {
+        "iArmor": 25,
+        "name": "Sicarius"
+      }, {
+        "iArmor": 25,
+        "name": "Silver"
+      }, {
+        "iArmor": 40,
+        "name": "Silver Knight"
+      }, {
+        "iArmor": 24,
+        "name": "Silver Spellsword"
+      }, {
+        "iArmor": 16,
+        "name": "Skaal"
+      }, {
+        "iArmor": 21,
+        "name": "Skaal Heavy"
+      }, {
+        "iArmor": 22,
+        "name": "Skaal Horned"
+      }, {
+        "iArmor": 32,
+        "name": "Snow Bear"
+      }, {
+        "iArmor": 32,
+        "name": "Sons of Skyrim"
+      }, {
+        "iArmor": 45,
+        "name": "Spellbinder"
+      }, {
+        "iArmor": 35,
+        "name": "Spellbreaker Buckler"
+      }, {
+        "iArmor": 18,
+        "name": "Spellweaver"
+      }, {
+        "iArmor": 43,
+        "name": "Stalhrim"
+      }, {
+        "iArmor": 43,
+        "name": "Stalhrim Heavy"
+      }, {
+        "iArmor": 32,
+        "name": "Stalhrim Light"
+      }, {
+        "iArmor": 26,
+        "name": "Steel"
+      }, {
+        "iArmor": 27,
+        "name": "Steel Bear"
+      }, {
+        "iArmor": 27,
+        "name": "Steel Black"
+      }, {
+        "iArmor": 27,
+        "name": "Steel Fur"
+      }, {
+        "iArmor": 26,
+        "name": "Steel Imperial"
+      }, {
+        "iArmor": 26,
+        "name": "Steel Nordic"
+      }, {
+        "iArmor": 27,
+        "name": "Steel Ornate"
+      }, {
+        "iArmor": 33,
+        "name": "Steel Plate"
+      }, {
+        "iArmor": 27,
+        "name": "Steel Rare"
+      }, {
+        "iArmor": 27,
+        "name": "Steel White"
+      }, {
+        "iArmor": 27,
+        "name": "Steel Wolf"
+      }, {
+        "iArmor": 33,
+        "name": "Steelgaze"
+      }, {
+        "iArmor": 30,
+        "name": "Steelgaze"
+      }, {
+        "iArmor": 33,
+        "name": "Steelplate"
+      }, {
+        "iArmor": 29,
+        "name": "Stendar Soldier"
+      }, {
+        "iArmor": 18,
+        "name": "Stormcloak"
+      }, {
+        "iArmor": 34,
+        "name": "Stormcloak Explorer"
+      }, {
+        "iArmor": 27,
+        "name": "Stormcloak Officer"
+      }, {
+        "iArmor": 27,
+        "name": "Stormcloak Veteran"
+      }, {
+        "iArmor": 25,
+        "name": "Strider"
+      }, {
+        "iArmor": 16,
+        "name": "Studded"
+      }, {
+        "iArmor": 19,
+        "name": "Studded Imperial"
+      }, {
+        "iArmor": 20,
+        "name": "Studded Leather"
+      }, {
+        "iArmor": 36,
+        "name": "Superior Buckler of Solitude"
+      }, {
+        "iArmor": 39,
+        "name": "Superior Heavy Buckler of Solitude"
+      }, {
+        "iArmor": 39,
+        "name": "Superior Light Shield of Solitude"
+      },  {
+        "iArmor": 38,
+        "name": "Superior Shield of Solitude"
+      },{
+        "iArmor": 34,
+        "name": "Thalmor Guardian"
       }, {
         "iArmor": 22,
         "name": "Thane"
@@ -1649,62 +2597,41 @@
         "iArmor": 26,
         "name": "Thane's"
       }, {
-        "iArmor": 24,
-        "name": "Battle-mage"
+        "iArmor": 20,
+        "name": "Thieve"
       }, {
-        "iArmor": 25,
-        "name": "Ranger's"
-      }, {
-        "iArmor": 25,
-        "name": "Ranger"
-      }, {
-        "iArmor": 25,
-        "name": "Rangers"
-      }, {
-        "iArmor": 24,
-        "name": "Iron Island"
-      }, {
-        "iArmor": 40,
-        "name": "Winterfell"
-      }, {
-        "iArmor": 46,
-        "name": "Champion"
-      }, {
-        "iArmor": 55,
-        "name": "Dragon-Bane"
+        "iArmor": 3,
+        "name": "Torso Belt"
       }, {
         "iArmor": 45,
-        "name": "Mountain"
+        "name": "Trielek"
       }, {
         "iArmor": 30,
-        "name": "Warmage"
-      }, {
-        "iArmor": 14,
-        "name": "Worn Leather"
-      }, {
-        "iArmor": 11,
-        "name": "Worn Fur"
-      }, {
-        "iArmor": 6,
-        "name": "Noble Fur"
+        "name": "Trollbone"
       }, {
         "iArmor": 28,
         "name": "Ulfric's"
       }, {
-        "iArmor": 16,
-        "name": "Worn Iron"
+        "iArmor": 33,
+        "name": "Vagabond"
       }, {
-        "iArmor": 21,
-        "name": "Worn Steel"
+        "iArmor": 51,
+        "name": "Val Tirkai"
       }, {
-        "iArmor": 10,
-        "name": "Worn Hide"
+        "iArmor": 55,
+        "name": "Valorous Dragonslayer's"
       }, {
-        "iArmor": 26,
-        "name": "Dwarven Mage"
+        "iArmor": 19,
+        "name": "Vampire"
       }, {
-        "iArmor": 20,
-        "name": "Mercenary"
+        "iArmor": 33,
+        "name": "Vanguard"
+      }, {
+        "iArmor": 18,
+        "name": "Viator"
+      }, {
+        "iArmor": 37,
+        "name": "Vicious Dragonslayer's"
       }, {
         "iArmor": 27,
         "name": "Viking Heavy"
@@ -1718,314 +2645,20 @@
         "iArmor": 21,
         "name": "Viking Small"
       }, {
-        "iArmor": 28,
-        "name": "Light Einherjar"
+        "iArmor": 50,
+        "name": "Viridinium"
       }, {
-        "iArmor": 33,
-        "name": "Einherjar"
-      }, {
-        "iArmor": 31,
-        "name": "Seadog"
-      }, {
-        "iArmor": 44,
-        "name": "Akaviri Samurai"
-      }, {
-        "iArmor": 22,
-        "name": "Redguard Knight Light"
-      }, {
-        "iArmor": 22,
-        "name": "Redguard Light"
+        "iArmor": 50,
+        "name": "Visage of Mzund"
       }, {
         "iArmor": 28,
-        "name": "Redguard Knight Heavy"
-      }, {
-        "iArmor": 28,
-        "name": "Redguard Heavy"
-      }, {
-        "iArmor": 33,
-        "name": "Vagabond"
-      }, {
-        "iArmor": 33,
-        "name": "Vanguard"
-      }, {
-        "iArmor": 33,
-        "name": "Hedge"
-      }, {
-        "iArmor": 35,
-        "name": "Heroic Imperial"
-      }, {
-        "iArmor": 35,
-        "name": "Heroic Stormcloak"
-      }, {
-        "iArmor": 45,
-        "name": "Spellbinder"
-      }, {
-        "iArmor": 44,
-        "name": "Paladin"
-      }, {
-        "iArmor": 30,
-        "name": "Apotheus"
-      }, {
-        "iArmor": 43,
-        "name": "Witchplate"
-      }, {
-        "iArmor": 48,
-        "name": "Azura"
-      }, {
-        "iArmor": 26,
-        "name": "Mage Armor"
-      }, {
-        "iArmor": 28,
-        "name": "Battle Mage"
-      }, {
-        "iArmor": 34,
-        "name": "Boiled Chitin Heavy"
-      }, {
-        "iArmor": 25,
-        "name": "Boiled Chitin Light"
-      }, {
-        "iArmor": 30,
-        "name": "Chitin Plates"
-      }, {
-        "iArmor": 32,
-        "name": "Coat of Plates"
-      }, {
-        "iArmor": 27,
-        "name": "Conqueror"
-      }, {
-        "iArmor": 27,
-        "name": "Conqueror Heavy"
-      }, {
-        "iArmor": 21,
-        "name": "Conqueror Light"
-      }, {
-        "iArmor": 27,
-        "name": "Nordic Conqueror"
-      }, {
-        "iArmor": 25,
-        "name": "Corundum Plates"
-      }, {
-        "iArmor": 25,
-        "name": "Gilded Steel"
-      }, {
-        "iArmor": 32,
-        "name": "Dark Alchemist"
-      }, {
-        "iArmor": 40,
-        "name": "Dark Plates"
-      }, {
-        "iArmor": 55,
-        "name": "Dragonbane"
-      }, {
-        "iArmor": 25,
-        "name": "Empire Royal"
-      }, {
-        "iArmor": 23,
-        "name": "Forest Archer"
-      }, {
-        "iArmor": 23,
-        "name": "Heavy Leather"
-      }, {
-        "iArmor": 34,
-        "name": "Icy Champion"
-      }, {
-        "iArmor": 31,
-        "name": "Iron Master"
-      }, {
-        "iArmor": 49,
-        "name": "Kynareth Master"
-      }, {
-        "iArmor": 28,
-        "name": "Marauder"
-      }, {
-        "iArmor": 3,
-        "name": "Torso Belt"
-      }, {
-        "iArmor": 29,
-        "name": "Master Ranger"
-      }, {
-        "iArmor": 25,
-        "name": "Nord Ranger"
-      }, {
-        "iArmor": 22,
-        "name": "Northman"
-      }, {
-        "iArmor": 31,
-        "name": "North Rider"
-      }, {
-        "iArmor": 33,
-        "name": "Protector's"
-      }, {
-        "iArmor": 19,
-        "name": "Ringmail"
-      }, {
-        "iArmor": 29,
-        "name": "Stendar Soldier"
-      }, {
-        "iArmor": 34,
-        "name": "Thalmor Guardian"
-      }, {
-        "iArmor": 30,
-        "name": "Trollbone"
-      }, {
-        "iArmor": 24,
-        "name": "Chain Cloths"
-      }, {
-        "iArmor": 20,
-        "name": "Studded Leather"
-      }, {
-        "iArmor": 18,
-        "name": "Spellweaver"
-      }, {
-        "iArmor": 22,
-        "name": "Hunters"
-      }, {
-        "iArmor": 27,
-        "name": "Hunter"
-      }, {
-        "iArmor": 37,
-        "name": "Dragonslayer's Silver"
-      }, {
-        "iArmor": 37,
-        "name": "Relentless Dragonslayer's"
-      }, {
-        "iArmor": 37,
-        "name": "Vicious Dragonslayer's"
-      }, {
-        "iArmor": 37,
-        "name": "Dragonslayer's Mithril"
-      }, {
-        "iArmor": 37,
-        "name": "Merciless Dragonslayer's"
-      }, {
-        "iArmor": 37,
-        "name": "Dragonslayer's Light"
-      }, {
-        "iArmor": 37,
-        "name": "Furious Dragonslayer's"
-      }, {
-        "iArmor": 37,
-        "name": "Dragonslayer's Scale"
-      }, {
-        "iArmor": 37,
-        "name": "Dragonslayer's Leather"
-      }, {
-        "iArmor": 37,
-        "name": "Deadly Dragonslayer's"
-      }, {
-        "iArmor": 55,
-        "name": "Relentless Dragonslayer's"
-      }, {
-        "iArmor": 55,
-        "name": "Brutal Dragonslayer's"
-      }, {
-        "iArmor": 55,
-        "name": "Dragonslayer's Bone"
-      }, {
-        "iArmor": 55,
-        "name": "Valorous Dragonslayer's"
-      }, {
-        "iArmor": 55,
-        "name": "Reinforced Dragonslayer's"
-      }, {
-        "iArmor": 55,
-        "name": "Hateful Dragonslayer's"
-      }, {
-        "iArmor": 55,
-        "name": "Dragonslayer's Plate"
-      }, {
-        "iArmor": 55,
-        "name": "Earthshatter's"
-      }, {
-        "iArmor": 55,
-        "name": "Ruthless Dragonslayer's"
-      }, {
-        "iArmor": 36,
-        "name": "Warchief Light"
-      }, {
-        "iArmor": 44,
-        "name": "Warchief"
-      }, {
-        "iArmor": 29,
-        "name": "Barbarian Light"
-      }, {
-        "iArmor": 34,
-        "name": "Barbarian Heavy"
-      }, {
-        "iArmor": 29,
-        "name": "Barbarian Hero"
-      }, {
-        "iArmor": 16,
-        "name": "Barbarian"
-      }, {
-        "iArmor": 25,
-        "name": "Nordic Ranger"
-      }, {
-        "iArmor": 17,
-        "name": "Old Gods"
-      }, {
-        "iArmor": 28,
-        "name": "Bonemold"
-      }, {
-        "iArmor": 25,
-        "name": "Chitin"
-      }, {
-        "iArmor": 33,
-        "name": "Chitin Heavy"
-      }, {
-        "iArmor": 18,
-        "name": "Cultist Gloves"
-      }, {
-        "iArmor": 25,
-        "name": "Cultist Mask"
-      }, {
-        "iArmor": 34,
-        "name": "Deathbrand"
-      }, {
-        "iArmor": 15,
-        "name": "Dented Iron"
-      }, {
-        "iArmor": 33,
-        "name": "General Carius"
-      }, {
-        "iArmor": 34,
-        "name": "Improved Bonemold"
-      }, {
-        "iArmor": 24,
-        "name": "Morag Tong"
-      }, {
-        "iArmor": 40,
-        "name": "Nordic Carved"
-      }, {
-        "iArmor": 40,
-        "name": "Nordic"
-      }, {
-        "iArmor": 16,
-        "name": "Skaal"
-      }, {
-        "iArmor": 21,
-        "name": "Skaal Heavy"
-      }, {
-        "iArmor": 22,
-        "name": "Skaal Horned"
-      }, {
-        "iArmor": 43,
-        "name": "Stalhrim"
-      }, {
-        "iArmor": 43,
-        "name": "Stalhrim Heavy"
-      }, {
-        "iArmor": 32,
-        "name": "Stalhrim Light"
-      }, {
-        "iArmor": 28,
-        "name": "Blackguard's"
-      }, {
-        "iArmor": 38,
-        "name": "Ahzidal"
+        "name": "Voidmeld"
       }, {
         "iArmor": 25,
         "name": "Wanderer"
+      }, {
+        "iArmor": 13,
+        "name": "Wanderer Fur"
       }, {
         "iArmor": 32,
         "name": "Wanderer Heavy"
@@ -2033,230 +2666,47 @@
         "iArmor": 27,
         "name": "Wanderer Light"
       }, {
-        "iArmor": 24,
-        "name": "Nightshade"
-      }, {
-        "iArmor": 43,
-        "name": "Medusa"
-      }, {
-        "iArmor": 48,
-        "name": "Drakul"
-      }, {
-        "iArmor": 35,
-        "name": "Scout"
-      }, {
-        "iArmor": 0,
-        "name": "Leather Cased Telescope"
-      }, {
-        "iArmor": 0,
-        "name": "Iron Cased Telescope"
-      }, {
-        "iArmor": 0,
-        "name": "Dwarven Telescope"
-      }, {
-        "iArmor": 0,
-        "name": "Dwarven SpyGlass"
-      }, {
-        "iArmor": 34,
-        "name": "Stormcloak Explorer"
-      }, {
-        "iArmor": 34,
-        "name": "Ancient Explorer"
-      }, {
-        "iArmor": 21,
-        "name": "Castanic Hunter"
-      }, {
-        "iArmor": 24,
-        "name": "Silver Spellsword"
-      }, {
-        "iArmor": 37,
-        "name": "Rubicite"
-      }, {
-        "iArmor": 32,
-        "name": "High Elf Paladin"
-      }, {
-        "iArmor": 35,
-        "name": "Elven Inquisitor"
-      }, {
-        "iArmor": 40,
-        "name": "Berserker Metal"
-      }, {
-        "iArmor": 34,
-        "name": "Scion Plate"
-      }, {
-        "iArmor": 45,
-        "name": "Trielek"
-      }, {
-        "iArmor": 31,
-        "name": "Elven Scaled"
-      }, {
-        "iArmor": 20,
-        "name": "Myrmidon"
-      }, {
-        "iArmor": 34,
-        "name": "Quantum"
-      }, {
-        "iArmor": 35,
-        "name": "Rysio"
-      }, {
-        "iArmor": 19,
-        "name": "Karassia"
-      }, {
-        "iArmor": 18,
-        "name": "Viator"
-      }, {
-        "iArmor": 42,
-        "name": "Atroscine"
+        "iArmor": 44,
+        "name": "Warchief"
       }, {
         "iArmor": 36,
-        "name": "Arcadia"
+        "name": "Warchief Light"
       }, {
-        "iArmor": 29,
-        "name": "Elenium"
+        "iArmor": 30,
+        "name": "Warmage"
       }, {
-        "iArmor": 51,
-        "name": "Val Tirkai"
+        "iArmor": 20,
+        "name": "White Tree"
       }, {
-        "iArmor": 44,
-        "name": "Sententia"
+        "iArmor": 40,
+        "name": "Winterfell"
       }, {
-        "iArmor": 28,
-        "name": "Voidmeld"
+        "iArmor": 43,
+        "name": "Witchplate"
       }, {
-        "iArmor": 48,
-        "name": "Deathshell"
+        "iArmor": 27,
+        "name": "Wolf"
       }, {
-        "iArmor": 50,
-        "name": "Viridinium"
+        "iArmor": 11,
+        "name": "Worn Fur"
+      }, {
+        "iArmor": 10,
+        "name": "Worn Hide"
+      }, {
+        "iArmor": 16,
+        "name": "Worn Iron"
+      }, {
+        "iArmor": 14,
+        "name": "Worn Leather"
+      }, {
+        "iArmor": 21,
+        "name": "Worn Steel"
+      }, {
+        "iArmor": 49,
+        "name": "Wrath"
       }, {
         "iArmor": 39,
         "name": "Xenocite"
-      }, {
-        "iArmor": 23,
-        "name": "Jalmarak"
-      }, {
-        "iArmor": 30,
-        "name": "Steelgaze"
-      }, {
-        "iArmor": 18,
-        "name": "Blade Dancer"
-      }, {
-        "iArmor": 37,
-        "name": "Elseworlder"
-      }, {
-        "iArmor": 30,
-        "name": "Gildhorn"
-      }, {
-        "iArmor": 47,
-        "name": "Ascendant"
-      }, {
-        "iArmor": 34,
-        "name": "Deathskin"
-      }, {
-        "iArmor": 27,
-        "name": "Brigandine"
-      }, {
-        "iArmor": 32,
-        "name": "Sons of Skyrim"
-      }, {
-        "iArmor": 28,
-        "name": "Light Sons of Skyrim"
-      }, {
-        "iArmor": 15,
-        "name": "Colovian Leather"
-      }, {
-        "iArmor": 27,
-        "name": "Scaled and Fur"
-      }, {
-        "iArmor": 11,
-        "name": "Brigand's Clothes"
-      }, {
-        "iArmor": 16,
-        "name": "Brigand Fauld"
-      }, {
-        "iArmor": 31,
-        "name": "Bandit Iron"
-      }, {
-        "iArmor": 22,
-        "name": "Highwayman Armor"
-      }, {
-        "iArmor": 28,
-        "name": "Leather and Chainmail"
-      }, {
-        "iArmor": 16,
-        "name": "Poacher's Hide"
-      }, {
-        "iArmor": 16,
-        "name": "Pillager Armor"
-      }, {
-        "iArmor": 24,
-        "name": "Bandit Studded"
-      }, {
-        "iArmor": 13,
-        "name": "Wanderer Fur"
-      }, {
-        "iArmor": 18,
-        "name": "Jehennian Leather"
-      }, {
-        "iArmor": 14,
-        "name": "Furry Hide"
-      }, {
-        "iArmor": 24,
-        "name": "Nordic Iron Cuirass"
-      }, {
-        "iArmor": 33,
-        "name": "Tribunal Robes Black LIGHT"
-      }, {
-        "iArmor": 33,
-        "name": "Tribunal Robes Blue LIGHT"
-      }, {
-        "iArmor": 33,
-        "name": "Tribunal Robes Red LIGHT"
-      }, {
-        "iArmor": 33,
-        "name": "Tribunal Robes Green LIGHT"
-      }, {
-        "iArmor": 33,
-        "name": "Tribunal Robes White LIGHT"
-      }, {
-        "iArmor": 44,
-        "name": "Tribunal Robes Black HEAVY"
-      }, {
-        "iArmor": 44,
-        "name": "Tribunal Robes Blue HEAVY"
-      }, {
-        "iArmor": 44,
-        "name": "Tribunal Robes Red HEAVY"
-      }, {
-        "iArmor": 44,
-        "name": "Tribunal Robes Green HEAVY"
-      }, {
-        "iArmor": 44,
-        "name": "Tribunal Robes White HEAVY"
-      }, {
-        "iArmor": 40,
-        "name": "Æsir Helmet"
-      }, {
-        "iArmor": 40,
-        "name": "Æsir Boots"
-      }, {
-        "iArmor": 40,
-        "name": "Æsir Armor"
-      }, {
-        "iArmor": 40,
-        "name": "Æsir Gauntlets"
-      }, {
-        "iArmor": 44,
-        "name": "Steel Ebony"
-      }, {
-        "iArmor": 33,
-        "name": "Steel Glass"
-      }, {
-        "iArmor": 50,
-        "name": "Visage of Mzund"
-      }, {
-        "iArmor": 21,
-        "name": "(old)"
       }
     ],
     "material_overrides": [
@@ -2438,44 +2888,6 @@
         "armorSubstring": "Sicarius",
         "materialOverride": "ELVEN"
       }
-    ],
-    "keyword_material_map": [
-      { "sKeyword": "ArmorDarkBrotherhood",             "name": "Shrouded"        },
-      { "sKeyword": "ArmorMaterialBladesDUPLICATE001",  "name": "Blades"          },
-      { "sKeyword": "ArmorMaterialDaedric",             "name": "Daedric"         },
-      { "sKeyword": "ArmorMaterialDragonplate",         "name": "Dragonplate"     },
-      { "sKeyword": "ArmorMaterialDragonscale",         "name": "Dragonscale"     },
-      { "sKeyword": "ArmorMaterialDraugr",              "name": "Ancient Nord"    },
-      { "sKeyword": "ArmorMaterialDwarven",             "name": "Dwarven"         },
-      { "sKeyword": "ArmorMaterialEbony",               "name": "Ebony"           },
-      { "sKeyword": "ArmorMaterialElven",               "name": "Elven"           },
-      { "sKeyword": "ArmorMaterialElvenGilded",         "name": "Elven Gilded"    },
-      { "sKeyword": "ArmorMaterialFalmerDUPLICATE001",  "name": "Falmer"          },
-      { "sKeyword": "ArmorMaterialFur",                 "name": "Fur"             },
-      { "sKeyword": "ArmorMaterialGlass",               "name": "Glass"           },
-      { "sKeyword": "ArmorMaterialHide",                "name": "Hide"            },
-      { "sKeyword": "ArmorMaterialImperialHeavy",       "name": "Imperial Heavy"  },
-      { "sKeyword": "ArmorMaterialImperialLight",       "name": "Imperial Light"  },
-      { "sKeyword": "ArmorMaterialImperialStudded",     "name": "Studded Imperial"},
-      { "sKeyword": "ArmorMaterialIron",                "name": "Iron"            },
-      { "sKeyword": "ArmorMaterialIronBanded",          "name": "Iron Banded"     },
-      { "sKeyword": "ArmorMaterialLeather",             "name": "Leather"         },
-      { "sKeyword": "ArmorMaterialOrcish",              "name": "Orcish"          },
-      { "sKeyword": "ArmorMaterialScaled",              "name": "Scaled"          },
-      { "sKeyword": "ArmorMaterialSteel",               "name": "Steel"           },
-      { "sKeyword": "ArmorMaterialSteelPlate",          "name": "Steel Plate"     },
-      { "sKeyword": "ArmorMaterialStormcloak",          "name": "Stormcloak"      },
-      { "sKeyword": "ArmorMaterialStudded",             "name": "Studded"         },
-      { "sKeyword": "ArmorNightingale",                 "name": "Nightingale"     },
-      { "sKeyword": "DLC1ArmorMaterialDawnguard",       "name": "Dawnguard Light" },
-      { "sKeyword": "DLC1ArmorMaterialFalmerHardened",  "name": "Falmer Hardened" },
-      { "sKeyword": "DLC1ArmorMaterialFalmerHeavy",     "name": "Falmer Heavy"    },
-      { "sKeyword": "DLC1ArmorMaterialHunter",          "name": "Dawnguard Heavy" },
-      { "sKeyword": "DLC1ArmorMaterialVampire",         "name": "Vampire"         },
-      { "sKeyword": "DLC2ArmorMaterialBonemoldHeavy",   "name": "Bonemold"        },
-      { "sKeyword": "DLC2ArmorMaterialNordicHeavy",     "name": "Nordic"          },
-      { "sKeyword": "DLC2ArmorMaterialStalhrimHeavy",   "name": "Stalhrim Heavy"  },
-      { "sKeyword": "DLC2ArmorMaterialStalhrimLight",   "name": "Stalhrim Light"  }
     ],
     "excluded_dreamcloth": ["TEXT", "FX", "Manakin", "wound test", "Child's", "Temporary", "Non-playable"]
   },
