@@ -325,7 +325,7 @@ export default class ArmorPatcher {
 
   patchArmorRating(armor) {
     const rating = this.getArmorSlotMultiplier(armor) * this.getMaterialArmorModifier(armor);
-    xelib.SetFloatValue(armor, 'DNAM', rating);
+    xelib.SetValue(armor, 'DNAM', `${rating}`);
   }
 
   getArmorSlotMultiplier(armor) {
@@ -422,7 +422,7 @@ export default class ArmorPatcher {
 
   temperingPerkFromKeyword(armor) {
     const s = this.statics
-    const kwda = function(kwda) { return xelib.HasArrayItem(armor, 'KWDA', '', kwda); };
+    const kwda = h.getKwda(armor);
     let perk;
 
     if (kwda(s.kwArmorMaterialDaedric)) {

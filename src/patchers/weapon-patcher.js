@@ -4,6 +4,7 @@ export default class WeaponPatcher {
   constructor() {
     this.load = this.load.bind(this);
     this.patch = this.patch.bind(this);
+    this.checkBroadswordName = this.checkBroadswordName.bind(this);
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -49,11 +50,10 @@ export default class WeaponPatcher {
     this.patchWeaponKeywords(weapon);
     this.patchWeaponDamage(weapon);
     this.patchWeaponReach(weapon);
-    this.modifyCrossbowCraftingRecipe(weapon);
     this.processCrossbow(weapon);
     this.processSilverWeapon(weapon);
     this.addMeltdownRecipe(weapon);
-    this.modifyTemperingRecipes(weapon);
+    this.modifyRecipes(weapon);
   }
 
   checkBroadswordName(weapon) {
@@ -150,7 +150,7 @@ export default class WeaponPatcher {
     const s = this.statics;
     const noop = function() { return; };
     const addp = function(weapon, perk) { h.addPerkScript(weapon, 'xxxAddPerkWhileEquipped', 'p', perk); };
-    const broad = function(weapon) { this.checkBradSwordName(weapon); };
+    const broad = (weapon) => this.checkBroadswordName(weapon);
     const weaponKeywordMap = {
       BASTARDSWORD: { kwda: s.kwWeapTypeBastardSword, func: noop,   perk: null                              },
       BATTLESTAFF:  { kwda: s.kwWeapTypeBattlestaff,  func: noop,   perk: null                              },
@@ -178,12 +178,11 @@ export default class WeaponPatcher {
     };
 
     const map = weaponKeywordMap[typeString];
-    if (map && !xelib.HasElement(weapon, 'KWDA') || !xelib.HasArrayItem(weapon, 'KWDA', '', map.kwda)) {
+    if (map && xelib.HasElement(weapon, 'KWDA') || !xelib.HasArrayItem(weapon, 'KWDA', '', map.kwda)) {
       xelib.AddArrayItem(weapon, 'KWDA', '', map.kwda);
       map.func(weapon, map.perk);
     } else {
       console.log(`${name}: Warning: ${typeString} not found in statics or weapon already contains keyword.`);
-      debugger;
     }
   }
 
@@ -249,7 +248,7 @@ export default class WeaponPatcher {
     modifier = h.getModifierFromMap(this.keywordTypesMap, this.weapons.types, weapon, 'name', 'iDamage');
 
     if (modifier === null) {
-      console.log(`${name}: Couldn't find type damage modifier for weapon.`);
+      console.log(`${xelib.FullName(weapon)}: Couldn't find type damage modifier for weapon.`);
     }
 
     return modifier;
@@ -277,31 +276,90 @@ export default class WeaponPatcher {
     modifier = h.getModifierFromMap(this.vanillaTypesMap, this.weapons.types, weapon, 'name', field2);
 
     if (modifier === null) {
-      console.log(`${name}: Couldn't find type ${field2} modifier for weapon.`);
+      console.log(`${xelib.FullName(weapon)}: Couldn't find type ${field2} modifier for weapon.`);
     }
 
-    return modifier;
+    return modifier === null ? 0 : modifier;
   }
 
-  modifyCrossbowCraftingRecipe(weapon) {
+  modifyRecipes(weapon) {
+    this.cobj.forEach((recipe) => {
+      this.modifyCrossbowCraftingRecipe(weapon, recipe);
+      this.modifyTemperingRecipe(weapon, recipe);
+    });
+  }
+
+  modifyCrossbowCraftingRecipe(weapon, recipe) {
     const name = xelib.FullName(weapon);
 
     if (!xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeCrossbow)) { return; }
     if (this.weapons.excludedCrossbows.find((e) => name.includes(e))) { return; }
 
-    this.cobj.forEach((cobj) => {
-      const bnam = xelib.GetLinksTo(recipe, 'BNAM');
-      const cnam = xelib.GetLinksTo(recipe, 'CNAM');
-      const bench = xelib.GetRecord(0, parseInt(this.statics.kwCraftingSmithingForge, 16));
+    const cnam = xelib.GetLinksTo(recipe, 'CNAM');
+    if (!cnam || !xelib.GetHexFormID(cnam) !== xelib.GetHexFormID(weapon)) { return; }
 
-      if (!cnam || !xelib.GetHexFormID(cnam) !== xelib.GetHexFormID(weapon)) { return; }
-      if (!bnam || !xelib.ElementEquals(bnam, bench)) {
-        xelib.SetValue(recipe, 'BNAM', this.statics.kwCraftingSmithingForge);
+    const bnam = xelib.GetLinksTo(recipe, 'BNAM');
+    const bench = xelib.GetRecord(0, parseInt(this.statics.kwCraftingSmithingForge, 16));
+    const newRecipe = xelib.CopyElement(recipe, this.patchFile);
+    if (!bnam || !xelib.ElementEquals(bnam, bench)) {
+      xelib.AddElementValue(newRecipe, 'BNAM', this.statics.kwCraftingSmithingForge);
+    }
+
+    xelib.RemoveElement(newRecipe, 'Conditions');
+    const condition = xelib.GetElement('Conditions\\[0]');
+    h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, this.statics.perkMarksmanshipBallistics);
+  }
+
+  modifyTemperingRecipe(weapon, recipe) {
+    const bnam = xelib.GetLinksTo(recipe, 'BNAM');
+    const cnam = xelib.GetLinksTo(recipe, 'CNAM');
+    const bench = xelib.GetRecord(0, parseInt(this.statics.kwCraftingSmithingArmorTable, 16));
+
+    if (!cnam || !bnam || !xelib.ElementEquals(bnam, bench) || !xelib.ElementEquals(cnam, weapon)) { return; }
+
+    const perk = this.temperingPerkFromKeyword(weapon);
+
+    if (!perk) { return; }
+
+    const newRecipe = xelib.CopyElement(recipe, this.patchFile);
+    const condition = xelib.AddElement(newRecipe, 'Conditions\\^0');
+    h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
+  }
+
+  temperingPerkFromKeyword(weapon) {
+    const s = this.statics
+    const kwda = h.getKwda(weapon);
+    const keywordPerkMap = [
+      { kwda: s.kwWeapMaterialDaedric,        perk: s.perkSmithingDaedric   },
+      { kwda: s.kwWeapMaterialDragonbone,     perk: s.perkSmithingDragon    },
+      { kwda: s.kwWeapMaterialDraugr,         perk: s.perkSmithingSteel     },
+      { kwda: s.kwWeapMaterialDraugrHoned,    perk: s.perkSmithingSteel     },
+      { kwda: s.kwWeapMaterialDwarven,        perk: s.perkSmithingDwarven   },
+      { kwda: s.kwWeapMaterialEbony,          perk: s.perkSmithingEbony     },
+      { kwda: s.kwWeapMaterialElven,          perk: s.perkSmithingElven     },
+      { kwda: s.kwWeapMaterialFalmer,         perk: s.perkSmithingAdvanced  },
+      { kwda: s.kwWeapMaterialGlass,          perk: s.perkSmithingGlass     },
+      { kwda: s.kwWeapMaterialImperial,       perk: s.perkSmithingSteel     },
+      { kwda: s.kwWeapMaterialOrcish,         perk: s.perkSmithingOrcish    },
+      { kwda: s.kwWeapMaterialSteel,          perk: s.perkSmithingSteel     },
+      { kwda: s.kwWeapMaterialSilver,         perk: s.perkSmithingSilver    },
+      { kwda: s.kwWeapMaterialSilverRefined,  perk: s.perkSmithingSilver    },
+      { kwda: s.kwWeapMaterialNordic,         perk: s.perkSmithingAdvanced  }
+    ];
+
+    let perk;
+    keywordPerkMap.some((e) => {
+      if (xelib.HasArrayItem(weapon, 'KWDA', '', e.kwda)) {
+        perk = e.perk;
+        return true;
       }
-
-      const recipe = xelib.CopyElement(cobj, this.patchFile);
-      h.createHasPerkCondition(recipe, 10000000, 1, this.statics.perkMarksmanshipBallistics);
     });
+
+    if (!perk && !kwda(s.kwWeapMaterialIron) && !kwda(s.kwWeapMaterialWood)) {
+      console.log(`${xelib.FullName(weapon)}: Couldn't determine material - tempering recipe not modified.`);
+    }
+
+    return perk;
   }
 
   processCrossbow(weapon) {
@@ -571,7 +629,7 @@ export default class WeaponPatcher {
     this.addTemperingRecipe(newRefinedSilverWeapon);
     const ingredients = [this.statics.ingotGold, this.statics.ingotQuicksilver, xelib.GetHexFormID(newRefinedSilverWeapon)];
     this.addCraftingRecipe(newRefinedSilverWeapon, [this.statics.perkSmithingSilverRefined], ingredients);
-    this.addWeaponMeltdownRecipe(newRefinedSilverWeapon);
+    this.addMeltdownRecipe(newRefinedSilverWeapon);
   }
 
   addTemperingRecipe(weapon) {
@@ -645,7 +703,7 @@ export default class WeaponPatcher {
     xelib.AddElement(newRecipe, 'Items');
 
     const ingredient = xelib.GetElement(newRecipe, 'Items\\[0]');
-    xelib.SetValue(ingredient, 'CNTO\\Item', xelib.GetHexFormID(input));
+    xelib.SetValue(ingredient, 'CNTO\\Item', input);
     xelib.SetIntValue(ingredient, 'CNTO\\Count', inputQuantity);
     xelib.AddElementValue(newRecipe, 'NAM1',`${outputQuantity}`);
     xelib.AddElementValue(newRecipe, 'CNAM', xelib.GetHexFormID(weapon));
@@ -659,7 +717,7 @@ export default class WeaponPatcher {
       h.createHasPerkCondition(newRecipe, 10000000, 1, perk);
     }
 
-    h.createGetItemCountCondition(newRecipe, 11000000, 1, xelib.GetHexFormID(weapon));
+    h.createGetItemCountCondition(newRecipe, 11000000, 1, weapon);
   }
 
   addCraftingRecipe(weapon, requiredPerks, secondaryIngredients) {
@@ -675,7 +733,7 @@ export default class WeaponPatcher {
 
     if (!input) { return; }
 
-    const newRecipe = xelib.AddElement(this.patch, 'Constructible Object\\COBJ');
+    const newRecipe = xelib.AddElement(this.patchFile, 'Constructible Object\\COBJ');
     xelib.AddElementValue(newRecipe, 'EDID', `REP_CRAFT_WEAPON_${xelib.FullName(weapon)}`);
 
     xelib.AddElement(newRecipe, 'Items');
@@ -704,7 +762,7 @@ export default class WeaponPatcher {
         condition = xelib.AddElement(newRecipe, 'Conditions\\.');
       }
 
-      xelib.updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
+      h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
     });
 
     if (perk) {
