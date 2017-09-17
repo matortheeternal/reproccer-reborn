@@ -1,10 +1,11 @@
 export function overrideCraftingRecipes(cobj, armor, perk, patchFile) {
-  cobj.forEach((recipe) => {
-    const result = xelib.GetLinksTo(recipe, 'CNAM');
+  const armorFormID = xelib.GetFormID(armor);
 
-    if (!result || xelib.GetHexFormID(result) !== xelib.GetHexFormID(armor)) {
-      return;
-    }
+  cobj.forEach((recipe) => {
+    if (!xelib.HasElement(recipe, 'CNAM')) { return; }
+    const cnam = xelib.GetUIntValue(recipe, 'CNAM');
+
+    if (cnam !== armorFormID) { return; }
 
     const newRecipe = xelib.CopyElement(recipe, patchFile);
     xelib.RemoveElement(newRecipe, 'Conditions');
@@ -52,7 +53,7 @@ export function getValueFromName(collection, name, field1, field2) {
   collection.forEach((thing) => {
     if (name.includes(thing[field1]) && thing[field1].length > maxLength) {
       value = thing[field2];
-      maxLength = thing[field2].length;
+      maxLength = thing[field1].length;
     }
   });
 
