@@ -23,7 +23,7 @@ export default class ArmorPatcher {
     return {
       signature: 'ARMO',
       filter: (record) => {
-        const armor = xelib.GetWinningRecord(record);
+        const armor = xelib.GetWinningOverride(record);
 
         if (xelib.HasElement(armor, 'TNAM')) { return true; }
         if (!xelib.FullName(armor) || !xelib.HasElement(armor, 'KWDA')) { return false; }

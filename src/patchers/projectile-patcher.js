@@ -18,7 +18,7 @@ export default class ProjectilePatcher {
     return {
       signature: 'AMMO',
       filter: (record) => {
-        const ammo = xelib.GetWinningRecord(record);
+        const ammo = xelib.GetWinningOverride(record);
         const name = xelib.FullName(ammo);
         if (!name) { return false; }
         if (this.projectiles.excluded_ammunition.find((ex) => name.includes(ex))) { return false; }

@@ -26,7 +26,7 @@ export default class WeaponPatcher {
     return {
       signature: 'WEAP',
       filter: (record) => {
-        const weapon = xelib.GetWinningRecord(record);
+        const weapon = xelib.GetWinningOverride(record);
         const name = xelib.FullName(weapon);
 
         if (name && this.weapons.excludedWeapons.find((e) => name.includes(e))) { return false; }
@@ -54,6 +54,7 @@ export default class WeaponPatcher {
     this.patchWeaponKeywords(weapon);
     this.patchWeaponDamage(weapon);
     this.patchWeaponReach(weapon);
+    this.patchWeaponSpeed(weapon);
     this.processCrossbow(weapon);
     this.processSilverWeapon(weapon);
     this.addMeltdownRecipe(weapon);
