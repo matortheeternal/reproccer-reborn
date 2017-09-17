@@ -2319,7 +2319,7 @@
     }
   },
   "projectiles": {
-    "base_stats": [{
+    "baseStats": [{
         "fRangeBase": 120000,
         "fSpeedBase": 5200,
         "fGravityBase": 0.25,
@@ -2336,7 +2336,7 @@
         "sType": "BOLT"
       }
     ],
-    "modifier_stats": [
+    "modifierStats": [
       {
         "name": "Explosive",
         "fGravityModifier": 0.2,
@@ -2379,7 +2379,7 @@
         "iDamageModifier": 12
       }
     ],
-    "material_stats": [
+    "materialStats": [
       {
         "name": "Ancient Nord",
         "fGravityModifier": 0.01,
@@ -2552,7 +2552,7 @@
         "iDamageModifier": 7
       }
     ],
-    "excluded_ammunition_variants": ["Oil", "Fire", "Centurion", "Water", "Rope", "Test", "Sunhallowed", "Bloodcursed", "Dummy", "Dawnguard", "Noisemaker", "Lightsource", "Rusty", "Sphere", "Bound"],
-    "excluded_ammunition": ["Practice"]
+    "excludedAmmunitionVariants": ["Oil", "Fire", "Centurion", "Water", "Rope", "Test", "Sunhallowed", "Bloodcursed", "Dummy", "Dawnguard", "Noisemaker", "Lightsource", "Rusty", "Sphere", "Bound"],
+    "excludedAmmunition": ["Practice"]
   }
 }
