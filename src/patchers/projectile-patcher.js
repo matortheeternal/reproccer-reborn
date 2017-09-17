@@ -60,28 +60,32 @@ export default class ProjectilePatcher {
     let newDamage = 0;
     let failed = false;
 
-    this.projectiles.base_stats.forEach((bs) => {
+
+    this.projectiles.base_stats.some((bs) => {
       if (name.includes(bs.sIdentifier)) {
         newGravity = bs.fGravityBase;
         newSpeed = bs.fSpeedBase;
         newRange = bs.fRangeBase;
         newDamage = bs.iDamageBase;
+        return true;
       }
     });
 
-    this.projectiles.material_stats.forEach((ms) => {
-      if (name.includes(ms.sMaterialName)) {
+    this.projectiles.material_stats.some((ms) => {
+      if (name.includes(ms.name)) {
         newGravity += ms.fGravityModifier;
         newSpeed += ms.fSpeedModifier;
         newDamage += ms.iDamageModifier;
+        return true;
       }
     });
 
-    this.projectiles.modifier_stats.forEach((ms) => {
-      if (name.includes(ms.sModifierName)) {
+    this.projectiles.modifier_stats.some((ms) => {
+      if (name.includes(ms.name)) {
         newGravity += ms.fGravityModifier;
         newSpeed += ms.fSpeedModifier;
         newDamage += ms.iDamageModifier;
+        return true;
       }
     });
 

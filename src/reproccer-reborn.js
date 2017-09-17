@@ -15,10 +15,10 @@ export default class ReproccerReborn {
       initialize: this.initialize.bind(this),
 
       process: [
-        new AlchemyPatcher(),
-        new ArmorPatcher(),
+        // new AlchemyPatcher(),
+        // new ArmorPatcher(),
         new ProjectilePatcher(),
-        new WeaponPatcher()
+        // new WeaponPatcher()
       ],
 
       finalize: this.finalize.bind(this)
@@ -34,10 +34,6 @@ export default class ReproccerReborn {
     this.buildRules(locals);
     this.loadStatics(locals);
     locals.cobj = helpers.loadRecords('COBJ');
-    locals.refinedSilverWeapons = helpers.loadRecords('WEAP').filter((w) => {
-      if (!xelib.HasElement(w, 'KWDA')) { return; }
-      return xelib.HasArrayItem(w, 'KWDA', '', locals.statics.kwWeapMaterialSilverRefined);
-    });
   }
 
   // eslint-disable-next-line no-unused-vars

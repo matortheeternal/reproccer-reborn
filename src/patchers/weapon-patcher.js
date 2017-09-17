@@ -19,7 +19,6 @@ export default class WeaponPatcher {
     this.statics = locals.statics;
     this.cobj = locals.cobj;
     this.patchFile = locals.patch;
-    this.refinedSilverWeapons = locals.refinedSilverWeapons;
 
     this.createKeywordMaps();
 
@@ -606,12 +605,6 @@ export default class WeaponPatcher {
 
   processSilverWeapon(weapon) {
     if (!xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapMaterialSilver)) { return; }
-
-    for (let i = 0; i < this.refinedSilverWeapons.length; i++) {
-      if (!this.names[weapon].includes(xelib.FullName(this.refinedSilverWeapons[i]))) {
-        return;
-      }
-    }
 
     const newName = `Refined ${this.names[weapon]}`;
     const desc = 'These supreme weapons set undead enemies ablaze, dealing extra damage.';
