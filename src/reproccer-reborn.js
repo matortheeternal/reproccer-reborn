@@ -234,10 +234,15 @@ export default class ReproccerReborn {
       perkDreamclothFeet: GetHex(0x5CDA7, "SkyRe_Main.esp"),
       perkEnchantingElementalBombard0: GetHex(0x0AF659, "SkyRe_Main.esp"),
       perkEnchantingElementalBombard1: GetHex(0x3DF04E, "SkyRe_Main.esp"),
-
       perkMarksmanshipAdvancedMissilecraft0: GetHex(0x0AF670, "SkyRe_Main.esp"),
       perkMarksmanshipAdvancedMissilecraft1: GetHex(0x0AF6A4, "SkyRe_Main.esp"),
       perkMarksmanshipAdvancedMissilecraft2: GetHex(0x3DF04D, "SkyRe_Main.esp"),
+      perkMarksmanshipArbalest: GetHex(0x0AF6A1, "SkyRe_Main.esp"),
+      perkMarksmanshipBallistics: GetHex(0x0AF657, "SkyRe_Main.esp"),
+      perkMarksmanshipEngineer: GetHex(0x0AF6A5, "SkyRe_Main.esp"),
+      perkMarksmanshipLightweightConstruction: GetHex(0x0AF6A2, "SkyRe_Main.esp"),
+      perkMarksmanshipRecurve: GetHex(0x0AF6A0, "SkyRe_Main.esp"),
+      perkMarksmanshipSilencer: GetHex(0x0AF6A3, "SkyRe_Main.esp"),
       perkSmithingAdvanced: GetHex(0x0CB414, "Skyrim.esm"),
       perkSmithingArcaneBlacksmith: GetHex(0x05218E, "Skyrim.esm"),
       perkSmithingDaedric: GetHex(0x0CB413, "Skyrim.esm"),
@@ -247,13 +252,20 @@ export default class ReproccerReborn {
       perkSmithingElven: GetHex(0x0CB40F, "Skyrim.esm"),
       perkSmithingGlass: GetHex(0x0CB411, "Skyrim.esm"),
       perkSmithingLeather: GetHex(0x1D8BE6, "SkyRe_Main.esp"),
+      perkSmithingMeltdown: GetHex(0x058F75, "Skyrim.esm"),
       perkSmithingOrcish: GetHex(0x0CB410, "Skyrim.esm"),
       perkSmithingSilver: GetHex(0x0581E2, "Skyrim.esm"),
       perkSmithingSilverRefined: GetHex(0x054FF5, "SkyRe_Main.esp"),
       perkSmithingSteel: GetHex(0x0CB40D, "Skyrim.esm"),
-      perkSmithingMeltdown: GetHex(0x058F75, "Skyrim.esm"),
       perkSmithingWeavingMill: GetHex(0x05C827, "SkyRe_Main.esp"),
-      perkSneakThiefsToolbox0: GetHex(0x037D35, "SkyRe_Main.esp")
+      perkSneakThiefsToolbox0: GetHex(0x037D35, "SkyRe_Main.esp"),
+      perkWeaponCrossbow: GetHex(0x252122, "SkyRe_Main.esp"),
+      perkWeaponCrossbowArbalest: GetHex(0x0AF6A6, "SkyRe_Main.esp"),
+      perkWeaponCrossbowArbalestSilenced: GetHex(0x0AF6A8, "SkyRe_Main.esp"),
+      perkWeaponCrossbowSilenced: GetHex(0x0AF6A7, "SkyRe_Main.esp"),
+      perkWeaponShortspear: GetHex(0x1AC2BA, "SkyRe_Main.esp"),
+      perkWeaponSilverRefined: GetHex(0x056B5C, "SkyRe_Main.esp"),
+      perkWeaponYari: GetHex(0x09E623, "SkyRe_Main.esp")
     };
 
     console.log(statics);

@@ -22,7 +22,9 @@ export default class ArmorPatcher {
 
     return {
       signature: 'ARMO',
-      filter: (armor) => {
+      filter: (record) => {
+        const armor = xelib.GetWinningRecord(record);
+
         if (xelib.HasElement(armor, 'TNAM')) { return true; }
         if (!xelib.FullName(armor) || !xelib.HasElement(armor, 'KWDA')) { return false; }
         if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwVendorItemClothing)) { return true; }
@@ -77,13 +79,13 @@ export default class ArmorPatcher {
     }
 
     if (this.hasHeavyMaterialKeyword(armor)) {
-      xelib.AddElement(armor, 'KWDA\\.', this.statics.kwArmorShieldHeavy);
+      xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwArmorShieldHeavy);
 
       if (!name.includes('Heavy Shield')) {
         xelib.AddElementValue(armor, 'FULL', name.replace('Shield', 'Heavy Shield'));
       }
     } else {
-      xelib.AddElement(armor, 'KWDA\\.', this.statics.kwArmorShieldLight);
+      xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwArmorShieldLight);
 
       if (!name.includes('Light Shield')) {
         xelib.AddElementValue(armor, 'FULL', name.replace('Shield', 'Light Shield'));
@@ -114,23 +116,23 @@ export default class ArmorPatcher {
     const name = xelib.FullName(armor);
 
     if (name.includes('Thalmor')) {
-      xelib.AddElement(armor, 'KWDA\\.', this.statics.kwMasqueradeThalmor);
+      xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeThalmor);
     }
 
     if (name.includes('Bandit') || name.includes('Fur')) {
-      xelib.AddElement(armor, 'KWDA\\.', this.statics.kwMasqueradeBandit);
+      xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeBandit);
     }
 
     if (name.includes('Imperial')) {
-      xelib.AddElement(armor, 'KWDA\\.', this.statics.kwMasqueradeImperial);
+      xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeImperial);
     }
 
     if (name.includes('Stormcloak')) {
-      xelib.AddElement(armor, 'KWDA\\.', this.statics.kwMasqueradeStormcloak);
+      xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeStormcloak);
     }
 
     if (name.includes('Forsworn') || name.includes('Old God')) {
-      xelib.AddElement(armor, 'KWDA\\.', this.statics.kwMasqueradeForsworn);
+      xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeForsworn);
     }
   }
 
@@ -174,7 +176,7 @@ export default class ArmorPatcher {
     xelib.AddElementValue(newDreamcloth, 'FULL', newName);
     xelib.RemoveElement(newDreamcloth, 'EITM');
     xelib.RemoveElement(newDreamcloth, 'DESC');
-    xelib.AddElement(newDreamcloth, 'KWDA\\.', this.statics.kwArmorDreamcloth);
+    xelib.AddElementValue(newDreamcloth, 'KWDA\\.', this.statics.kwArmorDreamcloth);
 
     h.addPerkScript(newDreamcloth, 'xxxDreamCloth', 'p', dreamclothPerk);
 
@@ -289,7 +291,7 @@ export default class ArmorPatcher {
     };
 
     if (overrideMap[override]) {
-      xelib.AddElement(armor, 'KWDA\\.', overrideMap[override].kwda);
+      xelib.AddElementValue(armor, 'KWDA\\.', overrideMap[override].kwda);
       h.overrideCraftingRecipes(this.cobj, armor, overrideMap[override].perk, this.patchFile);
       return;
     }
