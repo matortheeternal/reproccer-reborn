@@ -2,6 +2,7 @@ export default class AlchemyPatcher {
   constructor() {
     this.load = this.load.bind(this);
     this.patch = this.patch.bind(this);
+    this.updateEffect = this.updateEffect.bind(this);
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -25,36 +26,35 @@ export default class AlchemyPatcher {
   }
 
   updateEffects(ingredient) {
-    xelib.GetElements(ingredient, 'Effects').forEach(this.updateEffect.bind(this));
+    xelib.GetElements(ingredient, 'Effects').forEach(this.updateEffect);
   }
 
   updateEffect(effect) {
-    const mgef = xelib.GetLinksTo(effect, 'EFID');
+    const mgef = xelib.GetWinningOverride(xelib.GetLinksTo(effect, 'EFID'));
     const name = xelib.FullName(mgef);
 
-    if (this.alchemy.excluded_effects.includes(name)) {
+    if (this.alchemy.excludedEffects.includes(name)) {
       return;
     }
 
-    let newDuration = xelib.GetValue(effect, 'EFIT\\Duration');
-    let newMagnitude = xelib.GetValue(effect, 'EFIT\\Magnitude');
+    let newDuration = xelib.GetIntValue(effect, 'EFIT\\Duration');
+    let newMagnitude = xelib.GetFloatValue(effect, 'EFIT\\Magnitude');
 
-    this.alchemy.base_stats.effects.forEach((e) => {
-      if (!name.includes(e.name)) {
-        return;
+    this.alchemy.baseStats.effects.some((e) => {
+      if (name.includes(e.name)) {
+        newDuration = this.settings.alchemyBaseStats.iDurationBase + e.iDurationBonus;
+        newMagnitude = newMagnitude * e.fMagnitudeFactor;
+        return true;
       }
-
-      newDuration = this.settings.alchemyBaseStats.iDurationBase + e.iDurationBonus;
-      newMagnitude *= e.fMagnitudeFactor;
     });
 
-    if (xelib.HasElement(mgef, 'Magic Effect Data') && !xelib.GetFlag(mgef, 'Magic Effect DATA\\DATA\\Flags', 'No Duration')) {
+    if (xelib.HasElement(mgef, 'Magic Effect Data') && !xelib.GetFlag(mgef, 'Magic Effect Data\\DATA\\Flags', 'No Duration')) {
       xelib.SetIntValue(effect, 'EFIT\\Duration', newDuration);
     }
 
-    if (xelib.HasElement(mgef, 'Magic Effect Data') && !xelib.GetFlag(mgef, 'Magic Effect DATA\\DATA\\Flags', 'No Magnitude')) {
+    if (xelib.HasElement(mgef, 'Magic Effect Data') && !xelib.GetFlag(mgef, 'Magic Effect Data\\DATA\\Flags', 'No Magnitude')) {
       newMagnitude = Math.max(1.0, newMagnitude);
-      xelib.SetIntValue(effect, 'EFIT\\Magnitude', newMagnitude);
+      xelib.SetFloatValue(effect, 'EFIT\\Magnitude', newMagnitude);
     }
   }
 

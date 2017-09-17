@@ -2279,9 +2279,13 @@
     "excluded_dreamcloth": ["TEXT", "FX", "Manakin", "wound test", "Child's", "Temporary", "Non-playable"]
   },
   "alchemy": {
-    "excluded_effects": [],
-    "base_stats": {
+    "excludedEffects": [],
+    "baseStats": {
       "effects": [{
+          "name": "Lingering",
+          "fMagnitudeFactor": 0.2,
+          "iDurationBonus": 23
+        }, {
           "name": "Damage",
           "fMagnitudeFactor": 0.75,
           "iDurationBonus": 3
@@ -2303,13 +2307,8 @@
         },
         {
           "name": "Fortify",
-          "fMagnitudeFactor": 0.75,
-          "iDurationBonus": 3
-        },
-        {
-          "name": "Lingering",
-          "fMagnitudeFactor": 0.2,
-          "iDurationBonus": 23
+          "fMagnitudeFactor": 1.5,
+          "iDurationBonus": 28
         },
         {
           "name": "Ravage",
