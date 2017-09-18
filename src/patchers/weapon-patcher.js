@@ -286,43 +286,43 @@ export default class WeaponPatcher {
   }
 
   modifyRecipes(weapon) {
+    const weaponFormID = xelib.GetFormID(weapon);
+    const weaponIsCrossbow = xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeCrossbow);
+    const excludedCrossbow = this.weapons.excludedCrossbows.find((e) => this.names[weapon].includes(e));
+
     this.cobj.forEach((recipe) => {
-      this.modifyCrossbowCraftingRecipe(weapon, recipe);
-      this.modifyTemperingRecipe(weapon, recipe);
+      this.modifyCrossbowCraftingRecipe(weapon, weaponFormID, weaponIsCrossbow, excludedCrossbow, recipe);
+      this.modifyTemperingRecipe(weapon, weaponFormID, recipe);
     });
   }
 
-  modifyCrossbowCraftingRecipe(weapon, recipe) {
-    if (!xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeCrossbow)) { return; }
-    if (this.weapons.excludedCrossbows.find((e) => this.names[weapon].includes(e))) { return; }
+  modifyCrossbowCraftingRecipe(weapon, weaponFormID, weaponIsCrossbow, excludedCrossbow, recipe) {
+    if (!weaponIsCrossbow || excludedCrossbow || recipe.cnam !== weaponFormID) { return; }
 
-    const cnam = xelib.GetLinksTo(recipe, 'CNAM');
-    if (!cnam || !xelib.GetHexFormID(cnam) !== xelib.GetHexFormID(weapon)) { return; }
-
-    const bnam = xelib.GetLinksTo(recipe, 'BNAM');
-    const bench = xelib.GetRecord(0, parseInt(this.statics.kwCraftingSmithingForge, 16));
-    const newRecipe = xelib.CopyElement(recipe, this.patchFile);
-    if (!bnam || !xelib.ElementEquals(bnam, bench)) {
+    const bench = parseInt(this.statics.kwCraftingSmithingForge, 16);
+    const newRecipe = xelib.CopyElement(recipe.handle, this.patchFile);
+    if (recipe.bnam !== bench) {
       xelib.AddElementValue(newRecipe, 'BNAM', this.statics.kwCraftingSmithingForge);
     }
 
     xelib.RemoveElement(newRecipe, 'Conditions');
-    const condition = xelib.GetElement('Conditions\\[0]');
+    xelib.AddElement(newRecipe, 'Conditions');
+    const condition = xelib.GetElement(newRecipe, 'Conditions\\[0]');
     h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, this.statics.perkMarksmanshipBallistics);
   }
 
-  modifyTemperingRecipe(weapon, recipe) {
-    const bnam = xelib.GetLinksTo(recipe, 'BNAM');
-    const cnam = xelib.GetLinksTo(recipe, 'CNAM');
-    const bench = xelib.GetRecord(0, parseInt(this.statics.kwCraftingSmithingArmorTable, 16));
+  modifyTemperingRecipe(weapon, weaponFormID, recipe) {
+    const bnam = recipe.bnam;
+    const cnam = recipe.cnam;
+    const bench = parseInt(this.statics.kwCraftingSmithingArmorTable, 16);
 
-    if (!cnam || !bnam || !xelib.ElementEquals(bnam, bench) || !xelib.ElementEquals(cnam, weapon)) { return; }
+    if (bnam !== bench || cnam !== weaponFormID) { return; }
 
     const perk = this.temperingPerkFromKeyword(weapon);
 
     if (!perk) { return; }
 
-    const newRecipe = xelib.CopyElement(recipe, this.patchFile);
+    const newRecipe = xelib.CopyElement(recipe.handle, this.patchFile);
     const condition = xelib.AddElement(newRecipe, 'Conditions\\^0');
     h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
   }

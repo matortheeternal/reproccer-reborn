@@ -15,10 +15,10 @@ export default class ReproccerReborn {
       initialize: this.initialize.bind(this),
 
       process: [
-        // new AlchemyPatcher(),
+        new AlchemyPatcher(),
         new ArmorPatcher(),
-        // new ProjectilePatcher(),
-        // new WeaponPatcher()
+        new ProjectilePatcher(),
+        new WeaponPatcher()
       ],
 
       finalize: this.finalize.bind(this)
