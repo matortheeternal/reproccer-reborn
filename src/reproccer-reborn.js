@@ -15,10 +15,10 @@ export default class ReproccerReborn {
       initialize: this.initialize.bind(this),
 
       process: [
-        new AlchemyPatcher(),
+        // new AlchemyPatcher(),
         new ArmorPatcher(),
-        new ProjectilePatcher(),
-        new WeaponPatcher()
+        // new ProjectilePatcher(),
+        // new WeaponPatcher()
       ],
 
       finalize: this.finalize.bind(this)
@@ -33,7 +33,13 @@ export default class ReproccerReborn {
     locals.patch = patch;
     this.buildRules(locals);
     this.loadStatics(locals);
-    locals.cobj = helpers.loadRecords('COBJ');
+    locals.cobj = helpers.loadRecords('COBJ').map((handle) => {
+      return {
+        handle: xelib.GetWinningOverride(handle),
+        cnam: xelib.GetUIntValue(handle, 'CNAM'),
+        bnam: xelib.GetUIntValue(handle, 'BNAM')
+      };
+    });
   }
 
   // eslint-disable-next-line no-unused-vars

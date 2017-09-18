@@ -2,18 +2,15 @@ function overrideCraftingRecipes(cobj, armor, perk, patchFile) {
   const armorFormID = xelib.GetFormID(armor);
 
   cobj.forEach((recipe) => {
-    if (!xelib.HasElement(recipe, 'CNAM')) { return; }
-    const cnam = xelib.GetUIntValue(recipe, 'CNAM');
+    if (recipe.cnam !== armorFormID) { return; }
 
-    if (cnam !== armorFormID) { return; }
-
-    const newRecipe = xelib.CopyElement(recipe, patchFile);
+    const newRecipe = xelib.CopyElement(recipe.handle, patchFile);
     xelib.RemoveElement(newRecipe, 'Conditions');
 
     if (perk) {
       xelib.AddElement(newRecipe, 'Conditions');
       const condition = xelib.GetElement(newRecipe, 'Conditions\\[0]');
-      updateHasPerkCondition(recipe, condition, 10000000, 1, perk);
+      updateHasPerkCondition(recipe.handle, condition, 10000000, 1, perk);
     }
   });
 }
@@ -103,9 +100,7 @@ class ArmorPatcher {
 
     return {
       signature: 'ARMO',
-      filter: (record) => {
-        const armor = xelib.GetWinningOverride(record);
-
+      filter: (armor) => {
         if (xelib.HasElement(armor, 'TNAM')) { return true; }
         if (!xelib.FullName(armor) || !xelib.HasElement(armor, 'KWDA')) { return false; }
         if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwVendorItemClothing)) { return true; }
@@ -383,7 +378,6 @@ class ArmorPatcher {
   }
 
   patchArmorRating(armor) {
-    if (this.names[armor] === 'Forsworn Boots') { debugger; }
     const rating = Math.floor(this.getArmorSlotMultiplier(armor) * this.getMaterialArmorModifier(armor));
     xelib.SetValue(armor, 'DNAM', `${rating}`);
   }
@@ -458,17 +452,16 @@ class ArmorPatcher {
 
   modifyRecipes(armor) {
     const armorFormID = xelib.GetFormID(armor);
+    const armorHasLeatherKwda = xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorMaterialLeather);
     this.cobj.forEach((recipe) => {
       this.modifyTemperingRecipe(armor, armorFormID, recipe);
-      this.modifyLeatherCraftingRecipe(armor, armorFormID, recipe);
+      this.modifyLeatherCraftingRecipe(armor, armorFormID, armorHasLeatherKwda, recipe);
     });
   }
 
   modifyTemperingRecipe(armor, armorFormID, recipe) {
-    if (!xelib.HasElement(recipe, 'CNAM') || !xelib.HasElement(recipe, 'BNAM')) { return; }
-
-    const bnam = xelib.GetUIntValue(recipe, 'BNAM');
-    const cnam = xelib.GetUIntValue(recipe, 'CNAM');
+    const bnam = recipe.bnam;
+    const cnam = recipe.cnam;
     const bench = parseInt(this.statics.kwCraftingSmithingArmorTable, 16);
 
     if (bnam !== bench || cnam !== armorFormID) { return; }
@@ -477,7 +470,7 @@ class ArmorPatcher {
 
     if (!perk) { return; }
 
-    const newRecipe = xelib.CopyElement(recipe, this.patchFile);
+    const newRecipe = xelib.CopyElement(recipe.handle, this.patchFile);
     const condition = xelib.AddElement(newRecipe, 'Conditions\\^0');
     updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
   }
@@ -527,16 +520,10 @@ class ArmorPatcher {
     return perk;
   }
 
-  modifyLeatherCraftingRecipe(armor, armorFormID, recipe) {
-    if (!xelib.HasElement(recipe, 'CNAM') ||
-        !xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorMaterialLeather)) {
-      return;
-    }
+  modifyLeatherCraftingRecipe(armor, armorFormID, armorHasLeatherKwda, recipe) {
+    if (!armorHasLeatherKwda || recipe.cnam !== armorFormID) { return; }
 
-    const cnam = xelib.GetUIntValue(recipe, 'CNAM');
-    if (cnam !== armorFormID) { return; }
-
-    const newRecipe = xelib.CopyElement(recipe, this.patchFile);
+    const newRecipe = xelib.CopyElement(recipe.handle, this.patchFile);
     createHasPerkCondition(newRecipe, 10000000, 1, this.statics.perkSmithingLeather);
   }
 
@@ -760,7 +747,13 @@ class ReproccerReborn {
     locals.patch = patch;
     this.buildRules(locals);
     this.loadStatics(locals);
-    locals.cobj = helpers.loadRecords('COBJ');
+    locals.cobj = helpers.loadRecords('COBJ').map((handle) => {
+      return {
+        handle: xelib.GetWinningOverride(handle),
+        cnam: xelib.GetUIntValue(handle, 'CNAM'),
+        bnam: xelib.GetUIntValue(handle, 'BNAM')
+      };
+    });
   }
 
   // eslint-disable-next-line no-unused-vars

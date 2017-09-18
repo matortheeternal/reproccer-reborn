@@ -23,9 +23,7 @@ export default class ArmorPatcher {
 
     return {
       signature: 'ARMO',
-      filter: (record) => {
-        const armor = xelib.GetWinningOverride(record);
-
+      filter: (armor) => {
         if (xelib.HasElement(armor, 'TNAM')) { return true; }
         if (!xelib.FullName(armor) || !xelib.HasElement(armor, 'KWDA')) { return false; }
         if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwVendorItemClothing)) { return true; }
@@ -303,7 +301,6 @@ export default class ArmorPatcher {
   }
 
   patchArmorRating(armor) {
-    if (this.names[armor] === 'Forsworn Boots') { debugger; }
     const rating = Math.floor(this.getArmorSlotMultiplier(armor) * this.getMaterialArmorModifier(armor));
     xelib.SetValue(armor, 'DNAM', `${rating}`);
   }
@@ -378,17 +375,16 @@ export default class ArmorPatcher {
 
   modifyRecipes(armor) {
     const armorFormID = xelib.GetFormID(armor);
+    const armorHasLeatherKwda = xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorMaterialLeather);
     this.cobj.forEach((recipe) => {
       this.modifyTemperingRecipe(armor, armorFormID, recipe);
-      this.modifyLeatherCraftingRecipe(armor, armorFormID, recipe);
+      this.modifyLeatherCraftingRecipe(armor, armorFormID, armorHasLeatherKwda, recipe);
     });
   }
 
   modifyTemperingRecipe(armor, armorFormID, recipe) {
-    if (!xelib.HasElement(recipe, 'CNAM') || !xelib.HasElement(recipe, 'BNAM')) { return; }
-
-    const bnam = xelib.GetUIntValue(recipe, 'BNAM');
-    const cnam = xelib.GetUIntValue(recipe, 'CNAM');
+    const bnam = recipe.bnam;
+    const cnam = recipe.cnam;
     const bench = parseInt(this.statics.kwCraftingSmithingArmorTable, 16);
 
     if (bnam !== bench || cnam !== armorFormID) { return; }
@@ -397,7 +393,7 @@ export default class ArmorPatcher {
 
     if (!perk) { return; }
 
-    const newRecipe = xelib.CopyElement(recipe, this.patchFile);
+    const newRecipe = xelib.CopyElement(recipe.handle, this.patchFile);
     const condition = xelib.AddElement(newRecipe, 'Conditions\\^0');
     h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
   }
@@ -447,16 +443,10 @@ export default class ArmorPatcher {
     return perk;
   }
 
-  modifyLeatherCraftingRecipe(armor, armorFormID, recipe) {
-    if (!xelib.HasElement(recipe, 'CNAM') ||
-        !xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorMaterialLeather)) {
-      return;
-    }
+  modifyLeatherCraftingRecipe(armor, armorFormID, armorHasLeatherKwda, recipe) {
+    if (!armorHasLeatherKwda || recipe.cnam !== armorFormID) { return; }
 
-    const cnam = xelib.GetUIntValue(recipe, 'CNAM');
-    if (cnam !== armorFormID) { return; }
-
-    const newRecipe = xelib.CopyElement(recipe, this.patchFile);
+    const newRecipe = xelib.CopyElement(recipe.handle, this.patchFile);
     h.createHasPerkCondition(newRecipe, 10000000, 1, this.statics.perkSmithingLeather);
   }
 

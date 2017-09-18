@@ -2,18 +2,15 @@ export function overrideCraftingRecipes(cobj, armor, perk, patchFile) {
   const armorFormID = xelib.GetFormID(armor);
 
   cobj.forEach((recipe) => {
-    if (!xelib.HasElement(recipe, 'CNAM')) { return; }
-    const cnam = xelib.GetUIntValue(recipe, 'CNAM');
+    if (recipe.cnam !== armorFormID) { return; }
 
-    if (cnam !== armorFormID) { return; }
-
-    const newRecipe = xelib.CopyElement(recipe, patchFile);
+    const newRecipe = xelib.CopyElement(recipe.handle, patchFile);
     xelib.RemoveElement(newRecipe, 'Conditions');
 
     if (perk) {
       xelib.AddElement(newRecipe, 'Conditions');
       const condition = xelib.GetElement(newRecipe, 'Conditions\\[0]');
-      updateHasPerkCondition(recipe, condition, 10000000, 1, perk);
+      updateHasPerkCondition(recipe.handle, condition, 10000000, 1, perk);
     }
   });
 }
