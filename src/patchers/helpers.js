@@ -43,12 +43,15 @@ export function updateGetItemCountCondition(recipe, condition, type, value, obje
   xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
 }
 
-export function getValueFromName(collection, name, field1, field2) {
+const includes = function(a, b) { return a.includes(b); }
+const equals = function(a, b) { return a === b; }
+const compare = (a, b, inclusion) => inclusion ? includes(a, b) : equals(a, b)
+export function getValueFromName(collection, name, field1, field2, includes = true) {
   let maxLength = 0;
   let value = null;
 
   collection.forEach((thing) => {
-    if (name.includes(thing[field1]) && thing[field1].length > maxLength) {
+    if (compare(name, thing[field1], includes) && thing[field1].length > maxLength) {
       value = thing[field2];
       maxLength = thing[field1].length;
     }
@@ -57,23 +60,23 @@ export function getValueFromName(collection, name, field1, field2) {
   return value;
 }
 
-export function getKwda(handle) {
-  return function(kwda) {
-    return xelib.HasArrayItem(handle, 'KWDA', '', kwda);
-  }
-}
-
-export function getModifierFromMap(map, collection, handle, field1, field2) {
+export function getModifierFromMap(map, collection, handle, field1, field2, includes = true) {
   let modifier = null;
 
   map.some((e) => {
     if (xelib.HasArrayItem(handle, 'KWDA', '', e.kwda)) {
-      modifier = getValueFromName(collection, e.name, field1, field2);
+      modifier = getValueFromName(collection, e.name, field1, field2, includes);
       return true;
     }
   });
 
   return modifier;
+}
+
+export function getKwda(handle) {
+  return function(kwda) {
+    return xelib.HasArrayItem(handle, 'KWDA', '', kwda);
+  }
 }
 
 export function addPerkScript(weapon, scriptName, propertyName, perk) {
@@ -85,5 +88,7 @@ export function addPerkScript(weapon, scriptName, propertyName, perk) {
   const property = xelib.AddElement(script, 'Properties\\.');
   xelib.SetValue(property, 'propertyName', propertyName);
   xelib.SetIntValue(property, 'Type', 1);
+  xelib.SetValue(property, 'Flags', 'Edited');
   xelib.SetValue(property, 'Value\\Object Union\\Object v2\\FormID', perk);
+  xelib.SetValue(property, 'Value\\Object Union\\Object v2\\Alias', 'None');
 }

@@ -33,13 +33,11 @@ export default class ReproccerReborn {
     locals.patch = patch;
     this.buildRules(locals);
     this.loadStatics(locals);
-    locals.cobj = helpers.loadRecords('COBJ').map((handle) => {
-      return {
+    locals.cobj = helpers.loadRecords('COBJ').map((handle) => ({
         handle: xelib.GetWinningOverride(handle),
         cnam: xelib.GetUIntValue(handle, 'CNAM'),
         bnam: xelib.GetUIntValue(handle, 'BNAM')
-      };
-    });
+      }));
   }
 
   // eslint-disable-next-line no-unused-vars

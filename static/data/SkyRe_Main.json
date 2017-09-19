@@ -39,6 +39,9 @@
         "substring": "Katana"
       }, {
         "typeBinding": "LONGBOW",
+        "substring": "Longbow"
+      }, {
+        "typeBinding": "LONGBOW",
         "substring": "Long Bow"
       }, {
         "typeBinding": "LONGMACE",
@@ -71,11 +74,11 @@
         "typeBinding": "SHORTSWORD",
         "substring": "Shortsword"
       }, {
+        "typeBinding": "LONGBOW",
+        "substring": "Solonor"
+      }, {
         "typeBinding": "MACE",
         "substring": "Spiked Club"
-      }, {
-        "typeBinding": "LONGBOW",
-        "substring": "Stalhrim Bow"
       }, {
         "typeBinding": "BROADSWORD",
         "substring": "Sword"
@@ -107,6 +110,9 @@
         "iDamage": 1,
         "name": "Ancient Nord"
       }, {
+        "iDamage": 2,
+        "name": "Ash"
+      }, {
         "iDamage": 5,
         "name": "Blades"
       }, {
@@ -125,6 +131,9 @@
         "iDamage": 1,
         "name": "Draugr"
       }, {
+        "iDamage": 4,
+        "name": "Draugr Honed"
+      }, {
         "iDamage": 2,
         "name": "Dwarven"
       }, {
@@ -139,12 +148,18 @@
       }, {
         "iDamage": 2,
         "name": "Falmer"
-      },{
+      }, {
+        "iDamage": 3,
+        "name": "Falmer Honed"
+      }, {
         "iDamage": -1,
         "name": "Forsworn"
       }, {
         "iDamage": 7,
         "name": "Glass"
+      }, {
+        "iDamage": 5,
+        "name": "Harkon's Sword"
       }, {
         "iDamage": 4,
         "name": "Honed Ancient Nord"
@@ -161,7 +176,10 @@
         "iDamage": -1,
         "name": "Iron"
       }, {
-        "iDamage": "6",
+        "iDamage": 8,
+        "name": "Nightingale"
+      }, {
+        "iDamage": 6,
         "name": "Nord Hero"
       }, {
         "iDamage": 5,
@@ -193,6 +211,9 @@
       }, {
         "iDamage": -3,
         "name": "Wood"
+      }, {
+        "iDamage": -5,
+        "name": "Woodcutter"
       }
     ],
     "types": [
@@ -484,6 +505,9 @@
         "weaponName": "Dragonbrand",
         "weaponType": "Bastardsword"
       }, {
+        "weaponName": "Dragonrend",
+        "weaponType": "Longbow"
+      }, {
         "weaponName": "Dremora Badelaire",
         "weaponType": "Scimitar"
       }, {
@@ -670,7 +694,10 @@
         "weaponName": "Smallsword",
         "weaponType": "Shortsword"
       }, {
-        "weaponName": "Sorcerer's Fist",
+        "weaponName": "Solonor",
+        "weaponType": "Longbow"
+      }, {
+        "weaponName": "Sorcerer's Fists",
         "weaponType": "Unarmed"
       }, {
         "weaponName": "Spearblade",
@@ -727,7 +754,7 @@
     ],
     "materialOverrides": [
         {
-        "weaponSubstring": "Akavirii",
+        "weaponSubstring": "Akaviri",
         "materialOverride": "Ebony"
       }, {
         "weaponSubstring": "Authentic Dwemeri",

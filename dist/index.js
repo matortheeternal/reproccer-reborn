@@ -118,12 +118,15 @@ function updateGetItemCountCondition(recipe, condition, type, value, object) {
   xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
 }
 
-function getValueFromName(collection, name, field1, field2) {
+const includes = function(a, b) { return a.includes(b); };
+const equals = function(a, b) { return a === b; };
+const compare = (a, b, inclusion) => inclusion ? includes(a, b) : equals(a, b);
+function getValueFromName(collection, name, field1, field2, includes = true) {
   let maxLength = 0;
   let value = null;
 
   collection.forEach((thing) => {
-    if (name.includes(thing[field1]) && thing[field1].length > maxLength) {
+    if (compare(name, thing[field1], includes) && thing[field1].length > maxLength) {
       value = thing[field2];
       maxLength = thing[field1].length;
     }
@@ -132,23 +135,23 @@ function getValueFromName(collection, name, field1, field2) {
   return value;
 }
 
-function getKwda(handle) {
-  return function(kwda) {
-    return xelib.HasArrayItem(handle, 'KWDA', '', kwda);
-  }
-}
-
-function getModifierFromMap(map, collection, handle, field1, field2) {
+function getModifierFromMap(map, collection, handle, field1, field2, includes = true) {
   let modifier = null;
 
   map.some((e) => {
     if (xelib.HasArrayItem(handle, 'KWDA', '', e.kwda)) {
-      modifier = getValueFromName(collection, e.name, field1, field2);
+      modifier = getValueFromName(collection, e.name, field1, field2, includes);
       return true;
     }
   });
 
   return modifier;
+}
+
+function getKwda(handle) {
+  return function(kwda) {
+    return xelib.HasArrayItem(handle, 'KWDA', '', kwda);
+  }
 }
 
 function addPerkScript(weapon, scriptName, propertyName, perk) {
@@ -160,7 +163,9 @@ function addPerkScript(weapon, scriptName, propertyName, perk) {
   const property = xelib.AddElement(script, 'Properties\\.');
   xelib.SetValue(property, 'propertyName', propertyName);
   xelib.SetIntValue(property, 'Type', 1);
+  xelib.SetValue(property, 'Flags', 'Edited');
   xelib.SetValue(property, 'Value\\Object Union\\Object v2\\FormID', perk);
+  xelib.SetValue(property, 'Value\\Object Union\\Object v2\\Alias', 'None');
 }
 
 class ArmorPatcher {
@@ -1069,8 +1074,7 @@ class WeaponPatcher {
 
     return {
       signature: 'WEAP',
-      filter: (record) => {
-        const weapon = xelib.GetWinningOverride(record);
+      filter: (weapon) => {
         const name = xelib.FullName(weapon);
 
         if (name && this.weapons.excludedWeapons.find((e) => name.includes(e))) { return false; }
@@ -1089,8 +1093,8 @@ class WeaponPatcher {
     this.names[weapon] = xelib.FullName(weapon) || '';
 
     if (xelib.HasElement(weapon, 'CNAM')) {
-      this.checkBroadswordName(weapon);
-      this.patchBowType(weapon);
+      this.checkBroadswordName(weapon, true);
+      this.patchBowType(weapon, true);
       return;
     }
 
@@ -1105,23 +1109,24 @@ class WeaponPatcher {
     this.modifyRecipes(weapon);
   }
 
-  checkBroadswordName(weapon) {
-    if (!xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeSword)) { return; }
+  checkBroadswordName(weapon, enchanted) {
+    if (enchanted && !xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeSword)) { return; }
     if (this.names[weapon].includes('Broadsword')) { return; }
 
     this.names[weapon] = this.names[weapon].replace('Sword', 'Broadsword');
     xelib.AddElementValue(weapon, 'FULL', this.names[weapon]);
   }
 
-  patchBowType(weapon) {
+  patchBowType(weapon, enchanted) {
     const kwda = getKwda(weapon);
     if (!kwda(this.statics.kwWeapTypeBow) || kwda(this.statics.kwWeapTypeCrossbow)) { return; }
     if (kwda(this.statics.kwWeapTypeLongbow) || kwda(this.statics.kwWeapTypeShortbow)) { return; }
 
     const name = this.names[weapon];
-    if (name.includes('Longbow') || name.includes('Shortbow') || name.includes('Crossbow')) { return; }
+    if (enchanted && name.includes('Longbow') || name.includes('Shortbow') || name.includes('Crossbow')) { return; }
 
     xelib.AddElementValue(weapon, 'KWDA\\.', this.statics.kwWeapTypeShortbow);
+
     if (this.names[weapon].includes('Bow')) {
       this.names[weapon] = this.names[weapon].replace('Bow', 'Shortbow');
       xelib.AddElementValue(weapon, 'FULL', this.names[weapon]);
@@ -1182,11 +1187,11 @@ class WeaponPatcher {
   hasWeaponKeyword(weapon) {
     const s = this.statics;
     const kwda = function(kwda) { return xelib.HasArrayItem(weapon, 'KWDA', '', kwda); };
-    return kwda(s.kwWeapMaterialDaedric) || kwda(s.kwWeapMaterialDragonbone) || kwda(s.kwWeapMaterialDraugr) ||
+    return !kwda(s.kwWeapMaterialDaedric) || kwda(s.kwWeapMaterialDragonbone) || kwda(s.kwWeapMaterialDraugr) ||
            kwda(s.kwWeapMaterialDraugrHoned) || kwda(s.kwWeapMaterialDwarven) || kwda(s.kwWeapMaterialEbony) ||
            kwda(s.kwWeapMaterialElven) || kwda(s.kwWeapMaterialFalmer) || kwda(s.kwWeapMaterialFalmerHoned) ||
            kwda(s.kwWeapMaterialGlass) || kwda(s.kwWeapMaterialImperial) || kwda(s.kwWeapMaterialOrcish) ||
-           kwda(s.kwWeapMaterialSilver) || kwda(s.weapMaterialSilverRefined) || kwda(s.kwWeapMaterialSteel) ||
+           kwda(s.kwWeapMaterialSilver) || kwda(s.kwWeapMaterialSilverRefined) || kwda(s.kwWeapMaterialSteel) ||
            kwda(s.kwWeapMaterialWood) || kwda(s.kwWeapMaterialStalhrim) || kwda(s.kwWeapMaterialNordic);
   }
 
@@ -1293,7 +1298,7 @@ class WeaponPatcher {
   getWeaponTypeDamageModifier(weapon) {
     let modifier;
 
-    modifier = getModifierFromMap(this.keywordTypesMap, this.weapons.types, weapon, 'name', 'iDamage');
+    modifier = getModifierFromMap(this.keywordTypesMap, this.weapons.types, weapon, 'name', 'iDamage', false);
 
     if (modifier === null) {
       console.log(`${this.names[weapon]}(${xelib.GetHexFormID(weapon)}): Couldn't find type damage modifier for weapon.`);
@@ -1313,16 +1318,13 @@ class WeaponPatcher {
   }
 
   getWeaponTypeFloatValueModifier(weapon, field2) {
-    let modifier = getModifierFromMap(this.skyreTypesMap, this.weapons.types, weapon, 'name', field2);
-
+    let modifier = getModifierFromMap(this.skyreTypesMap, this.weapons.types, weapon, 'name', field2, false);
     if (modifier) { return modifier; }
 
-    modifier = getValueFromName(this.weapons.types, this.names[weapon], 'name', field2);
-
+    modifier = getValueFromName(this.weapons.types, this.names[weapon], 'name', field2, false);
     if (modifier) { return modifier; }
 
-    modifier = getModifierFromMap(this.vanillaTypesMap, this.weapons.types, weapon, 'name', field2);
-
+    modifier = getModifierFromMap(this.vanillaTypesMap, this.weapons.types, weapon, 'name', field2, false);
     if (modifier === null) {
       console.log(`${this.names[weapon]}(${xelib.GetHexFormID(weapon)}): Couldn't find type ${field2} modifier for weapon.`);
     }
@@ -1344,7 +1346,7 @@ class WeaponPatcher {
   modifyCrossbowCraftingRecipe(weapon, weaponFormID, weaponIsCrossbow, excludedCrossbow, recipe) {
     if (!weaponIsCrossbow || excludedCrossbow || recipe.cnam !== weaponFormID) { return; }
 
-    const bench = parseInt(this.statics.kwCraftingSmithingForge, 16);
+    const bench = parseInt(this.statics.kwCraftingSmithingSharpeningWheel, 16);
     const newRecipe = xelib.CopyElement(recipe.handle, this.patchFile);
     if (recipe.bnam !== bench) {
       xelib.AddElementValue(newRecipe, 'BNAM', this.statics.kwCraftingSmithingForge);
@@ -1359,7 +1361,7 @@ class WeaponPatcher {
   modifyTemperingRecipe(weapon, weaponFormID, recipe) {
     const bnam = recipe.bnam;
     const cnam = recipe.cnam;
-    const bench = parseInt(this.statics.kwCraftingSmithingArmorTable, 16);
+    const bench = parseInt(this.statics.kwCraftingSmithingSharpeningWheel, 16);
 
     if (bnam !== bench || cnam !== weaponFormID) { return; }
 
@@ -1653,7 +1655,7 @@ class WeaponPatcher {
 
     const newName = `Refined ${this.names[weapon]}`;
     const desc = 'These supreme weapons set undead enemies ablaze, dealing extra damage.';
-    const newRefinedSilverWeapon = xelib.CopyElement(weapon, this.patchFile);
+    const newRefinedSilverWeapon = xelib.CopyElement(weapon, this.patchFile, true);
     xelib.AddElementValue(newRefinedSilverWeapon, 'EDID', `REP_WEAPON_${newName}`);
     xelib.AddElementValue(newRefinedSilverWeapon, 'FULL', newName);
     this.names[newRefinedSilverWeapon] = newName;
@@ -1843,7 +1845,7 @@ class WeaponPatcher {
     ];
 
     this.skyreTypesMap = [
-      { kwda: s.kwWeapTypeBastardSword,     name: "Bastard Sword" },
+      { kwda: s.kwWeapTypeBastardSword,     name: "Bastard"       },
       { kwda: s.kwWeapTypeBattlestaff,      name: "Battlestaff"   },
       { kwda: s.kwWeapTypeClub,             name: "Club"          },
       { kwda: s.kwWeapTypeCrossbow,         name: "Crossbow"      },
@@ -2032,13 +2034,11 @@ class ReproccerReborn {
     locals.patch = patch;
     this.buildRules(locals);
     this.loadStatics(locals);
-    locals.cobj = helpers.loadRecords('COBJ').map((handle) => {
-      return {
+    locals.cobj = helpers.loadRecords('COBJ').map((handle) => ({
         handle: xelib.GetWinningOverride(handle),
         cnam: xelib.GetUIntValue(handle, 'CNAM'),
         bnam: xelib.GetUIntValue(handle, 'BNAM')
-      };
-    });
+      }));
   }
 
   // eslint-disable-next-line no-unused-vars
