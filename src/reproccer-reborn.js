@@ -281,9 +281,16 @@ export default class ReproccerReborn {
   buildRules(locals) {
     const rules = locals.rules = {};
 
+    const first = fh.loadJsonFile(`modules/reproccerReborn/data/first.json`, null);
+    Object.deepAssign(rules, first);
+
     xelib.GetLoadedFileNames().forEach((plugin) => {
       const data = fh.loadJsonFile(`modules/reproccerReborn/data/${plugin.slice(0, -4)}.json`, null);
       Object.deepAssign(rules, data);
     });
+
+    const last = fh.loadJsonFile(`modules/reproccerReborn/data/last.json`, null);
+    Object.deepAssign(rules, last);
+    console.log(rules);
   }
 }
