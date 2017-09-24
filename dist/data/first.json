@@ -103,7 +103,7 @@
       }
     ],
     "materials": [
-        {
+      {
         "iDamage": 7,
         "name": "Akaviri"
       }, {
@@ -197,6 +197,9 @@
         "iDamage": 5,
         "name": "Skyforge Steel"
       }, {
+        "iDamage": -10,
+        "name": "Sorcerer's Fists"
+      }, {
         "iDamage": 8,
         "name": "Stalhrim"
       }, {
@@ -255,7 +258,7 @@
       }, {
         "fReach": 1,
         "fSpeed": 0.9,
-        "iDamage": 9,
+        "iDamage": 17,
         "name": "Crossbow"
       }, {
         "fReach": 0.7,

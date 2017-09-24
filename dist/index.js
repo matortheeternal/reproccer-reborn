@@ -97,7 +97,7 @@ function createHasPerkCondition(recipe, type, value, perk) {
 }
 
 function updateHasPerkCondition(recipe, condition, type, value, perk) {
-  xelib.SetIntValue(condition, 'CTDA\\Type', type);
+  xelib.SetValue(condition, 'CTDA\\Type', `${type}`);
   xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', value);
   xelib.SetValue(condition, 'CTDA\\Function', 'HasPerk');
   xelib.SetValue(condition, 'CTDA\\Perk', perk);
@@ -111,7 +111,7 @@ function createGetItemCountCondition(recipe, type, value, object) {
 }
 
 function updateGetItemCountCondition(recipe, condition, type, value, object) {
-  xelib.SetIntValue(condition, 'CTDA\\Type', type);
+  xelib.SetValue(condition, 'CTDA\\Type', `${type}`);
   xelib.SetFloatValue(condition, 'CTDA\\Comparison Value - Float', value);
   xelib.SetValue(condition, 'CTDA\\Function', 'GetItemCount');
   xelib.SetValue(condition, 'CTDA\\Inventory Object', xelib.GetHexFormID(object));
