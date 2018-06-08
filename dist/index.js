@@ -193,8 +193,8 @@ function () {
           return false;
         }
 
-        newDuration = _this.settings.alchemyBaseStats.iDurationBase + e.iDurationBonus;
-        newMagnitude *= e.fMagnitudeFactor;
+        newDuration = _this.settings.alchemyBaseStats.durationBase + e.durationBonus;
+        newMagnitude *= e.magnitudeFactor;
         return true;
       });
 
@@ -210,7 +210,7 @@ function () {
   }, {
     key: "clampValue",
     value: function clampValue(ingredient) {
-      if (!this.settings.alchemyBaseStats.bUsePriceLimits) {
+      if (!this.settings.alchemyBaseStats.usePriceLimits) {
         return;
       }
 
@@ -381,12 +381,12 @@ function () {
   }, {
     key: "updateGameSettings",
     value: function updateGameSettings() {
-      var fArmorScalingFactorBaseRecord = xelib.GetRecord(0, parseInt(this.statics.gmstfArmorScalingFactor, 16));
-      var fArmorScalingFactor = xelib.CopyElement(fArmorScalingFactorBaseRecord, this.patchFile);
-      xelib.SetFloatValue(fArmorScalingFactor, 'DATA\\Float', this.settings.armorBaseStats.fProtectionPerArmor);
-      var fMaxArmorRatingBaseRecord = xelib.GetRecord(0, parseInt(this.statics.gmstfMaxArmorRating, 16));
-      var fMaxArmorRating = xelib.CopyElement(fMaxArmorRatingBaseRecord, this.patchFile);
-      xelib.SetFloatValue(fMaxArmorRating, 'DATA\\Float', this.settings.armorBaseStats.fMaxProtection);
+      var armorScalingFactorBaseRecord = xelib.GetRecord(0, parseInt(this.statics.gmstArmorScalingFactor, 16));
+      var fArmorScalingFactor = xelib.CopyElement(armorScalingFactorBaseRecord, this.patchFile);
+      xelib.SetFloatValue(fArmorScalingFactor, 'DATA\\Float', this.settings.armorBaseStats.protectionPerArmor);
+      var maxArmorRatingBaseRecord = xelib.GetRecord(0, parseInt(this.statics.gmstMaxArmorRating, 16));
+      var maxArmorRating = xelib.CopyElement(maxArmorRatingBaseRecord, this.patchFile);
+      xelib.SetFloatValue(maxArmorRating, 'DATA\\Float', this.settings.armorBaseStats.maxProtection);
     } // eslint-disable-next-line no-unused-vars
 
   }, {
@@ -694,9 +694,9 @@ function () {
     key: "getArmorMaterialOverride",
     value: function getArmorMaterialOverride(name) {
       var override = this.armor.materialOverrides.find(function (o) {
-        return name.includes(o.armorSubstring);
+        return name.includes(o.substring);
       });
-      return override ? override.materialOverride : null;
+      return override ? override.material : null;
     }
   }, {
     key: "hasMaterialKeyword",
@@ -717,23 +717,23 @@ function () {
       var kwda = getKwda(armor);
 
       if (kwda(this.statics.kwArmorSlotBoots)) {
-        return this.settings.armorBaseStats.fArmorFactorBoots;
+        return this.settings.armorBaseStats.armorFactorBoots;
       }
 
       if (kwda(this.statics.kwArmorSlotCuirass)) {
-        return this.settings.armorBaseStats.fArmorFactorCuirass;
+        return this.settings.armorBaseStats.armorFactorCuirass;
       }
 
       if (kwda(this.statics.kwArmorSlotGauntlets)) {
-        return this.settings.armorBaseStats.fArmorFactorGauntlets;
+        return this.settings.armorBaseStats.armorFactorGauntlets;
       }
 
       if (kwda(this.statics.kwArmorSlotHelmet)) {
-        return this.settings.armorBaseStats.fArmorFactorHelmet;
+        return this.settings.armorBaseStats.armorFactorHelmet;
       }
 
       if (kwda(this.statics.kwArmorSlotShield)) {
-        return this.settings.armorBaseStats.fArmorFactorShield;
+        return this.settings.armorBaseStats.armorFactorShield;
       }
 
       return 0;
@@ -743,7 +743,7 @@ function () {
     value: function getMaterialArmorModifier(armor) {
       var _this3 = this;
 
-      var armorRating = getValueFromName(this.armor.materials, this.names[armor], 'name', 'iArmor');
+      var armorRating = getValueFromName(this.armor.materials, this.names[armor], 'name', 'armor');
 
       if (armorRating !== null) {
         return armorRating;
@@ -865,7 +865,7 @@ function () {
           return false;
         }
 
-        armorRating = getValueFromName(_this3.armor.materials, pair.name, 'name', 'iArmor');
+        armorRating = getValueFromName(_this3.armor.materials, pair.name, 'name', 'armor');
         return true;
       });
 
@@ -1267,7 +1267,7 @@ function () {
           }
 
           if (!_this.projectiles.baseStats.find(function (bs) {
-            return name.includes(bs.sIdentifier);
+            return name.includes(bs.identifier);
           })) {
             return false;
           }
@@ -1316,14 +1316,14 @@ function () {
       var newDamage = 0;
       var failed = false;
       this.projectiles.baseStats.some(function (bs) {
-        if (!name.includes(bs.sIdentifier)) {
+        if (!name.includes(bs.identifier)) {
           return false;
         }
 
-        newGravity = bs.fGravityBase;
-        newSpeed = bs.fSpeedBase;
-        newRange = bs.fRangeBase;
-        newDamage = bs.iDamageBase;
+        newGravity = bs.gravity;
+        newSpeed = bs.speed;
+        newRange = bs.range;
+        newDamage = bs.damage;
         return true;
       });
       this.projectiles.materialStats.some(function (ms) {
@@ -1331,9 +1331,9 @@ function () {
           return false;
         }
 
-        newGravity += ms.fGravityModifier;
-        newSpeed += ms.fSpeedModifier;
-        newDamage += ms.iDamageModifier;
+        newGravity += ms.gravity;
+        newSpeed += ms.speed;
+        newDamage += ms.damage;
         return true;
       });
       this.projectiles.modifierStats.some(function (ms) {
@@ -1341,9 +1341,9 @@ function () {
           return false;
         }
 
-        newGravity += ms.fGravityModifier;
-        newSpeed += ms.fSpeedModifier;
-        newDamage += ms.iDamageModifier;
+        newGravity += ms.gravity;
+        newSpeed += ms.speed;
+        newDamage += ms.damage;
         return true;
       });
       failed = newGravity <= 0 || newSpeed <= 0 || newRange <= 0 || newDamage <= 0;
@@ -1375,7 +1375,7 @@ function () {
       var _this3 = this;
 
       var found = this.projectiles.baseStats.find(function (bs) {
-        return _this3.names[ammo].includes(bs.sIdentifier) && bs.sType !== 'BOLT';
+        return _this3.names[ammo].includes(bs.identifier) && bs.type !== 'BOLT';
       });
 
       if (found) {
@@ -1534,7 +1534,7 @@ function () {
       perks = [s.perkSneakThiefsToolbox0];
       this.addCraftingRecipe(ammo, noisemakerAmmo, ingredients, perks);
       var found = this.projectiles.baseStats.find(function (bs) {
-        return _this4.names[ammo].includes(bs.sIdentifier) && bs.sType !== 'ARROW';
+        return _this4.names[ammo].includes(bs.identifier) && bs.type !== 'ARROW';
       });
 
       if (found) {
@@ -1831,17 +1831,17 @@ function () {
     key: "getWeaponTypeOverride",
     value: function getWeaponTypeOverride(name) {
       var override = this.weapons.typeOverrides.find(function (t) {
-        return name === t.weaponName;
+        return name === t.name;
       });
-      return override ? override.weaponType : null;
+      return override ? override.type : null;
     }
   }, {
     key: "getWeaponMaterialOverrideString",
     value: function getWeaponMaterialOverrideString(name) {
       var override = this.weapons.materialOverrides.find(function (o) {
-        return name.includes(o.weaponSubstring);
+        return name.includes(o.substring);
       });
-      return override ? override.materialOverride : null;
+      return override ? override.material : null;
     }
   }, {
     key: "hasWeaponKeyword",
@@ -1859,7 +1859,7 @@ function () {
     value: function patchWeaponKeywords(weapon) {
       var _this2 = this;
 
-      var typeString = getValueFromName(this.weapons.typeDefinitions, this.names[weapon], 'substring', 'typeBinding');
+      var typeString = getValueFromName(this.weapons.typeDefinitions, this.names[weapon], 'substring', 'binding');
 
       if (!typeString) {
         this.patchBowType(weapon);
@@ -2026,19 +2026,19 @@ function () {
       var base = null;
 
       if (kwda(s.kwWeapTypeSword) || kwda(s.kwWeapTypeWaraxe) || kwda(s.kwWeapTypeMace) || kwda(s.kwWeapTypeDagger)) {
-        base = this.settings.weaponBaseStats.iDamageBaseOneHanded;
+        base = this.settings.weaponBaseStats.damageOneHanded;
       }
 
       if (kwda(s.kwWeapTypeGreatsword) || kwda(s.kwWeapTypeWarhammer) || kwda(s.kwWeapTypeBattleaxe)) {
-        base = this.settings.weaponBaseStats.iDamageBaseTwoHanded;
+        base = this.settings.weaponBaseStats.damageTwoHanded;
       }
 
       if (kwda(s.kwWeapTypeCrossbow)) {
-        base = this.settings.weaponBaseStats.iDamageBaseCrossbow;
+        base = this.settings.weaponBaseStats.damageCrossbow;
       }
 
       if (kwda(s.kwWeapTypeBow)) {
-        base = this.settings.weaponBaseStats.iDamageBaseBow;
+        base = this.settings.weaponBaseStats.damageBow;
       }
 
       if (base === null) {
@@ -2052,13 +2052,13 @@ function () {
     key: "getWeaponMaterialDamageModifier",
     value: function getWeaponMaterialDamageModifier(weapon) {
       var modifier = null;
-      modifier = getValueFromName(this.weapons.materials, this.names[weapon], 'name', 'iDamage');
+      modifier = getValueFromName(this.weapons.materials, this.names[weapon], 'name', 'damage');
 
       if (modifier) {
         return modifier;
       }
 
-      modifier = getModifierFromMap(this.keywordMaterialMap, this.weapons.materials, weapon, 'name', 'iDamage');
+      modifier = getModifierFromMap(this.keywordMaterialMap, this.weapons.materials, weapon, 'name', 'damage');
 
       if (modifier === null) {
         var name = this.names[weapon];
@@ -2071,7 +2071,7 @@ function () {
   }, {
     key: "getWeaponTypeDamageModifier",
     value: function getWeaponTypeDamageModifier(weapon) {
-      var modifier = getModifierFromMap(this.keywordTypesMap, this.weapons.types, weapon, 'name', 'iDamage', false);
+      var modifier = getModifierFromMap(this.keywordTypesMap, this.weapons.types, weapon, 'name', 'damage', false);
 
       if (modifier === null) {
         var name = this.names[weapon];
@@ -2084,13 +2084,13 @@ function () {
   }, {
     key: "patchWeaponReach",
     value: function patchWeaponReach(weapon) {
-      var reach = this.getWeaponTypeFloatValueModifier(weapon, 'fReach');
+      var reach = this.getWeaponTypeFloatValueModifier(weapon, 'reach');
       xelib.SetFloatValue(weapon, 'DNAM\\Reach', reach);
     }
   }, {
     key: "patchWeaponSpeed",
     value: function patchWeaponSpeed(weapon) {
-      var speed = this.getWeaponTypeFloatValueModifier(weapon, 'fSpeed');
+      var speed = this.getWeaponTypeFloatValueModifier(weapon, 'speed');
       xelib.SetFloatValue(weapon, 'DNAM\\Speed', speed);
     }
   }, {
@@ -2455,7 +2455,7 @@ function () {
       var baseDamage = this.getBaseDamage(weapon);
       var materialDamage = this.getWeaponMaterialDamageModifier(weapon);
       var typeDamage = this.getWeaponTypeDamageModifier(weapon);
-      var recurveDamage = this.settings.weaponBaseStats.iDamageBonusRecurveCrossbow;
+      var recurveDamage = this.settings.weaponBaseStats.damageBonusRecurveCrossbow;
       var desc = xelib.GetValue(weapon, 'DESC');
       xelib.SetUIntValue(weapon, 'DATA\\Damage', baseDamage + materialDamage + typeDamage + recurveDamage);
       xelib.AddElementValue(weapon, 'DESC', "".concat(desc, " Deals additional damage."));
@@ -2466,8 +2466,8 @@ function () {
       var speed = xelib.GetIntValue(weapon, 'DNAM\\Speed');
       var weight = xelib.GetIntValue(weapon, 'DATA\\Weight');
       var desc = xelib.GetValue(weapon, 'DESC');
-      xelib.SetFloatValue(weapon, 'DNAM\\Speed', speed + this.settings.weaponBaseStats.fSpeedBonusArbalestCrossbow);
-      xelib.SetFloatValue(weapon, 'DATA\\Weight', weight + this.settings.weaponBaseStats.fWeightFactorArbalestCrossbow);
+      xelib.SetFloatValue(weapon, 'DNAM\\Speed', speed + this.settings.weaponBaseStats.speedBonusArbalestCrossbow);
+      xelib.SetFloatValue(weapon, 'DATA\\Weight', weight + this.settings.weaponBaseStats.weightFactorArbalestCrossbow);
       xelib.AddElementValue(weapon, 'DESC', "".concat(desc, " Deals double damage against blocking enemies but fires slower."));
     }
   }, {
@@ -2476,8 +2476,8 @@ function () {
       var speed = xelib.GetIntValue(weapon, 'DNAM\\Speed');
       var weight = xelib.GetIntValue(weapon, 'DATA\\Weight');
       var desc = xelib.GetValue(weapon, 'DESC');
-      xelib.SetFloatValue(weapon, 'DNAM\\Speed', speed + this.settings.weaponBaseStats.fSpeedBonusLightweightCrossbow);
-      xelib.SetFloatValue(weapon, 'DATA\\Weight', weight + this.settings.weaponBaseStats.fWeightFactorLightweightCrossbow);
+      xelib.SetFloatValue(weapon, 'DNAM\\Speed', speed + this.settings.weaponBaseStats.speedBonusLightweightCrossbow);
+      xelib.SetFloatValue(weapon, 'DATA\\Weight', weight + this.settings.weaponBaseStats.weightFactorLightweightCrossbow);
       xelib.AddElementValue(weapon, 'DESC', "".concat(desc, " Has increased attack speed."));
     }
   }, {
@@ -2915,30 +2915,30 @@ var Settings = {
     patchAlchemyIngredients: true,
     patchProjectiles: true,
     alchemyBaseStats: {
-      bUsePriceLimits: true,
-      iDurationBase: 2,
+      usePriceLimits: true,
+      durationBase: 2,
       priceLimitLower: 5,
       priceLimitUpper: 150
     },
     armorBaseStats: {
-      fArmorFactorBoots: 1,
-      fArmorFactorCuirass: 3,
-      fArmorFactorGauntlets: 1,
-      fArmorFactorHelmet: 1.5,
-      fArmorFactorShield: 1.5,
-      fProtectionPerArmor: 0.1,
-      fMaxProtection: 95
+      armorFactorBoots: 1,
+      armorFactorCuirass: 3,
+      armorFactorGauntlets: 1,
+      armorFactorHelmet: 1.5,
+      armorFactorShield: 1.5,
+      protectionPerArmor: 0.1,
+      maxProtection: 95
     },
     weaponBaseStats: {
-      fSpeedBonusArbalestCrossbow: -0.2,
-      fSpeedBonusLightweightCrossbow: 0.25,
-      fWeightFactorArbalestCrossbow: 1.25,
-      fWeightFactorLighweightCrossbow: 0.75,
-      iDamageBaseBow: 22,
-      iDamageBaseCrossbow: 30,
-      iDamageBaseOneHanded: 12,
-      iDamageBaseTwoHanded: 23,
-      iDamageBonusRecurveCrossbow: 8
+      speedBonusArbalestCrossbow: -0.2,
+      speedBonusLightweightCrossbow: 0.25,
+      weightFactorArbalestCrossbow: 1.25,
+      weightFactorLighweightCrossbow: 0.75,
+      damageBow: 22,
+      damageCrossbow: 30,
+      damageOneHanded: 12,
+      damageTwoHanded: 23,
+      damageBonusRecurveCrossbow: 8
     },
     requiredFiles: ['SkyRe_Main.esp'],
     ignoredFiles: ['The Huntsman.esp', 'Apocalypse - The Spell Package.esp', 'Lilarcor.esp', 'NPO Module - Crossbows.esp', 'Post Reproccer Scoped Bows Patch.esp', 'brokenmod.esp', 'Bashed Patch, 0.esp', 'Chesko_WearableLantern.esp', 'Chesko_WearableLantern_Guards.esp', 'Chesko_WearableLantern_Caravaner.esp', 'Chesko_WearableLantern_Candle.esp', 'Chesko_WearableLantern_Candle_DG.esp', 'EMCompViljaSkyrim.esp', 'Outfitmerge.esp', 'ReProccerNONPLAYERfix.esp', 'WICskyreFix.esp', 'Dr_Bandolier.esp', 'Dr_BandolierDG.esp', 'BandolierForNPCsCheaperBandoliers.esp', 'BandolierForNPCsCheaperBandoliers_BalancedWeight.esp', 'BandolierForNPCsCheaperBandoliersDawnguard.esp', 'BandolierForNPCsCheaperBandoliers_BalancedWeight_Dawnguard.esp', 'dwarvenrifle.esp', 'j3x-autocrossbows.esp', 'dwavenautorifle1.esp', 'Post ReProccer Fixes CCOR IA7 aMidianSS Content Addon Patch.esp', 'Post ReProccer Fixes CCOR IA7 aMidianSS Patch.esp', 'Post ReProccer Fixes CCOR IA7 IW aMidianSS Content Addon Patch.esp', 'Post ReProccer Fixes CCOR IA7 IW aMidianSS Patch.esp', 'Post ReProccer Fixes CCOR IA7 IW Patch.esp', 'Post ReProccer Fixes CCOR IA7 IW Patch(Personal).esp', 'Post ReProccer Fixes CCOR IA7 IW UU aMidianSS Content Addon Patch.esp', 'Post ReProccer Fixes CCOR IA7 IW UU aMidianSS Patch.esp', 'Post ReProccer Fixes CCOR IA7 IW UU Patch.esp', 'Post ReProccer Fixes CCOR IA7 UU aMidianSS Content Addon Patch.esp', 'Post ReProccer Fixes CCOR IA7 UU aMidianSS Patch.esp', 'Post ReProccer Fixes CCOR IA7 UU Patch.esp', 'Post ReProccer Fixes IA7 aMidianSS Content AddonPatch.esp', 'Post ReProccer Fixes IA7 aMidianSS Patch.esp', 'Post ReProccer Fixes IA7 IW aMidianSS Content AddonPatch.esp', 'Post ReProccer Fixes IA7 IW aMidianSS Patch.esp', 'Post ReProccer Fixes IA7 IW Patch.esp', 'Post ReProccer Fixes IA7 IW UU aMidianSS Content Addon Patch.esp', 'Post ReProccer Fixes IA7 IW UU aMidianSS Patch.esp', 'Post ReProccer Fixes IA7 IW UU Patch.esp', 'Post ReProccer Fixes IA7 Patch.esp', 'Post ReProccer Fixes IA7 UU aMidianSS Content Addon Patch.esp', 'Post ReProccer Fixes IA7 UU aMidianSS Patch.esp', 'Post ReProccer Fixes IA7 UU Patch.esp']
@@ -3035,8 +3035,8 @@ function () {
         expNeuralgia: GetHex(0x3df04f, 'SkyRe_Main.esp'),
         expTimebomb: GetHex(0x00f944, 'SkyRe_Main.esp'),
         // Game Settings
-        gmstfArmorScalingFactor: GetHex(0x021a72, 'Skyrim.esm'),
-        gmstfMaxArmorRating: GetHex(0x037deb, 'Skyrim.esm'),
+        gmstArmorScalingFactor: GetHex(0x021a72, 'Skyrim.esm'),
+        gmstMaxArmorRating: GetHex(0x037deb, 'Skyrim.esm'),
         // Items
         ingotCorundum: GetHex(0x05ad93, 'Skyrim.esm'),
         ingotDwarven: GetHex(0x0db8a2, 'Skyrim.esm'),

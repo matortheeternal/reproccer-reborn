@@ -30,7 +30,7 @@ export default class ProjectilePatcher {
           return false;
         }
 
-        if (!this.projectiles.baseStats.find(bs => name.includes(bs.sIdentifier))) {
+        if (!this.projectiles.baseStats.find(bs => name.includes(bs.identifier))) {
           return false;
         }
 
@@ -75,14 +75,14 @@ export default class ProjectilePatcher {
     let failed = false;
 
     this.projectiles.baseStats.some(bs => {
-      if (!name.includes(bs.sIdentifier)) {
+      if (!name.includes(bs.identifier)) {
         return false;
       }
 
-      newGravity = bs.fGravityBase;
-      newSpeed = bs.fSpeedBase;
-      newRange = bs.fRangeBase;
-      newDamage = bs.iDamageBase;
+      newGravity = bs.gravity;
+      newSpeed = bs.speed;
+      newRange = bs.range;
+      newDamage = bs.damage;
       return true;
     });
 
@@ -91,9 +91,9 @@ export default class ProjectilePatcher {
         return false;
       }
 
-      newGravity += ms.fGravityModifier;
-      newSpeed += ms.fSpeedModifier;
-      newDamage += ms.iDamageModifier;
+      newGravity += ms.gravity;
+      newSpeed += ms.speed;
+      newDamage += ms.damage;
       return true;
     });
 
@@ -102,9 +102,9 @@ export default class ProjectilePatcher {
         return false;
       }
 
-      newGravity += ms.fGravityModifier;
-      newSpeed += ms.fSpeedModifier;
-      newDamage += ms.iDamageModifier;
+      newGravity += ms.gravity;
+      newSpeed += ms.speed;
+      newDamage += ms.damage;
       return true;
     });
 
@@ -124,7 +124,7 @@ export default class ProjectilePatcher {
 
   multiplyBolts(ammo) {
     const found = this.projectiles.baseStats.find(
-      bs => this.names[ammo].includes(bs.sIdentifier) && bs.sType !== 'BOLT'
+      bs => this.names[ammo].includes(bs.identifier) && bs.type !== 'BOLT'
     );
 
     if (found) {
@@ -291,7 +291,7 @@ export default class ProjectilePatcher {
     this.addCraftingRecipe(ammo, noisemakerAmmo, ingredients, perks);
 
     const found = this.projectiles.baseStats.find(
-      bs => this.names[ammo].includes(bs.sIdentifier) && bs.sType !== 'ARROW'
+      bs => this.names[ammo].includes(bs.identifier) && bs.type !== 'ARROW'
     );
 
     if (found) {

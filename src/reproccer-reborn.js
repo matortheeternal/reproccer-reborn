@@ -84,8 +84,8 @@ export default class ReproccerReborn {
       expTimebomb: GetHex(0x00f944, 'SkyRe_Main.esp'),
 
       // Game Settings
-      gmstfArmorScalingFactor: GetHex(0x021a72, 'Skyrim.esm'),
-      gmstfMaxArmorRating: GetHex(0x037deb, 'Skyrim.esm'),
+      gmstArmorScalingFactor: GetHex(0x021a72, 'Skyrim.esm'),
+      gmstMaxArmorRating: GetHex(0x037deb, 'Skyrim.esm'),
 
       // Items
       ingotCorundum: GetHex(0x05ad93, 'Skyrim.esm'),

@@ -56,27 +56,23 @@ export default class ArmorPatcher {
   }
 
   updateGameSettings() {
-    const fArmorScalingFactorBaseRecord = xelib.GetRecord(
+    const armorScalingFactorBaseRecord = xelib.GetRecord(
       0,
-      parseInt(this.statics.gmstfArmorScalingFactor, 16)
+      parseInt(this.statics.gmstArmorScalingFactor, 16)
     );
-    const fArmorScalingFactor = xelib.CopyElement(fArmorScalingFactorBaseRecord, this.patchFile);
+    const fArmorScalingFactor = xelib.CopyElement(armorScalingFactorBaseRecord, this.patchFile);
     xelib.SetFloatValue(
       fArmorScalingFactor,
       'DATA\\Float',
-      this.settings.armorBaseStats.fProtectionPerArmor
+      this.settings.armorBaseStats.protectionPerArmor
     );
 
-    const fMaxArmorRatingBaseRecord = xelib.GetRecord(
+    const maxArmorRatingBaseRecord = xelib.GetRecord(
       0,
-      parseInt(this.statics.gmstfMaxArmorRating, 16)
+      parseInt(this.statics.gmstMaxArmorRating, 16)
     );
-    const fMaxArmorRating = xelib.CopyElement(fMaxArmorRatingBaseRecord, this.patchFile);
-    xelib.SetFloatValue(
-      fMaxArmorRating,
-      'DATA\\Float',
-      this.settings.armorBaseStats.fMaxProtection
-    );
+    const maxArmorRating = xelib.CopyElement(maxArmorRatingBaseRecord, this.patchFile);
+    xelib.SetFloatValue(maxArmorRating, 'DATA\\Float', this.settings.armorBaseStats.maxProtection);
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -337,8 +333,8 @@ export default class ArmorPatcher {
   }
 
   getArmorMaterialOverride(name) {
-    const override = this.armor.materialOverrides.find(o => name.includes(o.armorSubstring));
-    return override ? override.materialOverride : null;
+    const override = this.armor.materialOverrides.find(o => name.includes(o.substring));
+    return override ? override.material : null;
   }
 
   hasMaterialKeyword(armor) {
@@ -378,26 +374,26 @@ export default class ArmorPatcher {
   getArmorSlotMultiplier(armor) {
     const kwda = h.getKwda(armor);
     if (kwda(this.statics.kwArmorSlotBoots)) {
-      return this.settings.armorBaseStats.fArmorFactorBoots;
+      return this.settings.armorBaseStats.armorFactorBoots;
     }
     if (kwda(this.statics.kwArmorSlotCuirass)) {
-      return this.settings.armorBaseStats.fArmorFactorCuirass;
+      return this.settings.armorBaseStats.armorFactorCuirass;
     }
     if (kwda(this.statics.kwArmorSlotGauntlets)) {
-      return this.settings.armorBaseStats.fArmorFactorGauntlets;
+      return this.settings.armorBaseStats.armorFactorGauntlets;
     }
     if (kwda(this.statics.kwArmorSlotHelmet)) {
-      return this.settings.armorBaseStats.fArmorFactorHelmet;
+      return this.settings.armorBaseStats.armorFactorHelmet;
     }
     if (kwda(this.statics.kwArmorSlotShield)) {
-      return this.settings.armorBaseStats.fArmorFactorShield;
+      return this.settings.armorBaseStats.armorFactorShield;
     }
 
     return 0;
   }
 
   getMaterialArmorModifier(armor) {
-    let armorRating = h.getValueFromName(this.armor.materials, this.names[armor], 'name', 'iArmor');
+    let armorRating = h.getValueFromName(this.armor.materials, this.names[armor], 'name', 'armor');
 
     if (armorRating !== null) {
       return armorRating;
@@ -450,7 +446,7 @@ export default class ArmorPatcher {
         return false;
       }
 
-      armorRating = h.getValueFromName(this.armor.materials, pair.name, 'name', 'iArmor');
+      armorRating = h.getValueFromName(this.armor.materials, pair.name, 'name', 'armor');
       return true;
     });
 

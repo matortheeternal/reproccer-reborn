@@ -1,0 +1,10 @@
+{
+  "weapons": {
+    "materials": [
+      {
+        "damage": 10,
+        "name": "Real Ebony"
+      }
+    ]
+  }
+}

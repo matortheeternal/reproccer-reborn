@@ -45,8 +45,8 @@ export default class AlchemyPatcher {
         return false;
       }
 
-      newDuration = this.settings.alchemyBaseStats.iDurationBase + e.iDurationBonus;
-      newMagnitude *= e.fMagnitudeFactor;
+      newDuration = this.settings.alchemyBaseStats.durationBase + e.durationBonus;
+      newMagnitude *= e.magnitudeFactor;
 
       return true;
     });
@@ -68,7 +68,7 @@ export default class AlchemyPatcher {
   }
 
   clampValue(ingredient) {
-    if (!this.settings.alchemyBaseStats.bUsePriceLimits) {
+    if (!this.settings.alchemyBaseStats.usePriceLimits) {
       return;
     }
 

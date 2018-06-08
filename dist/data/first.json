@@ -1,1500 +1,1212 @@
 {
   "weapons": {
     "typeDefinitions": [
-      {
-        "typeBinding": "LONGBOW",
-        "substring": "Auriel's Bow"
-      },
-      {
-        "typeBinding": "BASTARDSWORD",
-        "substring": "Bastard Sword"
-      },
-      {
-        "typeBinding": "BATTLESTAFF",
-        "substring": "Battlestaff"
-      },
-      {
-        "typeBinding": "SCIMITAR",
-        "substring": "Bloodscythe"
-      },
-      {
-        "typeBinding": "BROADSWORD",
-        "substring": "Broadsword"
-      },
-      {
-        "typeBinding": "CLUB",
-        "substring": "Club"
-      },
-      {
-        "typeBinding": "CROSSBOW",
-        "substring": "Crossbow"
-      },
-      {
-        "typeBinding": "GLAIVE",
-        "substring": "Glaive"
-      },
-      {
-        "typeBinding": "HALBERD",
-        "substring": "Halberd"
-      },
-      {
-        "typeBinding": "MAUL",
-        "substring": "Hammer"
-      },
-      {
-        "typeBinding": "HATCHET",
-        "substring": "Hatchet"
-      },
-      {
-        "typeBinding": "KATANA",
-        "substring": "Katana"
-      },
-      {
-        "typeBinding": "LONGBOW",
-        "substring": "Longbow"
-      },
-      {
-        "typeBinding": "LONGBOW",
-        "substring": "Long Bow"
-      },
-      {
-        "typeBinding": "LONGMACE",
-        "substring": "Longmace"
-      },
-      {
-        "typeBinding": "LONGSWORD",
-        "substring": "Longsword"
-      },
-      {
-        "typeBinding": "MAUL",
-        "substring": "Maul"
-      },
-      {
-        "typeBinding": "NODACHI",
-        "substring": "Nodachi"
-      },
-      {
-        "typeBinding": "SCIMITAR",
-        "substring": "Saber"
-      },
-      {
-        "typeBinding": "SCIMITAR",
-        "substring": "Sabre"
-      },
-      {
-        "typeBinding": "SCIMITAR",
-        "substring": "Scimitar"
-      },
-      {
-        "typeBinding": "SHORTBOW",
-        "substring": "Shortbow"
-      },
-      {
-        "typeBinding": "SHORTSPEAR",
-        "substring": "Shortspear"
-      },
-      {
-        "typeBinding": "SHORTSWORD",
-        "substring": "Shortsword"
-      },
-      {
-        "typeBinding": "LONGBOW",
-        "substring": "Solonor"
-      },
-      {
-        "typeBinding": "MACE",
-        "substring": "Spiked Club"
-      },
-      {
-        "typeBinding": "BROADSWORD",
-        "substring": "Sword"
-      },
-      {
-        "typeBinding": "TANTO",
-        "substring": "Tanto"
-      },
-      {
-        "typeBinding": "UNARMED",
-        "substring": "Unarmed"
-      },
-      {
-        "typeBinding": "WAKIZASHI",
-        "substring": "Wakizashi"
-      },
-      {
-        "typeBinding": "WARHAMMER",
-        "substring": "Warhammer"
-      },
-      {
-        "typeBinding": "YARI",
-        "substring": "Yari"
-      },
-      {
-        "typeBinding": "LONGBOW",
-        "substring": "Zephyr"
-      }
+      { "binding": "HATCHET", "substring": "Hatchet" },
+      { "binding": "BATTLEAXE", "substring": "Hoth's Bonestaff" },
+      { "binding": "SHORTSWORD", "substring": "Shortsword" },
+      { "binding": "SHORTSWORD", "substring": "Short Saber" },
+      { "binding": "SHORTSWORD", "substring": "Short Sabre" },
+      { "binding": "SHORTSWORD", "substring": "Gladius" },
+      { "binding": "SHORTSWORD", "substring": "Orcrist" },
+      { "binding": "SHORTSWORD", "substring": "Goblin Cleaver" },
+      { "binding": "BROADSWORD", "substring": "Broadsword" },
+      { "binding": "BROADSWORD", "substring": "Hollow Blade" },
+      { "binding": "BROADSWORD", "substring": "Ceymallari" },
+      { "binding": "BROADSWORD", "substring": "Type K Bastard Sword" },
+      { "binding": "BROADSWORD", "substring": "Sword" },
+      { "binding": "BROADSWORD", "substring": "Ansei Sword" },
+      { "binding": "BROADSWORD", "substring": "Dragon Spear [1H]" },
+      { "binding": "SCIMITAR", "substring": "Falchion" },
+      { "binding": "SCIMITAR", "substring": "Scimitar" },
+      { "binding": "SCIMITAR", "substring": "Sabre" },
+      { "binding": "SCIMITAR", "substring": "Saber" },
+      { "binding": "SCIMITAR", "substring": "Bloodscythe" },
+      { "binding": "SCIMITAR", "substring": "M'kai Sabre" },
+      { "binding": "SCIMITAR", "substring": "Cutlass" },
+      { "binding": "SCIMITAR", "substring": "Guard Sword" },
+      { "binding": "LONGSWORD", "substring": "Longsword" },
+      { "binding": "LONGSWORD", "substring": "Longclaw" },
+      { "binding": "LONGSWORD", "substring": "Yataghan" },
+      { "binding": "GREATSWORD", "substring": "Claymore" },
+      { "binding": "GREATSWORD", "substring": "Knight Sword" },
+      { "binding": "GREATSWORD", "substring": "Great Sabre" },
+      { "binding": "GREATSWORD", "substring": "Great Falchion" },
+      { "binding": "GREATSWORD", "substring": "Great Scimitar" },
+      { "binding": "GREATSWORD", "substring": "Heavy Crusader Sword" },
+      { "binding": "GREATSWORD", "substring": "Warsword" },
+      { "binding": "BASTARDSWORD", "substring": "Bastard Sword" },
+      { "binding": "BASTARDSWORD", "substring": "BastardSword" },
+      { "binding": "BASTARDSWORD", "substring": "Bastardsword" },
+      { "binding": "BASTARDSWORD", "substring": "Bastard Greatsword" },
+      { "binding": "BASTARDSWORD", "substring": "Longclaw Bastard Sword" },
+      { "binding": "BASTARDSWORD", "substring": "Alendris" },
+      { "binding": "BASTARDSWORD", "substring": "Orcrist Bastard Sword" },
+      { "binding": "BASTARDSWORD", "substring": "Goblin Cleaver Bastard Sword" },
+      { "binding": "BATTLESTAFF", "substring": "Battlestaff" },
+      { "binding": "BATTLESTAFF", "substring": "Battle Staff" },
+      { "binding": "BATTLESTAFF", "substring": "Quarterstaff" },
+      { "binding": "SHORTSPEAR", "substring": "Shortspear" },
+      { "binding": "SHORTSPEAR", "substring": "Short-spear" },
+      { "binding": "SHORTSPEAR", "substring": "Short spear" },
+      { "binding": "HALBERD", "substring": "Scythe" },
+      { "binding": "HALBERD", "substring": "Halberd" },
+      { "binding": "HALBERD", "substring": "Axestaff" },
+      { "binding": "HALBERD", "substring": "Poleaxe" },
+      { "binding": "HALBERD", "substring": "Pole axe" },
+      { "binding": "GLAIVE", "substring": "Glaive" },
+      { "binding": "TANTO", "substring": "Tanto" },
+      { "binding": "WAKIZASHI", "substring": "Wakizashi" },
+      { "binding": "KATANA", "substring": "Katana" },
+      { "binding": "KATANA", "substring": "Ninjato" },
+      { "binding": "KATANA", "substring": "Goldbrand" },
+      { "binding": "KATANA", "substring": "The Wrath of Sithis" },
+      { "binding": "KATANA", "substring": "The Will of Sithis" },
+      { "binding": "NODACHI", "substring": "Great Katana" },
+      { "binding": "NODACHI", "substring": "Dai-Katana" },
+      { "binding": "NODACHI", "substring": "Changdao" },
+      { "binding": "NODACHI", "substring": "Nodachi" },
+      { "binding": "NODACHI", "substring": "Daito" },
+      { "binding": "YARI", "substring": "Spear" },
+      { "binding": "YARI", "substring": "Yari" },
+      { "binding": "SHORTBOW", "substring": "Hunters Bow" },
+      { "binding": "SHORTBOW", "substring": "Elven Hawk Bow" },
+      { "binding": "SHORTBOW", "substring": "Silver Hawk Bow" },
+      { "binding": "SHORTBOW", "substring": "Shortbow" },
+      { "binding": "LONGBOW", "substring": "Longbow" },
+      { "binding": "LONGBOW", "substring": "Long Bow" },
+      { "binding": "LONGBOW", "substring": "Recurve Bow" },
+      { "binding": "LONGBOW", "substring": "Doublearm Bow" },
+      { "binding": "LONGBOW", "substring": "Divide Bow" },
+      { "binding": "LONGBOW", "substring": "Forebear Bow" },
+      { "binding": "LONGBOW", "substring": "Orsimer Chieftain Bow" },
+      { "binding": "LONGBOW", "substring": "Auriel's Bow" },
+      { "binding": "LONGBOW", "substring": "An-Xileel War Bow" },
+      { "binding": "LONGBOW", "substring": "Hammerfell Bow" },
+      { "binding": "LONGBOW", "substring": "M'kai Bow" },
+      { "binding": "LONGBOW", "substring": "Colovian Composite" },
+      { "binding": "LONGBOW", "substring": "Colovian Dark Composite" },
+      { "binding": "LONGBOW", "substring": "Gemstone Bow" },
+      { "binding": "LONGBOW", "substring": "Solonor" },
+      { "binding": "LONGBOW", "substring": "Zephyr" },
+      { "binding": "CROSSBOW", "substring": "Crossbow" },
+      { "binding": "CLUB", "substring": "Club" },
+      { "binding": "CLUB", "substring": "Walking Stick" },
+      { "binding": "MACE", "substring": "Spiked Club" },
+      { "binding": "MAUL", "substring": "Maul" },
+      { "binding": "MAUL", "substring": "Hammer" },
+      { "binding": "LONGMACE", "substring": "Longmace" },
+      { "binding": "LONGMACE", "substring": "War-Mace" },
+      { "binding": "WARHAMMER", "substring": "Warhammer" },
+      { "binding": "WARHAMMER", "substring": "War hammer" },
+      { "binding": "WARHAMMER", "substring": "War Hammer" },
+      { "binding": "WARHAMMER", "substring": "Ornate Maul" },
+      { "binding": "WARHAMMER", "substring": "Sixth House Bell Hammer" },
+      { "binding": "WARHAMMER", "substring": "Thresher Maul" },
+      { "binding": "UNARMED", "substring": "Unarmed" }
     ],
     "materials": [
-      {
-        "iDamage": 7,
-        "name": "Akaviri"
-      },
-      {
-        "iDamage": 1,
-        "name": "Ancient Nord"
-      },
-      {
-        "iDamage": 2,
-        "name": "Ash"
-      },
-      {
-        "iDamage": 5,
-        "name": "Blades"
-      },
-      {
-        "iDamage": 9,
-        "name": "Daedric"
-      },
-      {
-        "iDamage": 3,
-        "name": "Dawnguard"
-      },
-      {
-        "iDamage": 10,
-        "name": "Dragon"
-      },
-      {
-        "iDamage": 2,
-        "name": "Drain"
-      },
-      {
-        "iDamage": 1,
-        "name": "Draugr"
-      },
-      {
-        "iDamage": 4,
-        "name": "Draugr Honed"
-      },
-      {
-        "iDamage": 2,
-        "name": "Dwarven"
-      },
-      {
-        "iDamage": 4,
-        "name": "Eastern Dwemer"
-      },
-      {
-        "iDamage": 8,
-        "name": "Ebony"
-      },
-      {
-        "iDamage": 3,
-        "name": "Elven"
-      },
-      {
-        "iDamage": 2,
-        "name": "Falmer"
-      },
-      {
-        "iDamage": 3,
-        "name": "Falmer Honed"
-      },
-      {
-        "iDamage": -1,
-        "name": "Forsworn"
-      },
-      {
-        "iDamage": 7,
-        "name": "Glass"
-      },
-      {
-        "iDamage": 5,
-        "name": "Harkon's Sword"
-      },
-      {
-        "iDamage": 4,
-        "name": "Honed Ancient Nord"
-      },
-      {
-        "iDamage": 4,
-        "name": "Honed Draugr"
-      },
-      {
-        "iDamage": 3,
-        "name": "Honed Falmer"
-      },
-      {
-        "iDamage": 1,
-        "name": "Imperial"
-      },
-      {
-        "iDamage": -1,
-        "name": "Iron"
-      },
-      {
-        "iDamage": 8,
-        "name": "Nightingale"
-      },
-      {
-        "iDamage": 6,
-        "name": "Nord Hero"
-      },
-      {
-        "iDamage": 5,
-        "name": "Nordic"
-      },
-      {
-        "iDamage": 4,
-        "name": "Orcish"
-      },
-      {
-        "iDamage": 5,
-        "name": "Refined Silver"
-      },
-      {
-        "iDamage": 1,
-        "name": "Silver"
-      },
-      {
-        "iDamage": 5,
-        "name": "Skyforge Steel"
-      },
-      {
-        "iDamage": -10,
-        "name": "Sorcerer's Fists"
-      },
-      {
-        "iDamage": 8,
-        "name": "Stalhrim"
-      },
-      {
-        "iDamage": 1,
-        "name": "Steel"
-      },
-      {
-        "iDamage": 4,
-        "name": "Supple Ancient Nord"
-      },
-      {
-        "iDamage": -3,
-        "name": "Unarmed"
-      },
-      {
-        "iDamage": -3,
-        "name": "Wood"
-      },
-      {
-        "iDamage": -5,
-        "name": "Woodcutter"
-      }
-    ],
-    "types": [
-      {
-        "fReach": 1.1,
-        "fSpeed": 0.85,
-        "iDamage": 5,
-        "name": "Bastard"
-      },
-      {
-        "fReach": 1.1,
-        "fSpeed": 0.85,
-        "iDamage": 5,
-        "name": "Bastard Sword"
-      },
-      {
-        "fReach": 1.1,
-        "fSpeed": 0.85,
-        "iDamage": 5,
-        "name": "Bastardsword"
-      },
-      {
-        "fReach": 1.25,
-        "fSpeed": 0.65,
-        "iDamage": 8,
-        "name": "Battleaxe"
-      },
-      {
-        "fReach": 1.3,
-        "fSpeed": 0.95,
-        "iDamage": 0,
-        "name": "Battlestaff"
-      },
-      {
-        "fReach": 1,
-        "fSpeed": 1,
-        "iDamage": 6,
-        "name": "Broadsword"
-      },
-      {
-        "fReach": 0.8,
-        "fSpeed": 1.05,
-        "iDamage": 2,
-        "name": "Club"
-      },
-      {
-        "fReach": 1,
-        "fSpeed": 0.9,
-        "iDamage": 17,
-        "name": "Crossbow"
-      },
-      {
-        "fReach": 0.7,
-        "fSpeed": 1.3,
-        "iDamage": 1,
-        "name": "Dagger"
-      },
-      {
-        "fReach": 1.25,
-        "fSpeed": 0.75,
-        "iDamage": 8,
-        "name": "Double Axe"
-      },
-      {
-        "fReach": 1.55,
-        "fSpeed": 0.82,
-        "iDamage": 2,
-        "name": "Glaive"
-      },
-      {
-        "fReach": 1.3,
-        "fSpeed": 0.7,
-        "iDamage": 7,
-        "name": "Great Falchion"
-      },
-      {
-        "fReach": 1.3,
-        "fSpeed": 0.7,
-        "iDamage": 7,
-        "name": "Great Saber"
-      },
-      {
-        "fReach": 1.3,
-        "fSpeed": 0.7,
-        "iDamage": 7,
-        "name": "Great Sabre"
-      },
-      {
-        "fReach": 1.3,
-        "fSpeed": 0.7,
-        "iDamage": 7,
-        "name": "Great Scimitar"
-      },
-      {
-        "fReach": 1.3,
-        "fSpeed": 0.75,
-        "iDamage": 6,
-        "name": "Greatsword"
-      },
-      {
-        "fReach": 1.32,
-        "fSpeed": 0.56,
-        "iDamage": 9,
-        "name": "Halberd"
-      },
-      {
-        "fReach": 0.81,
-        "fSpeed": 1,
-        "iDamage": 4,
-        "name": "Hatchet"
-      },
-      {
-        "fReach": 0.9,
-        "fSpeed": 1.1,
-        "iDamage": 5,
-        "name": "Katana"
-      },
-      {
-        "fReach": 1,
-        "fSpeed": 0.3,
-        "iDamage": 13,
-        "name": "Longbow"
-      },
-      {
-        "fReach": 1.1,
-        "fSpeed": 0.85,
-        "iDamage": 7,
-        "name": "Longmace"
-      },
-      {
-        "fReach": 1.2,
-        "fSpeed": 1,
-        "iDamage": 6,
-        "name": "Longsword"
-      },
-      {
-        "fReach": 0.95,
-        "fSpeed": 0.85,
-        "iDamage": 9,
-        "name": "Mace"
-      },
-      {
-        "fReach": 0.9,
-        "fSpeed": 0.77,
-        "iDamage": 11,
-        "name": "Maul"
-      },
-      {
-        "fReach": 1.2,
-        "fSpeed": 0.75,
-        "iDamage": 4,
-        "name": "Nodachi"
-      },
-      {
-        "fReach": 0.95,
-        "fSpeed": 0.95,
-        "iDamage": 7,
-        "name": "Saber"
-      },
-      {
-        "fReach": 0.95,
-        "fSpeed": 0.95,
-        "iDamage": 7,
-        "name": "Sabre"
-      },
-      {
-        "fReach": 0.95,
-        "fSpeed": 0.95,
-        "iDamage": 8,
-        "name": "Scimitar"
-      },
-      {
-        "fReach": 1,
-        "fSpeed": 0.72,
-        "iDamage": 5,
-        "name": "Shortbow"
-      },
-      {
-        "fReach": 1.25,
-        "fSpeed": 1.05,
-        "iDamage": 2,
-        "name": "Shortspear"
-      },
-      {
-        "fReach": 0.8,
-        "fSpeed": 1.13,
-        "iDamage": 3,
-        "name": "Shortsword"
-      },
-      {
-        "fReach": 0.75,
-        "fSpeed": 1.4,
-        "iDamage": 0,
-        "name": "Tanto"
-      },
-      {
-        "fReach": 1,
-        "fSpeed": 1,
-        "iDamage": 0,
-        "name": "Unarmed"
-      },
-      {
-        "fReach": 0.85,
-        "fSpeed": 1.15,
-        "iDamage": 3,
-        "name": "Wakizashi"
-      },
-      {
-        "fReach": 0.95,
-        "fSpeed": 0.95,
-        "iDamage": 8,
-        "name": "Waraxe"
-      },
-      {
-        "fReach": 1.25,
-        "fSpeed": 0.6,
-        "iDamage": 9,
-        "name": "Warhammer"
-      },
-      {
-        "fReach": 1.6,
-        "fSpeed": 0.9,
-        "iDamage": 2,
-        "name": "Yari"
-      }
-    ],
-    "typeOverrides": [
-      {
-        "weaponName": "Afterslash",
-        "weaponType": "Longsword"
-      },
-      {
-        "weaponName": "Akaviri Greatsword",
-        "weaponType": "Nodachi"
-      },
-      {
-        "weaponName": "Akaviri Katana",
-        "weaponType": "Katana"
-      },
-      {
-        "weaponName": "Akaviri Sword",
-        "weaponType": "Katana"
-      },
-      {
-        "weaponName": "Akavirii Battlesaber",
-        "weaponType": "Bastardsword"
-      },
-      {
-        "weaponName": "Akavirii Sword",
-        "weaponType": "Katana"
-      },
-      {
-        "weaponName": "Altmeri Bow",
-        "weaponType": "Shortbow"
-      },
-      {
-        "weaponName": "Anduril - 1H",
-        "weaponType": "Longsword"
-      },
-      {
-        "weaponName": "Anduril - 2H",
-        "weaponType": "Bastardsword"
-      },
-      {
-        "weaponName": "Argonian Battleblade",
-        "weaponType": "Bastardsword"
-      },
-      {
-        "weaponName": "Aries",
-        "weaponType": "Greatsword"
-      },
-      {
-        "weaponName": "Asuma Blade",
-        "weaponType": "Dagger"
-      },
-      {
-        "weaponName": "Auriel's Bow",
-        "weaponType": "Longbow"
-      },
-      {
-        "weaponName": "Balestarius",
-        "weaponType": "Battleaxe"
-      },
-      {
-        "weaponName": "Basic Greatsword",
-        "weaponType": "Bastardsword"
-      },
-      {
-        "weaponName": "Baskethilt",
-        "weaponType": "Scimitar"
-      },
-      {
-        "weaponName": "Bearded Axe",
-        "weaponType": "Waraxe"
-      },
-      {
-        "weaponName": "Black Dragon",
-        "weaponType": "Wakizashi"
-      },
-      {
-        "weaponName": "Blades Sword",
-        "weaponType": "Katana"
-      },
-      {
-        "weaponName": "Bloodscythe",
-        "weaponType": "Scimitar"
-      },
-      {
-        "weaponName": "Blue Dragon",
-        "weaponType": "Wakizashi"
-      },
-      {
-        "weaponName": "Boarding Knife",
-        "weaponType": "Shortsword"
-      },
-      {
-        "weaponName": "Bolar's Oathblade",
-        "weaponType": "Katana"
-      },
-      {
-        "weaponName": "Bound Bow",
-        "weaponType": "Longbow"
-      },
-      {
-        "weaponName": "Ceymallari",
-        "weaponType": "Broadsword"
-      },
-      {
-        "weaponName": "Chakram",
-        "weaponType": "Dagger"
-      },
-      {
-        "weaponName": "Cutlass",
-        "weaponType": "Scimitar"
-      },
-      {
-        "weaponName": "Daedric Hammer",
-        "weaponType": "Maul"
-      },
-      {
-        "weaponName": "Dawnbreaker",
-        "weaponType": "Longsword"
-      },
-      {
-        "weaponName": "Doomshard Bow",
-        "weaponType": "Shortbow"
-      },
-      {
-        "weaponName": "Dragon Staff",
-        "weaponType": "Battlestaff"
-      },
-      {
-        "weaponName": "Dragonbane",
-        "weaponType": "Katana"
-      },
-      {
-        "weaponName": "Dragonbrand",
-        "weaponType": "Bastardsword"
-      },
-      {
-        "weaponName": "Dragonrend",
-        "weaponType": "Longbow"
-      },
-      {
-        "weaponName": "Dremora Badelaire",
-        "weaponType": "Scimitar"
-      },
-      {
-        "weaponName": "Dwarven Hammer",
-        "weaponType": "Maul"
-      },
-      {
-        "weaponName": "Dwarven Staff",
-        "weaponType": "Battlestaff"
-      },
-      {
-        "weaponName": "Ebony Blade",
-        "weaponType": "Nodachi"
-      },
-      {
-        "weaponName": "Ebony Hammer",
-        "weaponType": "Maul"
-      },
-      {
-        "weaponName": "Ebony Staff",
-        "weaponType": "Battlestaff"
-      },
-      {
-        "weaponName": "Elven Hammer",
-        "weaponType": "Maul"
-      },
-      {
-        "weaponName": "Falkreath Blade",
-        "weaponType": "Longsword"
-      },
-      {
-        "weaponName": "Fine Nordic Spear",
-        "weaponType": "Yari"
-      },
-      {
-        "weaponName": "Fleur De Lys",
-        "weaponType": "Longsword"
-      },
-      {
-        "weaponName": "Fork of Horripilation",
-        "weaponType": "Shortspear"
-      },
-      {
-        "weaponName": "Forsworn Staff",
-        "weaponType": "Battlestaff"
-      },
-      {
-        "weaponName": "Glass Hammer",
-        "weaponType": "Maul"
-      },
-      {
-        "weaponName": "Great Scimitar",
-        "weaponType": "Greatsword"
-      },
-      {
-        "weaponName": "Gungnir",
-        "weaponType": "Shortsword"
-      },
-      {
-        "weaponName": "Gungnir",
-        "weaponType": "Shortsword"
-      },
-      {
-        "weaponName": "Hammer",
-        "weaponType": "Maul"
-      },
-      {
-        "weaponName": "Harkon's Sword",
-        "weaponType": "Katana"
-      },
-      {
-        "weaponName": "Heavy Crusader Sword",
-        "weaponType": "Greatsword"
-      },
-      {
-        "weaponName": "Hollow Blade",
-        "weaponType": "Broadsword"
-      },
-      {
-        "weaponName": "Hot Blood",
-        "weaponType": "Greatsword"
-      },
-      {
-        "weaponName": "Hunter's spear",
-        "weaponType": "Yari"
-      },
-      {
-        "weaponName": "Hunting Sword",
-        "weaponType": "Shortsword"
-      },
-      {
-        "weaponName": "Ice Blade of the Monarch",
-        "weaponType": "Greatsword"
-      },
-      {
-        "weaponName": "Icicle",
-        "weaponType": "Shortsword"
-      },
-      {
-        "weaponName": "Imperial Spatha",
-        "weaponType": "Shortsword"
-      },
-      {
-        "weaponName": "Imperial Sword",
-        "weaponType": "Broadsword"
-      },
-      {
-        "weaponName": "Iron Capped Staff",
-        "weaponType": "Battlestaff"
-      },
-      {
-        "weaponName": "Iron Fighting Staff",
-        "weaponType": "Battlestaff"
-      },
-      {
-        "weaponName": "Iron Hammer",
-        "weaponType": "Maul"
-      },
-      {
-        "weaponName": "Iron Staff",
-        "weaponType": "Battlestaff"
-      },
-      {
-        "weaponName": "Jade Blade",
-        "weaponType": "Longsword"
-      },
-      {
-        "weaponName": "Justice",
-        "weaponType": "Greatsword"
-      },
-      {
-        "weaponName": "Knight Sword",
-        "weaponType": "Greatsword"
-      },
-      {
-        "weaponName": "Leafblade",
-        "weaponType": "Broadsword"
-      },
-      {
-        "weaponName": "Lohkrmil Bow",
-        "weaponType": "Shortbow"
-      },
-      {
-        "weaponName": "Long Bow",
-        "weaponType": "Longbow"
-      },
-      {
-        "weaponName": "Longclaw",
-        "weaponType": "Longsword"
-      },
-      {
-        "weaponName": "Longsword",
-        "weaponType": "Longsword"
-      },
-      {
-        "weaponName": "M'kai",
-        "weaponType": "Longbow"
-      },
-      {
-        "weaponName": "Maul",
-        "weaponType": "Club"
-      },
-      {
-        "weaponName": "Narsil - 1H",
-        "weaponType": "Longsword"
-      },
-      {
-        "weaponName": "Narsil - 2H",
-        "weaponType": "Bastardsword"
-      },
-      {
-        "weaponName": "Nightingale",
-        "weaponType": "Shortbow"
-      },
-      {
-        "weaponName": "Nightingale Blade",
-        "weaponType": "Broadsword"
-      },
-      {
-        "weaponName": "Nordic Blade",
-        "weaponType": "Shortsword"
-      },
-      {
-        "weaponName": "Orcish Crippler",
-        "weaponType": "Yari"
-      },
-      {
-        "weaponName": "Orcish Hammer",
-        "weaponType": "Maul"
-      },
-      {
-        "weaponName": "Orcish Scimitar",
-        "weaponType": "Scimitar"
-      },
-      {
-        "weaponName": "Ornate Bow",
-        "weaponType": "Shortbow"
-      },
-      {
-        "weaponName": "Pokeblade",
-        "weaponType": "Shortspear"
-      },
-      {
-        "weaponName": "Quadrelle",
-        "weaponType": "Mace"
-      },
-      {
-        "weaponName": "Raven Sword",
-        "weaponType": "Scimitar"
-      },
-      {
-        "weaponName": "Redguard Sword",
-        "weaponType": "Scimitar"
-      },
-      {
-        "weaponName": "Rider Blade",
-        "weaponType": "Broadsword"
-      },
-      {
-        "weaponName": "Shiavonna",
-        "weaponType": "Scimitar"
-      },
-      {
-        "weaponName": "Short Saber",
-        "weaponType": "Shortsword"
-      },
-      {
-        "weaponName": "Short Sabre",
-        "weaponType": "Shortsword"
-      },
-      {
-        "weaponName": "Sithis's Blade",
-        "weaponType": "Wakizashi"
-      },
-      {
-        "weaponName": "Sithis's Short Blade",
-        "weaponType": "Tanto"
-      },
-      {
-        "weaponName": "Skyforge Steel Hammer",
-        "weaponType": "Maul"
-      },
-      {
-        "weaponName": "Smallsword",
-        "weaponType": "Shortsword"
-      },
-      {
-        "weaponName": "Solonor",
-        "weaponType": "Longbow"
-      },
-      {
-        "weaponName": "Sorcerer's Fists",
-        "weaponType": "Unarmed"
-      },
-      {
-        "weaponName": "Spearblade",
-        "weaponType": "Shortspear"
-      },
-      {
-        "weaponName": "Spiderbane",
-        "weaponType": "Shortsword"
-      },
-      {
-        "weaponName": "Splitter",
-        "weaponType": "Shortspear"
-      },
-      {
-        "weaponName": "Steel Hammer",
-        "weaponType": "Maul"
-      },
-      {
-        "weaponName": "Sting",
-        "weaponType": "Shortsword"
-      },
-      {
-        "weaponName": "Svartbough",
-        "weaponType": "Shortbow"
-      },
-      {
-        "weaponName": "Sylarntorian Bow",
-        "weaponType": "Longbow"
-      },
-      {
-        "weaponName": "Talwar",
-        "weaponType": "Scimitar"
-      },
-      {
-        "weaponName": "The Bow of the Drow",
-        "weaponType": "Longbow"
-      },
-      {
-        "weaponName": "The Talon of Akatosh",
-        "weaponType": "Longsword"
-      },
-      {
-        "weaponName": "Tombstone",
-        "weaponType": "Greatsword"
-      },
-      {
-        "weaponName": "Trident Blade",
-        "weaponType": "Broadsword"
-      },
-      {
-        "weaponName": "Type K Bastard Sword",
-        "weaponType": "Broadsword"
-      },
-      {
-        "weaponName": "Umbra",
-        "weaponType": "Longsword"
-      },
-      {
-        "weaponName": "Walking Stick",
-        "weaponType": "Club"
-      },
-      {
-        "weaponName": "Windshear",
-        "weaponType": "Scimitar"
-      },
-      {
-        "weaponName": "Wooden Staff",
-        "weaponType": "Battlestaff"
-      }
+      { "damage": 3, "name": "Bishu" },
+      { "damage": 4, "name": "Fudou" },
+      { "damage": 2, "name": "Blade Of Dibella" },
+      { "damage": 2, "name": "Ash" },
+      { "damage": 2, "name": "Albensword" },
+      { "damage": 2, "name": "Magnificent Sword" },
+      { "damage": 9, "name": "Dovah Luv" },
+      { "damage": 6, "name": "Jade Blade" },
+      { "damage": 3, "name": "Heavy Crusader" },
+      { "damage": 3, "name": "Gilded Crusader" },
+      { "damage": 3, "name": "Fine Crusader" },
+      { "damage": 2, "name": "Crusader" },
+      { "damage": 8, "name": "Azurbrand" },
+      { "damage": 7, "name": "Akavirii" },
+      { "damage": 7, "name": "Akavari" },
+      { "damage": 3, "name": "Great Norse" },
+      { "damage": 3, "name": "Gilded Norse" },
+      { "damage": 3, "name": "Fine Norse" },
+      { "damage": 2, "name": "Norse" },
+      { "damage": 5, "name": "Aetherial" },
+      { "damage": 6, "name": "Aetherium" },
+      { "damage": -3, "name": "Wood" },
+      { "damage": -3, "name": "Unarmed" },
+      { "damage": -1, "name": "Forsworn" },
+      { "damage": -1, "name": "Iron" },
+      { "damage": 2, "name": "Falmer" },
+      { "damage": 1, "name": "Draugr" },
+      { "damage": 2, "name": "Drain" },
+      { "damage": 1, "name": "Ancient Nord" },
+      { "damage": 1, "name": "Steel" },
+      { "damage": 1, "name": "Imperial" },
+      { "damage": 3, "name": "Honed Falmer" },
+      { "damage": 3, "name": "Falmer Honed" },
+      { "damage": 4, "name": "Supple Ancient Nord" },
+      { "damage": 4, "name": "Honed Draugr" },
+      { "damage": 4, "name": "Draugr Honed" },
+      { "damage": 4, "name": "Honed Ancient Nord" },
+      { "damage": 3, "name": "Elven" },
+      { "damage": 3, "name": "Orcrist" },
+      { "damage": 4, "name": "Goblin Cleaver" },
+      { "damage": 5, "name": "Elven Hawk" },
+      { "damage": 5, "name": "Hoth's" },
+      { "damage": 5, "name": "Seeker" },
+      { "damage": 7, "name": "Silver Hawk" },
+      { "damage": 5, "name": "Colovian Dark" },
+      { "damage": 5, "name": "Nordic" },
+      { "damage": 3, "name": "Scoia'tael" },
+      { "damage": 1, "name": "Silver" },
+      { "damage": 2, "name": "Honed Silver" },
+      { "damage": 2, "name": "Dwarven" },
+      { "damage": 5, "name": "Advanced" },
+      { "damage": 5, "name": "Skyforge Steel" },
+      { "damage": -10, "name": "Sorcerer's Fists" },
+      { "damage": 3, "name": "Dawnguard" },
+      { "damage": 4, "name": "Orcish" },
+      { "damage": 4, "name": "Orsimer" },
+      { "damage": 3, "name": "Svartbough" },
+      { "damage": 5, "name": "Refined Silver" },
+      { "damage": 6, "name": "Nord Hero" },
+      { "damage": 5, "name": "Blades" },
+      { "damage": 7, "name": "Glass" },
+      { "damage": 7, "name": "Ayleid" },
+      { "damage": 8, "name": "Justiciar" },
+      { "damage": 4, "name": "Eastern Dwemer" },
+      { "damage": 8, "name": "Ebony" },
+      { "damage": 7, "name": "Assault of the Essence" },
+      { "damage": 10, "name": "Real Ebony" },
+      { "damage": 8, "name": "Nightingale" },
+      { "damage": 3, "name": "Bosmer Short Blade" },
+      { "damage": 7, "name": "Bosmer Elder Short Blade" },
+      { "damage": 3, "name": "Bosmer Bow" },
+      { "damage": 7, "name": "Bosmer Elder Bow" },
+      { "damage": 8, "name": "Stalhrim" },
+      { "damage": 10, "name": "Dragon" },
+      { "damage": 10, "name": "Dragonsteel" },
+      { "damage": 10, "name": "Ancient Dragonbone" },
+      { "damage": 9, "name": "Daedric" },
+      { "damage": 5, "name": "Knight" },
+      { "damage": 6, "name": "Duke's" },
+      { "damage": 5, "name": "Assassin" },
+      { "damage": 5, "name": "Aries" },
+      { "damage": 5, "name": "Armsman's" },
+      { "damage": 8, "name": "Barbarian" },
+      { "damage": 5, "name": "Mighty Steel" },
+      { "damage": 6, "name": "Fleur De Lys" },
+      { "damage": 5, "name": "Housecarl's" },
+      { "damage": 6, "name": "Regent's" },
+      { "damage": 2, "name": "Viking" },
+      { "damage": 7, "name": "Sorrow" },
+      { "damage": 8, "name": "Sorrow Assassin" },
+      { "damage": 4, "name": "Ansei" },
+      { "damage": 5, "name": "Ansei Cutlass" },
+      { "damage": 5, "name": "Elven Great Blade" },
+      { "damage": 5, "name": "Elven Great Blood" },
+      { "damage": 5, "name": "Elven Great Wing" },
+      { "damage": 5, "name": "Greyblade" },
+      { "damage": 6, "name": "Sithis's" },
+      { "damage": 5, "name": "Soldier's" },
+      { "damage": 3, "name": "Redguard" },
+      { "damage": 5, "name": "Guardian's" },
+      { "damage": 5, "name": "Rider" },
+      { "damage": 5, "name": "Type K" },
+      { "damage": 5, "name": "Cavalry" },
+      { "damage": 6, "name": "Wolf" },
+      { "damage": 5, "name": "Captain's Sword" },
+      { "damage": 4, "name": "Captain's Cutlass" },
+      { "damage": 6, "name": "Asuma" },
+      { "damage": 5, "name": "Falkreath Blade" },
+      { "damage": 6, "name": "Black Dragon" },
+      { "damage": 6, "name": "Blue Dragon" },
+      { "damage": 5, "name": "Hollow" },
+      { "damage": 9, "name": "Monarch" },
+      { "damage": -2, "name": "Stone" },
+      { "damage": 2, "name": "Stonewasp" },
+      { "damage": 9, "name": "Aevar Stone" },
+      { "damage": -5, "name": "Woodcutter" },
+      { "damage": 6, "name": "An-Xileel" },
+      { "damage": 8, "name": "Witcher's Silver" },
+      { "damage": 8, "name": "Ancient Black Sacrament" },
+      { "damage": 8, "name": "Ancient Assassin's Black Sacrament" },
+      { "damage": 5, "name": "Harkon's Sword" },
+      { "damage": 1, "name": "Valenwood" },
+      { "damage": 9, "name": "ShadowString" },
+      { "damage": 3, "name": "Scorpion's Tail" },
+      { "damage": 3, "name": "Foaming Wave" },
+      { "damage": 4, "name": "Twister" },
+      { "damage": 3, "name": "Dwemer Tool 457" },
+      { "damage": 5, "name": "Hunter's Roar" },
+      { "damage": 5, "name": "Gunnar Sigvatson's Longbow" },
+      { "damage": 5, "name": "Faal Sizaan" },
+      { "damage": 5, "name": "No Name" },
+      { "damage": 4, "name": "Elberond" },
+      { "damage": 6, "name": "Skyforge Orichalcum" },
+      { "damage": 7, "name": "Skyforge Dwemer Metal" },
+      { "damage": 8, "name": "Skyforge Moonstone" },
+      { "damage": 9, "name": "Skyforge Ebony" },
+      { "damage": 7, "name": "Assault of the Essence" },
+      { "damage": 8, "name": "Black Sting" },
+      { "damage": 9, "name": "Alendris Bastard Sword" },
+      { "damage": 5, "name": "Arisverd" },
+      { "damage": 5, "name": "Arisverd Bastard Sword" },
+      { "damage": 9, "name": "Dragonspear" },
+      { "damage": 9, "name": "Dragonspear Bastard Sword" },
+      { "damage": 9, "name": "Longclaw" },
+      { "damage": 9, "name": "Longclaw Bastard Sword" },
+      { "damage": 9, "name": "Bonelord" },
+      { "damage": 8, "name": "Fine Iron" },
+      { "damage": 9, "name": "Fine Steel" }
     ],
     "materialOverrides": [
-      {
-        "weaponSubstring": "Akaviri",
-        "materialOverride": "Ebony"
-      },
-      {
-        "weaponSubstring": "Authentic Dwemeri",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Azurbrand",
-        "materialOverride": "Daedric"
-      },
-      {
-        "weaponSubstring": "Daedric Orcish Greatsword",
-        "materialOverride": "Daedric"
-      },
-      {
-        "weaponSubstring": "Daedric Orcish Scimitar",
-        "materialOverride": "Daedric"
-      },
-      {
-        "weaponSubstring": "Dovah Luv",
-        "materialOverride": "Daedric"
-      },
-      {
-        "weaponSubstring": "Dwemer Akaviri",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Altmeri",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Ancient",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Balestarius",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Bearded",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Breton",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Dagger",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Dremora",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Dunmeri",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Flameslayer",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Flamesword",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Greatsword",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Greatsword",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Imperial",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Long Bow",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Longsword",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Nordic",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Orcish Greatsword",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Orcish Scimitar",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Ornate",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Quadrelle",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Shardslayer",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Shardsword",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Stormslayer",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Stormsword",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Dwemer Warhammer",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Ebony Orcish Greatsword",
-        "materialOverride": "Ebony"
-      },
-      {
-        "weaponSubstring": "Ebony Orcish Scimitar",
-        "materialOverride": "Ebony"
-      },
-      {
-        "weaponSubstring": "Glass Orcish Greatsword",
-        "materialOverride": "Glass"
-      },
-      {
-        "weaponSubstring": "Glass Orcish Scimitar",
-        "materialOverride": "Glass"
-      },
-      {
-        "weaponSubstring": "Hammerfell Bow",
-        "materialOverride": "Orcish"
-      },
-      {
-        "weaponSubstring": "Hammerfell Hunters Bow",
-        "materialOverride": "Dwarven"
-      },
-      {
-        "weaponSubstring": "Ice Blade of the Monarch",
-        "materialOverride": "Daedric"
-      },
-      {
-        "weaponSubstring": "Iron Orcish Greatsword",
-        "materialOverride": "Iron"
-      },
-      {
-        "weaponSubstring": "Iron Orcish Scimitar",
-        "materialOverride": "Iron"
-      },
-      {
-        "weaponSubstring": "Jade Blade",
-        "materialOverride": "Elven"
-      },
-      {
-        "weaponSubstring": "Legendary Corundrum Blade",
-        "materialOverride": "Elven"
-      },
-      {
-        "weaponSubstring": "Moonstone",
-        "materialOverride": "Elven"
-      },
-      {
-        "weaponSubstring": "Moonstone Orcish Greatsword",
-        "materialOverride": "Moonstone"
-      },
-      {
-        "weaponSubstring": "Moonstone Orcish Scimitar",
-        "materialOverride": "Moonstone"
-      },
-      {
-        "weaponSubstring": "Orichalcum",
-        "materialOverride": "Orcish"
-      },
-      {
-        "weaponSubstring": "Orsimer",
-        "materialOverride": "Orcish"
-      },
-      {
-        "weaponSubstring": "Rayek's Blade",
-        "materialOverride": "Advanced"
-      },
-      {
-        "weaponSubstring": "Silver Orcish Greatsword",
-        "materialOverride": "Silver"
-      },
-      {
-        "weaponSubstring": "Silver Orcish Scimitar",
-        "materialOverride": "Silver"
-      },
-      {
-        "weaponSubstring": "Steel Orcish Greatsword",
-        "materialOverride": "Steel"
-      },
-      {
-        "weaponSubstring": "Steel Orcish Scimitar",
-        "materialOverride": "Steel"
-      }
+      { "substring": "Akaviri", "material": "Ebony" },
+      { "substring": "Akavirii", "material": "Ebony" },
+      { "substring": "Azurbrand", "material": "Daedric" },
+      { "substring": "Dovah Luv", "material": "Daedric" },
+      { "substring": "Ice Blade of the Monarch", "material": "Daedric" },
+      { "substring": "Legendary Corundrum Blade", "material": "Elven" },
+      { "substring": "Jade Blade", "material": "Elven" },
+      { "substring": "Orichalcum", "material": "Orcish" },
+      { "substring": "Orsimer", "material": "Orcish" },
+      { "substring": "Hammerfell Bow", "material": "Orcish" },
+      { "substring": "Hammerfell Hunters Bow", "material": "Dwarven" },
+      { "substring": "Authentic Dwemeri", "material": "Dwarven" },
+      { "substring": "Dwemer Nordic", "material": "Dwarven" },
+      { "substring": "Dwemer Altmeri", "material": "Dwarven" },
+      { "substring": "Dwemer Breton", "material": "Dwarven" },
+      { "substring": "Dwemer Akaviri", "material": "Dwarven" },
+      { "substring": "Dwemer Longsword", "material": "Dwarven" },
+      { "substring": "Dwemer Dunmeri", "material": "Dwarven" },
+      { "substring": "Dwemer Imperial", "material": "Dwarven" },
+      { "substring": "Dwemer Ornate", "material": "Dwarven" },
+      { "substring": "Dwemer Dremora", "material": "Dwarven" },
+      { "substring": "Dwemer Ancient", "material": "Dwarven" },
+      { "substring": "Dwemer Quadrelle", "material": "Dwarven" },
+      { "substring": "Dwemer Greatsword", "material": "Dwarven" },
+      { "substring": "Dwemer Bearded", "material": "Dwarven" },
+      { "substring": "Dwemer Balestarius", "material": "Dwarven" },
+      { "substring": "Dwemer Warhammer", "material": "Dwarven" },
+      { "substring": "Dwemer Dagger", "material": "Dwarven" },
+      { "substring": "Dwemer Long Bow", "material": "Dwarven" },
+      { "substring": "Dwemer Stormsword", "material": "Dwarven" },
+      { "substring": "Dwemer Flamesword", "material": "Dwarven" },
+      { "substring": "Dwemer Shardsword", "material": "Dwarven" },
+      { "substring": "Dwemer Greatsword", "material": "Dwarven" },
+      { "substring": "Dwemer Shardslayer", "material": "Dwarven" },
+      { "substring": "Dwemer Stormslayer", "material": "Dwarven" },
+      { "substring": "Dwemer Flameslayer", "material": "Dwarven" },
+      { "substring": "Moonstone", "material": "Elven" },
+      { "substring": "Iron Orcish Scimitar", "material": "Iron" },
+      { "substring": "Steel Orcish Scimitar", "material": "Steel" },
+      { "substring": "Dwemer Orcish Scimitar", "material": "Dwarven" },
+      { "substring": "Silver Orcish Scimitar", "material": "Silver" },
+      { "substring": "Moonstone Orcish Scimitar", "material": "Moonstone" },
+      { "substring": "Glass Orcish Scimitar", "material": "Glass" },
+      { "substring": "Ebony Orcish Scimitar", "material": "Ebony" },
+      { "substring": "Daedric Orcish Scimitar", "material": "Daedric" },
+      { "substring": "Iron Orcish Greatsword", "material": "Iron" },
+      { "substring": "Steel Orcish Greatsword", "material": "Steel" },
+      { "substring": "Dwemer Orcish Greatsword", "material": "Dwarven" },
+      { "substring": "Silver Orcish Greatsword", "material": "Silver" },
+      { "substring": "Moonstone Orcish Greatsword", "material": "Moonstone" },
+      { "substring": "Glass Orcish Greatsword", "material": "Glass" },
+      { "substring": "Ebony Orcish Greatsword", "material": "Ebony" },
+      { "substring": "Daedric Orcish Greatsword", "material": "Daedric" },
+      { "substring": "Rayek's Blade", "material": "Advanced" },
+      { "substring": "Srosh", "material": "Advanced" },
+      { "substring": "Haoma Sword", "material": "Iron" },
+      { "substring": "Chakram", "material": "Steel" },
+      { "substring": "Menog", "material": "Dwarven" },
+      { "substring": "Rustam", "material": "Steel" },
+      { "substring": "The Eagle Sword", "material": "Ebony" },
+      { "substring": "The Eagle Greatsword", "material": "Ebony" },
+      { "substring": "The Eagle Dagger", "material": "Ebony" },
+      { "substring": "The Serpent Dagger", "material": "Orcish" },
+      { "substring": "The Serpent Sword", "material": "Orcish" },
+      { "substring": "The Serpent Greatsword", "material": "Orcish" },
+      { "substring": "The Lion Sword", "material": "Ebony" },
+      { "substring": "The Lion Dagger", "material": "Ebony" },
+      { "substring": "The Lion Greatsword", "material": "Ebony" },
+      { "substring": "Spider Sword", "material": "Iron" },
+      { "substring": "Spider Greatsword", "material": "Iron" },
+      { "substring": "Haoma 2H", "material": "Iron" },
+      { "substring": "Natat", "material": "Steel" },
+      { "substring": "Farah's Bow", "material": "Elven" },
+      { "substring": "Akaviri", "material": "Ebony" },
+      { "substring": "Tinkerers", "material": "Dwemer" },
+      { "substring": "Tinkers", "material": "Dwarven" }
+    ],
+    "types": [
+      { "reach": 1.1, "speed": 0.85, "damage": 5, "name": "Bastard" },
+      { "reach": 1.1, "speed": 0.85, "damage": 5, "name": "Bastard Sword" },
+      { "reach": 1.1, "speed": 0.85, "damage": 5, "name": "Bastardsword" },
+      { "reach": 1.25, "speed": 0.65, "damage": 8, "name": "Battleaxe" },
+      { "reach": 1.3, "speed": 0.95, "damage": 0, "name": "Battlestaff" },
+      { "reach": 1, "speed": 1, "damage": 6, "name": "Broadsword" },
+      { "reach": 0.8, "speed": 1.05, "damage": 2, "name": "Club" },
+      { "reach": 1, "speed": 0.9, "damage": 17, "name": "Crossbow" },
+      { "reach": 0.7, "speed": 1.3, "damage": 1, "name": "Dagger" },
+      { "reach": 1.25, "speed": 0.75, "damage": 8, "name": "Double Axe" },
+      { "reach": 1.55, "speed": 0.82, "damage": 2, "name": "Glaive" },
+      { "reach": 1.3, "speed": 0.7, "damage": 7, "name": "Great Falchion" },
+      { "reach": 1.3, "speed": 0.7, "damage": 7, "name": "Great Saber" },
+      { "reach": 1.3, "speed": 0.7, "damage": 7, "name": "Great Sabre" },
+      { "reach": 1.3, "speed": 0.7, "damage": 7, "name": "Great Scimitar" },
+      { "reach": 1.3, "speed": 0.75, "damage": 6, "name": "Greatsword" },
+      { "reach": 1.32, "speed": 0.56, "damage": 9, "name": "Halberd" },
+      { "reach": 0.81, "speed": 1, "damage": 4, "name": "Hatchet" },
+      { "reach": 0.9, "speed": 1.1, "damage": 5, "name": "Katana" },
+      { "reach": 1, "speed": 0.3, "damage": 13, "name": "Longbow" },
+      { "reach": 1.1, "speed": 0.85, "damage": 7, "name": "Longmace" },
+      { "reach": 1.2, "speed": 1, "damage": 6, "name": "Longsword" },
+      { "reach": 0.95, "speed": 0.85, "damage": 9, "name": "Mace" },
+      { "reach": 0.9, "speed": 0.77, "damage": 11, "name": "Maul" },
+      { "reach": 1.2, "speed": 0.75, "damage": 4, "name": "Nodachi" },
+      { "reach": 0.95, "speed": 0.95, "damage": 7, "name": "Saber" },
+      { "reach": 0.95, "speed": 0.95, "damage": 7, "name": "Sabre" },
+      { "reach": 0.95, "speed": 0.95, "damage": 8, "name": "Scimitar" },
+      { "reach": 1, "speed": 0.72, "damage": 5, "name": "Shortbow" },
+      { "reach": 1.25, "speed": 1.05, "damage": 2, "name": "Shortspear" },
+      { "reach": 0.8, "speed": 1.13, "damage": 3, "name": "Shortsword" },
+      { "reach": 0.75, "speed": 1.4, "damage": 0, "name": "Tanto" },
+      { "reach": 1, "speed": 1, "damage": 0, "name": "Unarmed" },
+      { "reach": 0.85, "speed": 1.15, "damage": 3, "name": "Wakizashi" },
+      { "reach": 0.95, "speed": 0.95, "damage": 8, "name": "Waraxe" },
+      { "reach": 1.25, "speed": 0.6, "damage": 9, "name": "Warhammer" },
+      { "reach": 1.6, "speed": 0.9, "damage": 2, "name": "Yari" }
+    ],
+    "typeOverrides": [
+      { "name": "Bearded Axe", "type": "Waraxe" },
+      { "name": "Balestarius", "type": "Battleaxe" },
+      { "name": "Hoth's Bonestaff", "type": "Battleaxe" },
+      { "name": "Asuma Blade", "type": "Dagger" },
+      { "name": "Chakram", "type": "Dagger" },
+      { "name": "Nordic Blade", "type": "Shortsword" },
+      { "name": "Gungnir", "type": "Shortsword" },
+      { "name": "Hunting Sword", "type": "Shortsword" },
+      { "name": "Gungnir", "type": "Shortsword" },
+      { "name": "Smallsword", "type": "Shortsword" },
+      { "name": "Boarding Knife", "type": "Shortsword" },
+      { "name": "Imperial Spatha", "type": "Shortsword" },
+      { "name": "Imperial Sword", "type": "Broadsword" },
+      { "name": "Imperial Shortsword", "type": "Shortsword" },
+      { "name": "Sting", "type": "Shortsword" },
+      { "name": "Spiderbane", "type": "Shortsword" },
+      { "name": "Icicle", "type": "Shortsword" },
+      { "name": "Short Saber", "type": "Shortsword" },
+      { "name": "Short Sabre", "type": "Shortsword" },
+      { "name": "Gladius", "type": "Shortsword" },
+      { "name": "Nightingale Blade", "type": "Broadsword" },
+      { "name": "Leafblade", "type": "Broadsword" },
+      { "name": "Type K Bastard Sword", "type": "Broadsword" },
+      { "name": "Hollow Blade", "type": "Broadsword" },
+      { "name": "Trident Blade", "type": "Broadsword" },
+      { "name": "Rider Blade", "type": "Broadsword" },
+      { "name": "Ceymallari", "type": "Broadsword" },
+      { "name": "Dragonspear", "type": "Broadsword" },
+      { "name": "Sword of the Golden Army", "type": "Broadsword" },
+      { "name": "Oathkeeper", "type": "Broadsword" },
+      { "name": "Baskethilt", "type": "Scimitar" },
+      { "name": "Cutlass", "type": "Scimitar" },
+      { "name": "Orcish Scimitar", "type": "Scimitar" },
+      { "name": "Dremora Badelaire", "type": "Scimitar" },
+      { "name": "Talwar", "type": "Scimitar" },
+      { "name": "Redguard Sword", "type": "Scimitar" },
+      { "name": "Raven Sword", "type": "Scimitar" },
+      { "name": "Windshear", "type": "Scimitar" },
+      { "name": "Bloodscythe", "type": "Scimitar" },
+      { "name": "Jade Blade", "type": "Longsword" },
+      { "name": "Witcher's Silver Sword", "type": "Longsword" },
+      { "name": "Fleur De Lys", "type": "Longsword" },
+      { "name": "Dawnbreaker", "type": "Longsword" },
+      { "name": "Longsword", "type": "Longsword" },
+      { "name": "Narsil - 1H", "type": "Longsword" },
+      { "name": "Anduril - 1H", "type": "Longsword" },
+      { "name": "The Talon of Akatosh", "type": "Longsword" },
+      { "name": "Umbra", "type": "Longsword" },
+      { "name": "Afterslash", "type": "Longsword" },
+      { "name": "Longclaw", "type": "Longsword" },
+      { "name": "Falkreath Blade", "type": "Longsword" },
+      { "name": "Assault of the Essence", "type": "Longsword" },
+      { "name": "Arisverd", "type": "Longsword" },
+      { "name": "Black Sting", "type": "Longsword" },
+      { "name": "Sedethul", "type": "Longsword" },
+      { "name": "Strider's Sword", "type": "Longsword" },
+      { "name": "Yataghan", "type": "Longsword" },
+      { "name": "Khanda", "type": "Longsword" },
+      { "name": "Great Scimitar", "type": "Greatsword" },
+      { "name": "Ice Blade of the Monarch", "type": "Greatsword" },
+      { "name": "Hot Blood", "type": "Greatsword" },
+      { "name": "Knight Sword", "type": "Greatsword" },
+      { "name": "Justice", "type": "Greatsword" },
+      { "name": "Tombstone", "type": "Greatsword" },
+      { "name": "Aries", "type": "Greatsword" },
+      { "name": "Heavy Crusader Sword", "type": "Greatsword" },
+      { "name": "Basic Greatsword", "type": "Bastardsword" },
+      { "name": "Akavirii Battlesaber", "type": "Bastardsword" },
+      { "name": "Narsil - 2H", "type": "Bastardsword" },
+      { "name": "Anduril - 2H", "type": "Bastardsword" },
+      { "name": "Claidhem", "type": "Bastardsword" },
+      { "name": "Ebony Staff", "type": "Battlestaff" },
+      { "name": "Dwarven Staff", "type": "Battlestaff" },
+      { "name": "Forsworn Staff", "type": "Battlestaff" },
+      { "name": "Iron Fighting Staff", "type": "Battlestaff" },
+      { "name": "Dragon Staff", "type": "Battlestaff" },
+      { "name": "Iron Staff", "type": "Battlestaff" },
+      { "name": "Iron Capped Staff", "type": "Battlestaff" },
+      { "name": "Wooden Staff", "type": "Battlestaff" },
+      { "name": "Fork of Horripilation", "type": "Shortspear" },
+      { "name": "Pokeblade", "type": "Shortspear" },
+      { "name": "Splitter", "type": "Shortspear" },
+      { "name": "Spearblade", "type": "Shortspear" },
+      { "name": "Sithis's Short Blade", "type": "Tanto" },
+      { "name": "Sithis's Razor", "type": "Tanto" },
+      { "name": "Black Dragon", "type": "Wakizashi" },
+      { "name": "Blue Dragon", "type": "Wakizashi" },
+      { "name": "Sithis's Blade", "type": "Wakizashi" },
+      { "name": "Akavirii Sword", "type": "Katana" },
+      { "name": "Dragonbane", "type": "Katana" },
+      { "name": "Bolar's Oathblade", "type": "Katana" },
+      { "name": "Harkon's Sword", "type": "Katana" },
+      { "name": "Ninjato", "type": "Katana" },
+      { "name": "Akaviri Katana", "type": "Katana" },
+      { "name": "Akaviri Sword", "type": "Katana" },
+      { "name": "Blades Sword", "type": "Katana" },
+      { "name": "Goldbrand", "type": "Katana" },
+      { "name": "Eltonbrand", "type": "Katana" },
+      { "name": "The Wrath of Sithis", "type": "Katana" },
+      { "name": "The Will of Sithis", "type": "Katana" },
+      { "name": "Ebony Blade", "type": "Nodachi" },
+      { "name": "Akaviri Greatsword", "type": "Nodachi" },
+      { "name": "Daito", "type": "Nodachi" },
+      { "name": "Seeker Changdao", "type": "Nodachi" },
+      { "name": "Hunter's spear", "type": "Yari" },
+      { "name": "Fine Nordic Spear", "type": "Yari" },
+      { "name": "Orcish Crippler", "type": "Yari" },
+      { "name": "Ornate Bow", "type": "Shortbow" },
+      { "name": "Altmeri Bow", "type": "Shortbow" },
+      { "name": "Doomshard Bow", "type": "Shortbow" },
+      { "name": "Svartbough", "type": "Shortbow" },
+      { "name": "Lohkrmil Bow", "type": "Shortbow" },
+      { "name": "Nightingale", "type": "Shortbow" },
+      { "name": "Dark Brotherhood Bow", "type": "Shortbow" },
+      { "name": "Bosmer Bow", "type": "Shortbow" },
+      { "name": "Bosmer Elder Bow", "type": "Shortbow" },
+      { "name": "Hunter's Roar", "type": "Shortbow" },
+      { "name": "ShadowString", "type": "Shortbow" },
+      { "name": "Dwemer Tool 457", "type": "Shortbow" },
+      { "name": "Bound Bow", "type": "Longbow" },
+      { "name": "Auriel's Bow", "type": "Longbow" },
+      { "name": "An-Xileel War Bow", "type": "Longbow" },
+      { "name": "The Bow of the Drow", "type": "Longbow" },
+      { "name": "M'kai", "type": "Longbow" },
+      { "name": "Sylarntorian Bow", "type": "Longbow" },
+      { "name": "Orsimer Chieftain Bow", "type": "Longbow" },
+      { "name": "Solonor", "type": "Longbow" },
+      { "name": "Dragonrend", "type": "Longbow" },
+      { "name": "Elberond", "type": "Longbow" },
+      { "name": "No Name", "type": "Longbow" },
+      { "name": "Faal Sizaan", "type": "Longbow" },
+      { "name": "Twister", "type": "Longbow" },
+      { "name": "Foaming Wave", "type": "Longbow" },
+      { "name": "Scorpion's Tail", "type": "Longbow" },
+      { "name": "Walking Stick", "type": "Club" },
+      { "name": "Quadrelle", "type": "Mace" },
+      { "name": "Hammer", "type": "Maul" },
+      { "name": "Iron Hammer", "type": "Maul" },
+      { "name": "Steel Hammer", "type": "Maul" },
+      { "name": "Dwarven Hammer", "type": "Maul" },
+      { "name": "Orcish Hammer", "type": "Maul" },
+      { "name": "Ebony Hammer", "type": "Maul" },
+      { "name": "Daedric Hammer", "type": "Maul" },
+      { "name": "Elven Hammer", "type": "Maul" },
+      { "name": "Glass Hammer", "type": "Maul" },
+      { "name": "Skyforge Steel Hammer", "type": "Maul" },
+      { "name": "Ornate Maul", "type": "Warhammer" },
+      { "name": "Thrasher Maul", "type": "Warhammer" },
+      { "name": "Sixth House Bell Hammer", "type": "Warhammer" },
+      { "name": "Sorcerer's Fist", "type": "Unarmed" },
+      { "name": "Srosh", "type": "Broadsword" },
+      { "name": "Haoma", "type": "Scimitar" },
+      { "name": "Rustam", "type": "Scimitar" },
+      { "name": "Wooden Stick", "type": "Club" },
+      { "name": "Wooden Stick 2H", "type": "Warhammer" },
+      { "name": "The Eagle Sword", "type": "Scimitar" },
+      { "name": "The Serpent Sword", "type": "Longsword" },
+      { "name": "The Lion Sword", "type": "Scimitar" },
+      { "name": "Spider Sword", "type": "Longsword" },
+      { "name": "Farah's Bow", "type": "Shortbow" },
+      { "name": "Bosmer Short Blade", "type": "Dagger" },
+      { "name": "Bosmer Elder Short Blade", "type": "Dagger" },
+      { "name": "Bosmer Short Blade", "type": "Dagger" },
+      { "name": "Bosmer Elder Short Blade", "type": "Dagger" },
+      { "name": "Akaviri Battlesaber", "type": "Nodachi" },
+      { "name": "Akaviri Blade", "type": "Katana" },
+      { "name": "Akaviri Saber", "type": "Wakizashi" },
+      { "name": "Akaviri Short Saber", "type": "Tanto" },
+      { "name": "Argonian Battleblade", "type": "Bastard Sword" },
+      { "name": "Argonian Blade", "type": "Dagger" },
+      { "name": "Azurbrand", "type": "Broadsword" },
+      { "name": "Corundrum Blade", "type": "Broadsword" },
+      { "name": "Dovah Luv", "type": "Broadsword" },
+      { "name": "Dragonbrand", "type": "Bastard Sword" },
+      { "name": "Fine Iron Sword", "type": "Broadsword" },
+      { "name": "Fine Steel Sword", "type": "Broadsword" },
+      { "name": "Shiavonna", "type": "Scimitar" }
     ],
     "excludedWeapons": ["Dart Trap", "FXdust", "Dummy", "TEXT", "Test"],
     "excludedCrossbows": ["Enhanced"]
   },
   "armor": {
     "materials": [
-      {
-        "iArmor": 38,
-        "name": "Ahzidal"
-      },
-      {
-        "iArmor": 35,
-        "name": "Ancient"
-      },
-      {
-        "iArmor": 25,
-        "name": "Ancient Nord"
-      },
-      {
-        "iArmor": 23,
-        "name": "Banded Iron"
-      },
-      {
-        "iArmor": 28,
-        "name": "Blackguard's"
-      },
-      {
-        "iArmor": 36,
-        "name": "Blades"
-      },
-      {
-        "iArmor": 28,
-        "name": "Bonemold"
-      },
-      {
-        "iArmor": 25,
-        "name": "Chitin"
-      },
-      {
-        "iArmor": 33,
-        "name": "Chitin Heavy"
-      },
-      {
-        "iArmor": 18,
-        "name": "Cultist Gloves"
-      },
-      {
-        "iArmor": 25,
-        "name": "Cultist Mask"
-      },
-      {
-        "iArmor": 50,
-        "name": "Daedric"
-      },
-      {
-        "iArmor": 28,
-        "name": "Dawnguard"
-      },
-      {
-        "iArmor": 32,
-        "name": "Dawnguard Rune"
-      },
-      {
-        "iArmor": 34,
-        "name": "Deathbrand"
-      },
-      {
-        "iArmor": 15,
-        "name": "Dented Iron"
-      },
-      {
-        "iArmor": 55,
-        "name": "Dragonplate"
-      },
-      {
-        "iArmor": 36,
-        "name": "Dragonscale"
-      },
-      {
-        "iArmor": 32,
-        "name": "Dwarven"
-      },
-      {
-        "iArmor": 44,
-        "name": "Ebony"
-      },
-      {
-        "iArmor": 23,
-        "name": "Elven"
-      },
-      {
-        "iArmor": 25,
-        "name": "Elven Gilded"
-      },
-      {
-        "iArmor": 21,
-        "name": "Elven Light"
-      },
-      {
-        "iArmor": 33,
-        "name": "Falkreath"
-      },
-      {
-        "iArmor": 29,
-        "name": "Falmer"
-      },
-      {
-        "iArmor": 35,
-        "name": "Falmer Hardened"
-      },
-      {
-        "iArmor": 39,
-        "name": "Falmer Heavy"
-      },
-      {
-        "iArmor": 15,
-        "name": "Forsworn"
-      },
-      {
-        "iArmor": 14,
-        "name": "Fur"
-      },
-      {
-        "iArmor": 33,
-        "name": "General Carius"
-      },
-      {
-        "iArmor": 33,
-        "name": "Glass"
-      },
-      {
-        "iArmor": 17,
-        "name": "Guard"
-      },
-      {
-        "iArmor": 26,
-        "name": "Guild Master"
-      },
-      {
-        "iArmor": 13,
-        "name": "Hide"
-      },
-      {
-        "iArmor": 25,
-        "name": "Imperial"
-      },
-      {
-        "iArmor": 18,
-        "name": "Imperial Light"
-      },
-      {
-        "iArmor": 34,
-        "name": "Improved Bonemold"
-      },
-      {
-        "iArmor": 20,
-        "name": "Iron"
-      },
-      {
-        "iArmor": 18,
-        "name": "Leather"
-      },
-      {
-        "iArmor": 23,
-        "name": "Linwe"
-      },
-      {
-        "iArmor": 32,
-        "name": "Markarth"
-      },
-      {
-        "iArmor": 24,
-        "name": "Morag Tong"
-      },
-      {
-        "iArmor": 26,
-        "name": "Nightingale"
-      },
-      {
-        "iArmor": 40,
-        "name": "Nordic"
-      },
-      {
-        "iArmor": 17,
-        "name": "Old Gods"
-      },
-      {
-        "iArmor": 38,
-        "name": "Orcish"
-      },
-      {
-        "iArmor": 25,
-        "name": "Penitus Oculatus"
-      },
-      {
-        "iArmor": 29,
-        "name": "Quality Leather"
-      },
-      {
-        "iArmor": 23,
-        "name": "Savior"
-      },
-      {
-        "iArmor": 27,
-        "name": "Scaled"
-      },
-      {
-        "iArmor": 39,
-        "name": "Shellbug"
-      },
-      {
-        "iArmor": 34,
-        "name": "Shield of Solitude"
-      },
-      {
-        "iArmor": 38,
-        "name": "Shield of Ysgramor"
-      },
-      {
-        "iArmor": 20,
-        "name": "Shroud"
-      },
-      {
-        "iArmor": 20,
-        "name": "Ancient Shrouded"
-      },
-      {
-        "iArmor": 16,
-        "name": "Skaal"
-      },
-      {
-        "iArmor": 43,
-        "name": "Stalhrim"
-      },
-      {
-        "iArmor": 32,
-        "name": "Stalhrim Light"
-      },
-      {
-        "iArmor": 26,
-        "name": "Steel"
-      },
-      {
-        "iArmor": 26,
-        "name": "Steel Imperial"
-      },
-      {
-        "iArmor": 26,
-        "name": "Steel Nordic"
-      },
-      {
-        "iArmor": 33,
-        "name": "Steel Plate"
-      },
-      {
-        "iArmor": 18,
-        "name": "Stormcloak"
-      },
-      {
-        "iArmor": 27,
-        "name": "Stormcloak Officer"
-      },
-      {
-        "iArmor": 16,
-        "name": "Studded"
-      },
-      {
-        "iArmor": 33,
-        "name": "Telvanni"
-      },
-      {
-        "iArmor": 20,
-        "name": "Thieve"
-      },
-      {
-        "iArmor": 28,
-        "name": "Ulfric's"
-      },
-      {
-        "iArmor": 19,
-        "name": "Vampire"
-      },
-      {
-        "iArmor": 50,
-        "name": "Visage of Mzund"
-      },
-      {
-        "iArmor": 33,
-        "name": "Windhelm"
-      },
-      {
-        "iArmor": 35,
-        "name": "Wolf"
-      }
+      { "armor": 36, "name": "Daedric Assassin Light" },
+      { "armor": 50, "name": "Daedric Assassin Heavy" },
+      { "armor": 33, "name": "Steelgaze" },
+      { "armor": 18, "name": "Blade Dancer" },
+      { "armor": 23, "name": "Savior" },
+      { "armor": 41, "name": "Dwarven Power" },
+      { "armor": 33, "name": "Aetherium" },
+      { "armor": 25, "name": "Gildhorn" },
+      { "armor": 13, "name": "Hide" },
+      { "armor": 21, "name": "Armored Fur" },
+      { "armor": 17, "name": "Padded Fur" },
+      { "armor": 14, "name": "Fur" },
+      { "armor": 15, "name": "Forsworn" },
+      { "armor": 18, "name": "Leather" },
+      { "armor": 19, "name": "Vampire" },
+      { "armor": 17, "name": "Guard" },
+      { "armor": 20, "name": "Thieve" },
+      { "armor": 20, "name": "Dark Brotherhood" },
+      { "armor": 20, "name": "Shroud" },
+      { "armor": 20, "name": "Shrouded" },
+      { "armor": 20, "name": "Ancient Shrouded" },
+      { "armor": 20, "name": "Black Sacrament" },
+      { "armor": 25, "name": "Imperial" },
+      { "armor": 18, "name": "Imperial Light" },
+      { "armor": 18, "name": "Stormcloak" },
+      { "armor": 19, "name": "Imperial Studded" },
+      { "armor": 16, "name": "Studded" },
+      { "armor": 23, "name": "Elven" },
+      { "armor": 23, "name": "Linwe" },
+      { "armor": 21, "name": "Elven Light" },
+      { "armor": 23, "name": "Royal Vampire" },
+      { "armor": 5, "name": "Assault Respirator" },
+      { "armor": 23, "name": "Assault" },
+      { "armor": 2, "name": "Assault Dust Straps" },
+      { "armor": 2, "name": "Assault Pauldron" },
+      { "armor": 2, "name": "Assault Cloth Full" },
+      { "armor": 1, "name": "Assault Scarf Dirty" },
+      { "armor": 2, "name": "Assault Scarf Dirty Alt" },
+      { "armor": 1, "name": "Assault Scarf Red" },
+      { "armor": 2, "name": "Assault Scarf Red Alt" },
+      { "armor": 5, "name": "Assault Pants Dark" },
+      { "armor": 5, "name": "Assault Pants Pale" },
+      { "armor": 3, "name": "Assault Pride" },
+      { "armor": 2, "name": "Assault Pauldron Lesser" },
+      { "armor": 1, "name": "Assault Cloth Arm Left" },
+      { "armor": 1, "name": "Assault Cloth Arm Right" },
+      { "armor": 24, "name": "Dawnguard Light" },
+      { "armor": 25, "name": "Sicarius" },
+      { "armor": 25, "name": "Elven Gilded" },
+      { "armor": 35, "name": "Ancient" },
+      { "armor": 26, "name": "Nightingale" },
+      { "armor": 26, "name": "Guild Master" },
+      { "armor": 27, "name": "Scaled" },
+      { "armor": 27, "name": "Stormcloak Officer" },
+      { "armor": 27, "name": "Stormcloak Veteran" },
+      { "armor": 29, "name": "Quality Leather" },
+      { "armor": 25, "name": "Strider" },
+      { "armor": 33, "name": "Glass" },
+      { "armor": 36, "name": "Dragonscale" },
+      { "armor": 35, "name": "Lustmord" },
+      { "armor": 20, "name": "Iron" },
+      { "armor": 23, "name": "Banded Iron" },
+      { "armor": 26, "name": "Steel" },
+      { "armor": 26, "name": "Steel Imperial" },
+      { "armor": 28, "name": "Dawnguard" },
+      { "armor": 28, "name": "Dawnguard Heavy" },
+      { "armor": 32, "name": "Dawnguard Rune" },
+      { "armor": 29, "name": "Falmer" },
+      { "armor": 32, "name": "Dwarven" },
+      { "armor": 33, "name": "Steel Plate" },
+      { "armor": 34, "name": "Hoth's" },
+      { "armor": 33, "name": "Steelplate" },
+      { "armor": 35, "name": "Falmer Hardened" },
+      { "armor": 36, "name": "Blades" },
+      { "armor": 38, "name": "Orcish" },
+      { "armor": 39, "name": "Falmer Heavy" },
+      { "armor": 39, "name": "Shellbug" },
+      { "armor": 55, "name": "Dragonplate" },
+      { "armor": 44, "name": "Ebony" },
+      { "armor": 50, "name": "Daedric" },
+      { "armor": 20, "name": "White Tree" },
+      { "armor": 28, "name": "Lannister" },
+      { "armor": 19, "name": "Arena Mage" },
+      { "armor": 22, "name": "Thane" },
+      { "armor": 26, "name": "Thane's" },
+      { "armor": 24, "name": "Battle-mage" },
+      { "armor": 25, "name": "Ranger's" },
+      { "armor": 25, "name": "Ranger" },
+      { "armor": 25, "name": "Rangers" },
+      { "armor": 24, "name": "Iron Island" },
+      { "armor": 40, "name": "Winterfell" },
+      { "armor": 46, "name": "Champion" },
+      { "armor": 55, "name": "Dragon-Bane" },
+      { "armor": 45, "name": "Mountain" },
+      { "armor": 30, "name": "Warmage" },
+      { "armor": 14, "name": "Worn Leather" },
+      { "armor": 11, "name": "Worn Fur" },
+      { "armor": 6, "name": "Noble Fur" },
+      { "armor": 28, "name": "Ulfric's" },
+      { "armor": 16, "name": "Worn Iron" },
+      { "armor": 21, "name": "Worn Steel" },
+      { "armor": 10, "name": "Worn Hide" },
+      { "armor": 26, "name": "Dwarven Mage" },
+      { "armor": 20, "name": "Mercenary" },
+      { "armor": 27, "name": "Viking Heavy" },
+      { "armor": 27, "name": "Viking Large" },
+      { "armor": 21, "name": "Viking Light" },
+      { "armor": 21, "name": "Viking Small" },
+      { "armor": 28, "name": "Light Einherjar" },
+      { "armor": 33, "name": "Einherjar" },
+      { "armor": 31, "name": "Seadog" },
+      { "armor": 44, "name": "Akaviri Samurai" },
+      { "armor": 22, "name": "Redguard Knight Light" },
+      { "armor": 22, "name": "Redguard Light" },
+      { "armor": 28, "name": "Redguard Knight Heavy" },
+      { "armor": 28, "name": "Redguard Heavy" },
+      { "armor": 33, "name": "Vagabond" },
+      { "armor": 33, "name": "Vanguard" },
+      { "armor": 33, "name": "Hedge" },
+      { "armor": 35, "name": "Heroic Imperial" },
+      { "armor": 35, "name": "Heroic Stormcloak" },
+      { "armor": 45, "name": "Spellbinder" },
+      { "armor": 44, "name": "Paladin" },
+      { "armor": 30, "name": "Apotheus" },
+      { "armor": 43, "name": "Witchplate" },
+      { "armor": 48, "name": "Azura" },
+      { "armor": 26, "name": "Mage Armor" },
+      { "armor": 28, "name": "Battle Mage" },
+      { "armor": 34, "name": "Boiled Chitin Heavy" },
+      { "armor": 25, "name": "Boiled Chitin Light" },
+      { "armor": 30, "name": "Chitin Plates" },
+      { "armor": 32, "name": "Coat of Plates" },
+      { "armor": 27, "name": "Conqueror" },
+      { "armor": 27, "name": "Conqueror Heavy" },
+      { "armor": 21, "name": "Conqueror Light" },
+      { "armor": 27, "name": "Nordic Conqueror" },
+      { "armor": 25, "name": "Corundum Plates" },
+      { "armor": 25, "name": "Gilded Steel" },
+      { "armor": 32, "name": "Dark Alchemist" },
+      { "armor": 40, "name": "Dark Plates" },
+      { "armor": 55, "name": "Dragonbane" },
+      { "armor": 25, "name": "Empire Royal" },
+      { "armor": 23, "name": "Forest Archer" },
+      { "armor": 23, "name": "Heavy Leather" },
+      { "armor": 34, "name": "Icy Champion" },
+      { "armor": 31, "name": "Iron Master" },
+      { "armor": 49, "name": "Kynareth Master" },
+      { "armor": 28, "name": "Marauder" },
+      { "armor": 3, "name": "Torso Belt" },
+      { "armor": 29, "name": "Master Ranger" },
+      { "armor": 25, "name": "Nord Ranger" },
+      { "armor": 22, "name": "Northman" },
+      { "armor": 31, "name": "North Rider" },
+      { "armor": 33, "name": "Protector's" },
+      { "armor": 19, "name": "Ringmail" },
+      { "armor": 29, "name": "Stendar Soldier" },
+      { "armor": 34, "name": "Thalmor Guardian" },
+      { "armor": 30, "name": "Trollbone" },
+      { "armor": 24, "name": "Chain Cloths" },
+      { "armor": 20, "name": "Studded Leather" },
+      { "armor": 18, "name": "Spellweaver" },
+      { "armor": 22, "name": "Hunters" },
+      { "armor": 27, "name": "Hunter" },
+      { "armor": 37, "name": "Dragonslayer's Silver" },
+      { "armor": 37, "name": "Relentless Dragonslayer's" },
+      { "armor": 37, "name": "Vicious Dragonslayer's" },
+      { "armor": 37, "name": "Dragonslayer's Mithril" },
+      { "armor": 37, "name": "Merciless Dragonslayer's" },
+      { "armor": 37, "name": "Dragonslayer's Light" },
+      { "armor": 37, "name": "Furious Dragonslayer's" },
+      { "armor": 37, "name": "Dragonslayer's Scale" },
+      { "armor": 37, "name": "Dragonslayer's Leather" },
+      { "armor": 37, "name": "Deadly Dragonslayer's" },
+      { "armor": 55, "name": "Relentless Dragonslayer's" },
+      { "armor": 55, "name": "Brutal Dragonslayer's" },
+      { "armor": 55, "name": "Dragonslayer's Bone" },
+      { "armor": 55, "name": "Valorous Dragonslayer's" },
+      { "armor": 55, "name": "Reinforced Dragonslayer's" },
+      { "armor": 55, "name": "Hateful Dragonslayer's" },
+      { "armor": 55, "name": "Dragonslayer's Plate" },
+      { "armor": 55, "name": "Earthshatter's" },
+      { "armor": 55, "name": "Ruthless Dragonslayer's" },
+      { "armor": 36, "name": "Warchief Light" },
+      { "armor": 44, "name": "Warchief" },
+      { "armor": 29, "name": "Barbarian Light" },
+      { "armor": 34, "name": "Barbarian Heavy" },
+      { "armor": 29, "name": "Barbarian Hero" },
+      { "armor": 16, "name": "Barbarian" },
+      { "armor": 28, "name": "Savage" },
+      { "armor": 32, "name": "Markarth" },
+      { "armor": 33, "name": "Windhelm" },
+      { "armor": 33, "name": "Solitude Infantry" },
+      { "armor": 33, "name": "Telvanni" },
+      { "armor": 22, "name": "Leather Bear" },
+      { "armor": 23, "name": "Leather Ornate" },
+      { "armor": 22, "name": "Leather Fur" },
+      { "armor": 22, "name": "Leather Wolf" },
+      { "armor": 22, "name": "Leather Black" },
+      { "armor": 22, "name": "Leather White" },
+      { "armor": 23, "name": "Leather Rare" },
+      { "armor": 22, "name": "Leather Brown" },
+      { "armor": 22, "name": "Leather Cave" },
+      { "armor": 22, "name": "Leather Snow" },
+      { "armor": 22, "name": "Leather Fancy" },
+      { "armor": 22, "name": "Leather Timber" },
+      { "armor": 22, "name": "Leather Ice" },
+      { "armor": 22, "name": "Leather Dark" },
+      { "armor": 22, "name": "Leather Light" },
+      { "armor": 22, "name": "Leather Trim" },
+      { "armor": 27, "name": "Steel Bear" },
+      { "armor": 28, "name": "Steel Ornate" },
+      { "armor": 27, "name": "Steel Fur" },
+      { "armor": 27, "name": "Steel Wolf" },
+      { "armor": 27, "name": "Steel Black" },
+      { "armor": 27, "name": "Steel White" },
+      { "armor": 28, "name": "Steel Rare" },
+      { "armor": 27, "name": "Steel Brown" },
+      { "armor": 27, "name": "Steel Cave" },
+      { "armor": 27, "name": "Steel Snow" },
+      { "armor": 27, "name": "Steel Fancy" },
+      { "armor": 27, "name": "Steel Timber" },
+      { "armor": 27, "name": "Steel Ice" },
+      { "armor": 27, "name": "Steel Dark" },
+      { "armor": 27, "name": "Steel Light" },
+      { "armor": 27, "name": "Steel Trim" },
+      { "armor": 55, "name": "Dragon Knight Heavy" },
+      { "armor": 45, "name": "Dragon Knight Light" },
+      { "armor": 35, "name": "Wolf" },
+      { "armor": 32, "name": "Snow Bear" },
+      { "armor": 18, "name": "Bear" },
+      { "armor": 48, "name": "Dragonhide" },
+      { "armor": 20, "name": "Scoia'tael Commando" },
+      { "armor": 26, "name": "Scoia'tael Captain's" },
+      { "armor": 55, "name": "Dragonbone Ebonsteel" },
+      { "armor": 45, "name": "Dragonscale Ebonsteel" },
+      { "armor": 35, "name": "BSA Archer's Barrette" },
+      { "armor": 35, "name": "BSA Assassin's Barrette" },
+      { "armor": 49, "name": "Wrath" },
+      { "armor": 49, "name": "Wrath Barbut of the Divine Guardian" },
+      { "armor": 49, "name": "Wrath Great Helm of the Divine Guardian" },
+      { "armor": 25, "name": "Silver" },
+      { "armor": 21, "name": "Light Banded Iron" },
+      { "armor": 19, "name": "Light Banded Iron Buckler" },
+      { "armor": 25, "name": "Heavy Banded Iron" },
+      { "armor": 23, "name": "Heavy Banded Iron Buckler" },
+      { "armor": 34, "name": "Light Blades" },
+      { "armor": 32, "name": "Light Blades Buckler" },
+      { "armor": 38, "name": "Heavy Blades" },
+      { "armor": 36, "name": "Heavy Blades Buckler" },
+      { "armor": 42, "name": "Shield of Sithis" },
+      { "armor": 44, "name": "Light Shield of Sithis" },
+      { "armor": 48, "name": "Heavy Shield of Sithis" },
+      { "armor": 44, "name": "Buckler of Sithis" },
+      { "armor": 42, "name": "Light Buckler of Sithis" },
+      { "armor": 46, "name": "Heavy Buckler of Sithis" },
+      { "armor": 48, "name": "Light Daedric" },
+      { "armor": 46, "name": "Light Daedric Buckler" },
+      { "armor": 52, "name": "Heavy Daedric" },
+      { "armor": 50, "name": "Heavy Daedric Buckler" },
+      { "armor": 39, "name": "Light Dragonplate" },
+      { "armor": 37, "name": "Light Dragonplate Buckler" },
+      { "armor": 55, "name": "Heavy Dragonplate" },
+      { "armor": 43, "name": "Heavy Dragonplate Buckler" },
+      { "armor": 33, "name": "Light Dragonscale" },
+      { "armor": 31, "name": "Light Dragonscale Buckler" },
+      { "armor": 37, "name": "Heavy Dragonscale" },
+      { "armor": 43, "name": "Heavy Dragonscale Buckler" },
+      { "armor": 30, "name": "Light Dwarven" },
+      { "armor": 28, "name": "Light Dwarven Buckler" },
+      { "armor": 34, "name": "Heavy Dwarven" },
+      { "armor": 32, "name": "Heavy Dwarven Buckler" },
+      { "armor": 42, "name": "Light Ebony" },
+      { "armor": 40, "name": "Light Ebony Buckler" },
+      { "armor": 46, "name": "Heavy Ebony" },
+      { "armor": 44, "name": "Heavy Ebony Buckler" },
+      { "armor": 29, "name": "Light Glass" },
+      { "armor": 27, "name": "Light Glass Buckler" },
+      { "armor": 35, "name": "Heavy Glass" },
+      { "armor": 33, "name": "Heavy Glass Buckler" },
+      { "armor": 13, "name": "Light Hide" },
+      { "armor": 11, "name": "Light Hide Buckler" },
+      { "armor": 15, "name": "Heavy Hide" },
+      { "armor": 13, "name": "Heavy Hide Buckler" },
+      { "armor": 18, "name": "Light Imperial" },
+      { "armor": 16, "name": "Light Imperial Buckler" },
+      { "armor": 20, "name": "Light Imperial Steel" },
+      { "armor": 26, "name": "Imperial Steel" },
+      { "armor": 28, "name": "Heavy Imperial" },
+      { "armor": 26, "name": "Heavy Imperial Buckler" },
+      { "armor": 30, "name": "Heavy Imperial Steel" },
+      { "armor": 36, "name": "Light Orcish" },
+      { "armor": 34, "name": "Light Orcish Buckler" },
+      { "armor": 40, "name": "Heavy Orcish" },
+      { "armor": 38, "name": "Heavy Orcish Buckler" },
+      { "armor": 24, "name": "Light Steel" },
+      { "armor": 22, "name": "Light Steel Buckler" },
+      { "armor": 28, "name": "Heavy Steel" },
+      { "armor": 26, "name": "Heavy Steel Buckler" },
+      { "armor": 21, "name": "Light Elven" },
+      { "armor": 23, "name": "Light Elven Gilded" },
+      { "armor": 19, "name": "Light Elven Buckler" },
+      { "armor": 25, "name": "Heavy Elven" },
+      { "armor": 27, "name": "Heavy Elven Gilded" },
+      { "armor": 23, "name": "Heavy Elven Buckler" },
+      { "armor": 18, "name": "Light Iron" },
+      { "armor": 16, "name": "Light Iron Buckler" },
+      { "armor": 22, "name": "Heavy Iron" },
+      { "armor": 20, "name": "Heavy Iron Buckler" },
+      { "armor": 25, "name": "Ancient Nordic" },
+      { "armor": 23, "name": "Light Ancient Nordic" },
+      { "armor": 27, "name": "Heavy Ancient Nordic" },
+      { "armor": 26, "name": "Nordic Steel" },
+      { "armor": 26, "name": "Steel Nordic" },
+      { "armor": 24, "name": "Light Nordic Steel" },
+      { "armor": 28, "name": "Heavy Nordic Steel" },
+      { "armor": 30, "name": "Buckler of the Blooded" },
+      { "armor": 34, "name": "Light Targe of the Blooded" },
+      { "armor": 34, "name": "Heavy Buckler of the Blooded" },
+      { "armor": 38, "name": "Shield of Ysgramor" },
+      { "armor": 36, "name": "Light Shield of Ysgramor" },
+      { "armor": 40, "name": "Heavy Shield of Ysgramor" },
+      { "armor": 32, "name": "Buckler of Ysgramor" },
+      { "armor": 30, "name": "Light Buckler of Ysgramor" },
+      { "armor": 36, "name": "Heavy Buckler of Ysgramor" },
+      { "armor": 32, "name": "Buckler of Solitude" },
+      { "armor": 35, "name": "Heavy Buckler of Solitude" },
+      { "armor": 35, "name": "Light Shield of Solitude" },
+      { "armor": 31, "name": "Light Steel Plate" },
+      { "armor": 35, "name": "Heavy Steel Plate" },
+      { "armor": 35, "name": "Spellbreaker Buckler" },
+      { "armor": 40, "name": "Light Spellbreaker" },
+      { "armor": 40, "name": "Heavy Spellbreaker Buckler" },
+      { "armor": 42, "name": "Shield of Winterhold" },
+      { "armor": 38, "name": "Light Shield of Winterhold" },
+      { "armor": 34, "name": "Buckler of Winterhold" },
+      { "armor": 38, "name": "Heavy Buckler of Winterhold" },
+      { "armor": 30, "name": "Common Buckler of Solitude" },
+      { "armor": 34, "name": "Fortified Buckler of Solitude" },
+      { "armor": 36, "name": "Superior Buckler of Solitude" },
+      { "armor": 38, "name": "Perfect Buckler of Solitude" },
+      { "armor": 33, "name": "Common Heavy Buckler of Solitude" },
+      { "armor": 37, "name": "Fortified Heavy Buckler of Solitude" },
+      { "armor": 39, "name": "Superior Heavy Buckler of Solitude" },
+      { "armor": 41, "name": "Perfect Heavy Buckler of Solitude" },
+      { "armor": 33, "name": "Common Light Shield of Solitude" },
+      { "armor": 37, "name": "Fortified Light Shield of Solitude" },
+      { "armor": 39, "name": "Superior Light Shield of Solitude" },
+      { "armor": 41, "name": "Perfect Light Shield of Solitude" },
+      { "armor": 25, "name": "Nordic Ranger" },
+      { "armor": 17, "name": "Old Gods" },
+      { "armor": 28, "name": "Bonemold" },
+      { "armor": 25, "name": "Chitin" },
+      { "armor": 33, "name": "Chitin Heavy" },
+      { "armor": 18, "name": "Cultist Gloves" },
+      { "armor": 25, "name": "Cultist Mask" },
+      { "armor": 34, "name": "Deathbrand" },
+      { "armor": 15, "name": "Dented Iron" },
+      { "armor": 33, "name": "General Carius" },
+      { "armor": 34, "name": "Improved Bonemold" },
+      { "armor": 24, "name": "Morag Tong" },
+      { "armor": 40, "name": "Nordic Carved" },
+      { "armor": 40, "name": "Nordic" },
+      { "armor": 16, "name": "Skaal" },
+      { "armor": 21, "name": "Skaal Heavy" },
+      { "armor": 22, "name": "Skaal Horned" },
+      { "armor": 43, "name": "Stalhrim" },
+      { "armor": 43, "name": "Stalhrim Heavy" },
+      { "armor": 32, "name": "Stalhrim Light" },
+      { "armor": 28, "name": "Blackguard's" },
+      { "armor": 38, "name": "Ahzidal" },
+      { "armor": 25, "name": "Wanderer" },
+      { "armor": 32, "name": "Wanderer Heavy" },
+      { "armor": 27, "name": "Wanderer Light" },
+      { "armor": 24, "name": "Nightshade" },
+      { "armor": 43, "name": "Medusa" },
+      { "armor": 48, "name": "Drakul" },
+      { "armor": 35, "name": "Scout" },
+      { "armor": 0, "name": "Leather Cased Telescope" },
+      { "armor": 0, "name": "Iron Cased Telescope" },
+      { "armor": 0, "name": "Dwarven Telescope" },
+      { "armor": 0, "name": "Dwarven SpyGlass" },
+      { "armor": 34, "name": "Stormcloak Explorer" },
+      { "armor": 34, "name": "Ancient Explorer" },
+      { "armor": 21, "name": "Castanic Hunter" },
+      { "armor": 24, "name": "Silver Spellsword" },
+      { "armor": 37, "name": "Rubicite" },
+      { "armor": 32, "name": "High Elf Paladin" },
+      { "armor": 35, "name": "Elven Inquisitor" },
+      { "armor": 40, "name": "Berserker Metal" },
+      { "armor": 34, "name": "Scion Plate" },
+      { "armor": 45, "name": "Trielek" },
+      { "armor": 31, "name": "Elven Scaled" },
+      { "armor": 20, "name": "Myrmidon" },
+      { "armor": 34, "name": "Quantum" },
+      { "armor": 35, "name": "Rysio" },
+      { "armor": 19, "name": "Karassia" },
+      { "armor": 18, "name": "Viator" },
+      { "armor": 42, "name": "Atroscine" },
+      { "armor": 36, "name": "Arcadia" },
+      { "armor": 29, "name": "Elenium" },
+      { "armor": 51, "name": "Val Tirkai" },
+      { "armor": 44, "name": "Sententia" },
+      { "armor": 28, "name": "Voidmeld" },
+      { "armor": 48, "name": "Deathshell" },
+      { "armor": 50, "name": "Viridinium" },
+      { "armor": 39, "name": "Xenocite" },
+      { "armor": 23, "name": "Jalmarak" },
+      { "armor": 30, "name": "Steelgaze" },
+      { "armor": 18, "name": "Blade Dancer" },
+      { "armor": 37, "name": "Elseworlder" },
+      { "armor": 30, "name": "Gildhorn" },
+      { "armor": 47, "name": "Ascendant" },
+      { "armor": 34, "name": "Deathskin" },
+      { "armor": 27, "name": "Brigandine" },
+      { "armor": 32, "name": "Sons of Skyrim" },
+      { "armor": 28, "name": "Light Sons of Skyrim" },
+      { "armor": 15, "name": "Colovian Leather" },
+      { "armor": 27, "name": "Scaled and Fur" },
+      { "armor": 11, "name": "Brigand's Clothes" },
+      { "armor": 16, "name": "Brigand Fauld" },
+      { "armor": 31, "name": "Bandit Iron" },
+      { "armor": 22, "name": "Highwayman Armor" },
+      { "armor": 28, "name": "Leather and Chainmail" },
+      { "armor": 16, "name": "Poacher's Hide" },
+      { "armor": 16, "name": "Pillager Armor" },
+      { "armor": 24, "name": "Bandit Studded" },
+      { "armor": 13, "name": "Wanderer Fur" },
+      { "armor": 18, "name": "Jehennian Leather" },
+      { "armor": 14, "name": "Furry Hide" },
+      { "armor": 24, "name": "Nordic Iron Cuirass" },
+      { "armor": 33, "name": "Tribunal Robes Black LIGHT" },
+      { "armor": 33, "name": "Tribunal Robes Blue LIGHT" },
+      { "armor": 33, "name": "Tribunal Robes Red LIGHT" },
+      { "armor": 33, "name": "Tribunal Robes Green LIGHT" },
+      { "armor": 33, "name": "Tribunal Robes White LIGHT" },
+      { "armor": 44, "name": "Tribunal Robes Black HEAVY" },
+      { "armor": 44, "name": "Tribunal Robes Blue HEAVY" },
+      { "armor": 44, "name": "Tribunal Robes Red HEAVY" },
+      { "armor": 44, "name": "Tribunal Robes Green HEAVY" },
+      { "armor": 44, "name": "Tribunal Robes White HEAVY" },
+      { "armor": 40, "name": "Æsir Helmet" },
+      { "armor": 40, "name": "Æsir Boots" },
+      { "armor": 40, "name": "Æsir Armor" },
+      { "armor": 40, "name": "Æsir Gauntlets" },
+      { "armor": 50, "name": "Lilith's" },
+      { "armor": 40, "name": "Lilith's Hood (light)" },
+      { "armor": 18, "name": "Lilith's Leather" },
+      { "armor": 42, "name": "Temptress" },
+      { "armor": 42, "name": "Vixen" },
+      { "armor": 36, "name": "Dandelion" },
+      { "armor": 16, "name": "Leah" },
+      { "armor": 36, "name": "Khantu" },
+      { "armor": 30, "name": "Vicky" },
+      { "armor": 18, "name": "Scamp" },
+      { "armor": 25, "name": "Wooden Nightingale" },
+      { "armor": 26, "name": "Wooden Nordic" },
+      { "armor": 26, "name": "Wooden Spiral" },
+      { "armor": 27, "name": "Wooden Triskele" },
+      { "armor": 27, "name": "Wooden Wolf" },
+      { "armor": 27, "name": "Wooden Scorpion" },
+      { "armor": 28, "name": "Wooden Dragon" },
+      { "armor": 28, "name": "Wooden Imperial" },
+      { "armor": 40, "name": "Silver Knight" },
+      { "armor": 38, "name": "Helm of Ysgramor" },
+      { "armor": 20, "name": "Old Wood" },
+      { "armor": 22, "name": "Old Knight" },
+      { "armor": 18, "name": "Medium Buckler" },
+      { "armor": 44, "name": "of the Crusader" },
+      { "armor": 20, "name": "Viking Wolf" },
+      { "armor": 21, "name": "Stark Shield" },
+      { "armor": 34, "name": "Shield of Solitude" },
+      { "armor": 32, "name": "Common Shield of Solitude" },
+      { "armor": 36, "name": "Fortified Shield of Solitude" },
+      { "armor": 38, "name": "Superior Shield of Solitude" },
+      { "armor": 40, "name": "Perfect Shield of Solitude" },
+      { "armor": 25, "name": "Penitus Oculatus" },
+      { "armor": 18, "name": "Fur Guard's" },
+      { "armor": 50, "name": "Visage of Mzund" },
+      { "armor": 21, "name": "(old)" },
+      { "armor": 5, "name": "Assault Respirator" },
+      { "armor": 23, "name": "Assault" },
+      { "armor": 2, "name": "Assault Dust Straps" },
+      { "armor": 2, "name": "Assault Pauldron" },
+      { "armor": 2, "name": "Assault Cloth Full" },
+      { "armor": 1, "name": "Assault Scarf Dirty" },
+      { "armor": 2, "name": "Assault Scarf Dirty Alt" },
+      { "armor": 1, "name": "Assault Scarf Red" },
+      { "armor": 2, "name": "Assault Scarf Red Alt" },
+      { "armor": 5, "name": "Assault Pants Dark" },
+      { "armor": 5, "name": "Assault Pants Pale" },
+      { "armor": 3, "name": "Assault Pride" },
+      { "armor": 2, "name": "Assault Pauldron Lesser" },
+      { "armor": 1, "name": "Assault Cloth Arm Left" },
+      { "armor": 1, "name": "Assault Cloth Arm Right" },
+      { "armor": 13, "name": "Northgirl" },
+      { "armor": 3, "name": "Northgirl Vest Fox" },
+      { "armor": 1, "name": "Northgirl Wolfbelt" },
+      { "armor": 2, "name": "Northgirl Trousers" },
+      { "armor": 23, "name": "Bosmer" },
+      { "armor": 33, "name": "Bosmer Elder" },
+      { "armor": 32, "name": "Bosmer Reinforced" },
+      { "armor": 33, "name": "Bosmer Engraved" },
+      { "armor": 55, "name": "Wild Hunt Heavy" },
+      { "armor": 36, "name": "Wild Hunt Light" },
+      { "armor": 33, "name": "Tribunal Light" },
+      { "armor": 44, "name": "Tribunal Heavy" },
+      { "armor": 33, "name": "Falkreath" },
+      { "armor": 24, "name": "Nord Mail Light" },
+      { "armor": 28, "name": "Nord Mail Heavy" },
+      { "armor": 24, "name": "Nord Light" },
+      { "armor": 28, "name": "Nord Heavy" },
+      { "armor": 35, "name": "Primitive Nord Heavy" },
+      { "armor": 24, "name": "Primitive Nord Light" },
+      { "armor": 48, "name": "Dragonhide Light" },
+      { "armor": 55, "name": "Dragonhide Heavy" },
+      { "armor": 50, "name": "Gildergreen Heavy" },
+      { "armor": 45, "name": "Gildergreen Light" },
+      { "armor": 23, "name": "Dwarven Mage Light" },
+      { "armor": 32, "name": "Dwarven Mage Heavy" },
+      { "armor": 20, "name": "Painted Body Heavy" },
+      { "armor": 18, "name": "Painted Body Light" },
+      { "armor": 21, "name": "Painted Kite Heavy" },
+      { "armor": 18, "name": "Painted Kite Light" },
+      { "armor": 26, "name": "Spiked Kite Light" },
+      { "armor": 35, "name": "Spiked Kite Heavy" },
+      { "armor": 26, "name": "Splinted Kite Heavy" },
+      { "armor": 24, "name": "Splinted Kite Light" },
+      { "armor": 24, "name": "Splinted Body Light" },
+      { "armor": 26, "name": "Splinted Round Heavy" },
+      { "armor": 24, "name": "Splinted Round Light" },
+      { "armor": 26, "name": "Splinted Body Heavy" },
+      { "armor": 35, "name": "Spiked Round Heavy" },
+      { "armor": 27, "name": "Spiked Round Light" },
+      { "armor": 18, "name": "Painted Round Light" },
+      { "armor": 20, "name": "Painted Round Heavy" },
+      { "armor": 35, "name": "Spiked Body Heavy" },
+      { "armor": 27, "name": "Spiked Body Light" },
+      { "armor": 27, "name": "Light Sithis" },
+      { "armor": 39, "name": "Winterhold Battlemage Buckler" },
+      { "armor": 44, "name": "Winterhold Battlemage Shield" },
+      { "armor": 35, "name": "Nordic Dwemer" },
+      { "armor": 39, "name": "Nordic Ebony" },
+      { "armor": 30, "name": "Nordic Ebony Light" },
+      { "armor": 27, "name": "Nordic Moonstone" },
+      { "armor": 37, "name": "Nordic Orichalcum" },
+      { "armor": 29, "name": "Nordic Orichalcum Light" },
+      { "armor": 36, "name": "Skyforge" },
+      { "armor": 28, "name": "Skyforge Light" },
+      { "armor": 36, "name": "Wolf Heavy Shield" },
+      { "armor": 38, "name": "Ritual" },
+      { "armor": 52, "name": "Ebonsteel Hood" },
+      { "armor": 33, "name": "Trollsbane Light" },
+      { "armor": 44, "name": "Trollsbane Heavy" },
+      { "armor": 27, "name": "Shaman" },
+      { "armor": 27, "name": "Crimson Archer" },
+      { "armor": 32, "name": "Brigand Dwemer" },
+      { "armor": 20, "name": "Brigand Plate" },
+      { "armor": 19, "name": "Highwayman" },
+      { "armor": 57, "name": "Alduin" },
+      { "armor": 45, "name": "Glacial Crystal Heavy" },
+      { "armor": 35, "name": "Glacial Crystal Light" },
+      { "armor": 44, "name": "Ebony Mage Heavy" },
+      { "armor": 31, "name": "Ebony Mage Light" },
+      { "armor": 35, "name": "Jorrvaskr Heavy" },
+      { "armor": 27, "name": "Jorrvaskr Light" },
+      { "armor": 26, "name": "Target Heavy" },
+      { "armor": 24, "name": "Target Light" },
+      { "armor": 20, "name": "Painted Iron" },
+      { "armor": 13, "name": "Painted Hide" },
+      { "armor": 26, "name": "Painted Spiked Heavy Targe" },
+      { "armor": 44, "name": "Stormlord" },
+      { "armor": 44, "name": "Imperial Knight" },
+      { "armor": 44, "name": "Steel Ebony" },
+      { "armor": 33, "name": "Steel Glass" },
+      { "armor": 23, "name": "Dark Brotherhood Ancient Shield" },
+      { "armor": 27, "name": "Shrouded Mail" },
+      { "armor": 25, "name": "Ancient Nord" },
+      { "armor": 27, "name": "Old Ancient Nordic Overlord" },
+      { "armor": 26, "name": "Old Ancient Nordic Lord" },
+      { "armor": 25, "name": "Old Ancient Nordic" },
+      { "armor": 24, "name": "Old Ancient Nordic Worn" },
+      { "armor": 22, "name": "Old Ancient Nordic Raddled" },
+      { "armor": 20, "name": "Old Ancient Nordic Broken" },
+      { "armor": 20, "name": "Iron-Steel" },
+      { "armor": 20, "name": "Iron-Dwarven" },
+      { "armor": 20, "name": "Iron-Steel Plate" },
+      { "armor": 20, "name": "Iron-Orcish" },
+      { "armor": 20, "name": "Iron-Ebony" },
+      { "armor": 20, "name": "Iron-Daedric" },
+      { "armor": 20, "name": "Iron-Dragonplate" },
+      { "armor": 31, "name": "Nord Hero" }
     ],
     "materialOverrides": [
-      {
-        "armorSubstring": "Falmer Hardened",
-        "materialOverride": "FALMER"
-      },
-      {
-        "armorSubstring": "Falmer Heavy",
-        "materialOverride": "FALMER"
-      },
-      {
-        "armorSubstring": "Guard",
-        "materialOverride": "IRON"
-      }
+      { "substring": "Shadow Warlock", "material": "Leather" },
+      { "substring": "Netch Boiled Leather", "material": "Heavy Leather" },
+      { "substring": "Netch Leather", "material": "Vampire" },
+      { "substring": "Revered Dragon", "material": "Dragonplate" },
+      { "substring": "Legendary Dragon", "material": "Dragonplate" },
+      { "substring": "Ancient Dragon", "material": "Dragonplate" },
+      { "substring": "Frost Dragonscale", "material": "Dragonscale" },
+      { "substring": "Elder Dragonscale", "material": "Dragonscale" },
+      { "substring": "Blood Dragonscale", "material": "Dragonscale" },
+      { "substring": "Falmer Hardened", "material": "FALMER" },
+      { "substring": "Falmer Heavy", "material": "FALMER" },
+      { "substring": "Yune", "material": "LEATHER" },
+      { "substring": "Tia", "material": "STEEL" },
+      { "substring": "Airy", "material": "DRAGONSCALE" },
+      { "substring": "Nila", "material": "DAEDRIC" },
+      { "substring": "Hunt Marksman", "material": "LEATHER" },
+      { "substring": "Ashen Defender", "material": "LEATHER" },
+      { "substring": "Oaken Defender", "material": "LEATHER" },
+      { "substring": "Yew Defender", "material": "LEATHER" },
+      { "substring": "Pine Defender", "material": "LEATHER" },
+      { "substring": "Sitka Defender", "material": "LEATHER" },
+      { "substring": "Winterhold Defender", "material": "ELVEN" },
+      { "substring": "Hag's Wrath (Suppressed)", "material": "ELVEN" },
+      { "substring": "Eye of Melka (Suppressed)", "material": "ELVEN" },
+      { "substring": "Forsworn Defender", "material": "ELVEN" },
+      { "substring": "Elven Defender", "material": "ELVEN" },
+      { "substring": "Gadnor's Staff (Suppressed)", "material": "SCALED" },
+      { "substring": "Wych Elm Defender", "material": "SCALED" },
+      { "substring": "Glass Defender", "material": "GLASS" },
+      { "substring": "Elven Gilded Defender", "material": "GLASS" },
+      { "substring": "Hevnoraak's Staff (Suppressed)", "material": "DRAGONSCALE" },
+      { "substring": "Dragon Priest Staff (Suppressed)", "material": "DRAGONSCALE" },
+      { "substring": "Dragonscale Defender", "material": "DRAGONSCALE" },
+      { "substring": "Wabbajack (Suppressed)", "material": "DAEDRIC" },
+      { "substring": "Sanguine Rose (Suppressed)", "material": "DAEDRIC" },
+      { "substring": "Daedric Defender", "material": "DAEDRIC" },
+      { "substring": "Nordic Iron Warstaff", "material": "IRON" },
+      { "substring": "Imperial Iron Warstaff", "material": "IRON" },
+      { "substring": "Imperial Oak Warstaff", "material": "IRON" },
+      { "substring": "Winterhold Warstaff", "material": "STEEL" },
+      { "substring": "Steel Warstaff", "material": "STEEL" },
+      { "substring": "Corundum Steel Warstaff", "material": "STEEL" },
+      { "substring": "Halldir's Staff (Suppressed)", "material": "DWARVEN" },
+      { "substring": "Staff of Arcane Authority (Suppressed)", "material": "DWARVEN" },
+      { "substring": "Staff of Jyrik Gauldurson (Suppressed)", "material": "DWARVEN" },
+      { "substring": "Raun Defender", "material": "DWARVEN" },
+      { "substring": "Dwarven Warstaff", "material": "DWARVEN" },
+      { "substring": "Falmer Warstaff", "material": "STEELPLATE" },
+      { "substring": "Sild's Staff (Suppressed)", "material": "STEELPLATE" },
+      { "substring": "Plated Steel Warstaff", "material": "STEELPLATE" },
+      { "substring": "Orcish Warstaff", "material": "ORCISH" },
+      { "substring": "Ebony Warstaff", "material": "EBONY" },
+      { "substring": "Glass Warstaff", "material": "GLASS" },
+      { "substring": "Staff of Tandil (Suppressed)", "material": "DRAGONBONE" },
+      { "substring": "Staff of Magnus (Suppressed)", "material": "DRAGONBONE" },
+      { "substring": "Dragonbone Warstaff", "material": "DRAGONBONE" },
+      { "substring": "Skull of Corruption (Suppressed)", "material": "DAEDRIC" },
+      { "substring": "Daedric Warstaff", "material": "DAEDRIC" },
+      { "substring": "Sicarius", "material": "ELVEN" }
     ],
     "excludedDreamcloth": [
       "Dreamcloth",
@@ -1511,318 +1223,90 @@
     "excludedEffects": [],
     "baseStats": {
       "effects": [
-        {
-          "name": "Lingering",
-          "fMagnitudeFactor": 0.2,
-          "iDurationBonus": 23
-        },
-        {
-          "name": "Damage",
-          "fMagnitudeFactor": 0.75,
-          "iDurationBonus": 3
-        },
-        {
-          "name": "Restore",
-          "fMagnitudeFactor": 0.25,
-          "iDurationBonus": 4
-        },
-        {
-          "name": "Regen",
-          "fMagnitudeFactor": 1.5,
-          "iDurationBonus": 178
-        },
-        {
-          "name": "Resist",
-          "fMagnitudeFactor": 2,
-          "iDurationBonus": 28
-        },
-        {
-          "name": "Fortify",
-          "fMagnitudeFactor": 1.5,
-          "iDurationBonus": 28
-        },
-        {
-          "name": "Ravage",
-          "fMagnitudeFactor": 0.5,
-          "iDurationBonus": 8
-        }
+        { "name": "Lingering", "magnitudeFactor": 0.2, "durationBonus": 23 },
+        { "name": "Damage", "magnitudeFactor": 0.75, "durationBonus": 3 },
+        { "name": "Restore", "magnitudeFactor": 0.25, "durationBonus": 4 },
+        { "name": "Regen", "magnitudeFactor": 1.5, "durationBonus": 178 },
+        { "name": "Resist", "magnitudeFactor": 2, "durationBonus": 28 },
+        { "name": "Fortify", "magnitudeFactor": 1.5, "durationBonus": 28 },
+        { "name": "Ravage", "magnitudeFactor": 0.5, "durationBonus": 8 }
       ]
     }
   },
   "projectiles": {
     "baseStats": [
       {
-        "fRangeBase": 120000,
-        "fSpeedBase": 5200,
-        "fGravityBase": 0.25,
-        "iDamageBase": 7,
-        "sIdentifier": "Arrow",
-        "sType": "ARROW"
+        "range": 120000,
+        "speed": 5200,
+        "gravity": 0.25,
+        "damage": 7,
+        "identifier": "Arrow",
+        "type": "ARROW"
       },
       {
-        "fRangeBase": 120000,
-        "fSpeedBase": 6500,
-        "fGravityBase": 0.2,
-        "iDamageBase": 13,
-        "sIdentifier": "Bolt",
-        "sType": "BOLT"
+        "range": 120000,
+        "speed": 6500,
+        "gravity": 0.2,
+        "damage": 13,
+        "identifier": "Bolt",
+        "type": "BOLT"
       }
     ],
     "modifierStats": [
-      {
-        "name": "Explosive",
-        "fGravityModifier": 0.2,
-        "fSpeedModifier": -100,
-        "iDamageModifier": 0
-      },
-      {
-        "name": "Timebomb",
-        "fGravityModifier": 0.2,
-        "fSpeedModifier": -100,
-        "iDamageModifier": 0
-      },
-      {
-        "name": "Rope",
-        "fGravityModifier": 0.4,
-        "fSpeedModifier": -200,
-        "iDamageModifier": 0
-      },
-      {
-        "name": "Barbed",
-        "fGravityModifier": 0.1,
-        "fSpeedModifier": -100,
-        "iDamageModifier": 0
-      },
-      {
-        "name": "Heavyweight",
-        "fGravityModifier": 0.16,
-        "fSpeedModifier": -250,
-        "iDamageModifier": 0
-      },
-      {
-        "name": "Neuralgia",
-        "fGravityModifier": 0.05,
-        "fSpeedModifier": -100,
-        "iDamageModifier": -2
-      },
-      {
-        "name": "Strong",
-        "fGravityModifier": 0,
-        "fSpeedModifier": 0,
-        "iDamageModifier": 6
-      },
-      {
-        "name": "Strongest",
-        "fGravityModifier": 0,
-        "fSpeedModifier": 0,
-        "iDamageModifier": 12
-      }
+      { "name": "Explosive", "gravity": 0.2, "speed": -100, "damage": 0 },
+      { "name": "Timebomb", "gravity": 0.2, "speed": -100, "damage": 0 },
+      { "name": "Rope", "gravity": 0.4, "speed": -200, "damage": 0 },
+      { "name": "Barbed", "gravity": 0.1, "speed": -100, "damage": 0 },
+      { "name": "Heavyweight", "gravity": 0.16, "speed": -250, "damage": 0 },
+      { "name": "Neuralgia", "gravity": 0.05, "speed": -100, "damage": -2 },
+      { "name": "Strong", "gravity": 0, "speed": 0, "damage": 6 },
+      { "name": "Strongest", "gravity": 0, "speed": 0, "damage": 12 }
     ],
     "materialStats": [
-      {
-        "name": "Ancient Nord",
-        "fGravityModifier": 0.01,
-        "fSpeedModifier": -100,
-        "iDamageModifier": 5
-      },
-      {
-        "name": "Iron",
-        "fGravityModifier": 0,
-        "fSpeedModifier": 0,
-        "iDamageModifier": 3
-      },
-      {
-        "name": "Steel",
-        "fGravityModifier": 0.01,
-        "fSpeedModifier": -100,
-        "iDamageModifier": 4
-      },
-      {
-        "name": "Dwemer",
-        "fGravityModifier": 0.01,
-        "fSpeedModifier": -100,
-        "iDamageModifier": 5
-      },
-      {
-        "name": "Falmer",
-        "fGravityModifier": 0.02,
-        "fSpeedModifier": -200,
-        "iDamageModifier": 7
-      },
-      {
-        "name": "Dwarven",
-        "fGravityModifier": 0.03,
-        "fSpeedModifier": -300,
-        "iDamageModifier": 9
-      },
-      {
-        "name": "Orcish",
-        "fGravityModifier": 0.04,
-        "fSpeedModifier": -400,
-        "iDamageModifier": 12
-      },
-      {
-        "name": "An-Xileel",
-        "fGravityModifier": 0.03,
-        "fSpeedModifier": 100,
-        "iDamageModifier": 11
-      },
-      {
-        "name": "Svartbough",
-        "fGravityModifier": 0.04,
-        "fSpeedModifier": -400,
-        "iDamageModifier": 12
-      },
-      {
-        "name": "Nord Hero",
-        "fGravityModifier": 0.05,
-        "fSpeedModifier": -500,
-        "iDamageModifier": 15
-      },
-      {
-        "name": "Ariyan General",
-        "fGravityModifier": 0.04,
-        "fSpeedModifier": -400,
-        "iDamageModifier": 15
-      },
-      {
-        "name": "Ariyan",
-        "fGravityModifier": 0.03,
-        "fSpeedModifier": -300,
-        "iDamageModifier": 13
-      },
-      {
-        "name": "Justiciar",
-        "fGravityModifier": 0.03,
-        "fSpeedModifier": -300,
-        "iDamageModifier": 15
-      },
-      {
-        "name": "Exotic",
-        "fGravityModifier": 0.05,
-        "fSpeedModifier": -500,
-        "iDamageModifier": 17
-      },
-      {
-        "name": "Ebony",
-        "fGravityModifier": 0.06,
-        "fSpeedModifier": -550,
-        "iDamageModifier": 16
-      },
-      {
-        "name": "Black Sacrament",
-        "fGravityModifier": 0.02,
-        "fSpeedModifier": 250,
-        "iDamageModifier": 15
-      },
-      {
-        "name": "Daedric",
-        "fGravityModifier": 0.08,
-        "fSpeedModifier": -700,
-        "iDamageModifier": 18
-      },
-      {
-        "name": "Forsworn",
-        "fGravityModifier": -0.01,
-        "fSpeedModifier": 100,
-        "iDamageModifier": 5
-      },
-      {
-        "name": "Elven",
-        "fGravityModifier": -0.02,
-        "fSpeedModifier": 200,
-        "iDamageModifier": 10
-      },
-      {
-        "name": "Seeker",
-        "fGravityModifier": -0.02,
-        "fSpeedModifier": 200,
-        "iDamageModifier": 12
-      },
-      {
-        "name": "Glass",
-        "fGravityModifier": -0.04,
-        "fSpeedModifier": 400,
-        "iDamageModifier": 14
-      },
-      {
-        "name": "Dariit",
-        "fGravityModifier": -0.04,
-        "fSpeedModifier": 400,
-        "iDamageModifier": 13
-      },
-      {
-        "name": "Dragonbone",
-        "fGravityModifier": -0.06,
-        "fSpeedModifier": 600,
-        "iDamageModifier": 20
-      },
-      {
-        "name": "Dragon",
-        "fGravityModifier": -0.06,
-        "fSpeedModifier": 600,
-        "iDamageModifier": 20
-      },
-      {
-        "name": "Dragonsteel",
-        "fGravityModifier": -0.06,
-        "fSpeedModifier": 400,
-        "iDamageModifier": 20
-      },
-      {
-        "name": "Bound",
-        "fGravityModifier": -0.1,
-        "fSpeedModifier": 1000,
-        "iDamageModifier": 13
-      },
-      {
-        "name": "Bloodcursed",
-        "fGravityModifier": -0.03,
-        "fSpeedModifier": 250,
-        "iDamageModifier": 11
-      },
-      {
-        "name": "Bloodcursed Elven",
-        "fGravityModifier": -0.03,
-        "fSpeedModifier": 250,
-        "iDamageModifier": 13
-      },
-      {
-        "name": "Sunhallowed",
-        "fGravityModifier": -0.03,
-        "fSpeedModifier": 250,
-        "iDamageModifier": 7
-      },
-      {
-        "name": "Scoia'tael",
-        "fGravityModifier": -0.02,
-        "fSpeedModifier": 200,
-        "iDamageModifier": 9
-      },
-      {
-        "name": "Black Scoia'tael",
-        "fGravityModifier": -0.02,
-        "fSpeedModifier": 300,
-        "iDamageModifier": 11
-      },
-      {
-        "name": "Nordic",
-        "fGravityModifier": -0.02,
-        "fSpeedModifier": 200,
-        "iDamageModifier": 12
-      },
-      {
-        "name": "Stalhrim",
-        "fGravityModifier": 0.06,
-        "fSpeedModifier": -550,
-        "iDamageModifier": 16
-      },
-      {
-        "name": "Scout",
-        "fGravityModifier": 0.01,
-        "fSpeedModifier": -90,
-        "iDamageModifier": 7
-      }
+      { "name": "Ancient Nord", "gravity": 0.01, "speed": -100, "damage": 5 },
+      { "name": "Iron", "gravity": 0, "speed": 0, "damage": 3 },
+      { "name": "Steel", "gravity": 0.01, "speed": -100, "damage": 4 },
+      { "name": "Dwemer", "gravity": 0.01, "speed": -100, "damage": 5 },
+      { "name": "Falmer", "gravity": 0.02, "speed": -200, "damage": 7 },
+      { "name": "Dwarven", "gravity": 0.03, "speed": -300, "damage": 9 },
+      { "name": "Orcish", "gravity": 0.04, "speed": -400, "damage": 12 },
+      { "name": "An-Xileel", "gravity": 0.03, "speed": 100, "damage": 11 },
+      { "name": "Svartbough", "gravity": 0.04, "speed": -400, "damage": 12 },
+      { "name": "Nord Hero", "gravity": 0.05, "speed": -500, "damage": 15 },
+      { "name": "Ariyan General", "gravity": 0.04, "speed": -400, "damage": 15 },
+      { "name": "Ariyan", "gravity": 0.03, "speed": -300, "damage": 13 },
+      { "name": "Justiciar", "gravity": 0.03, "speed": -300, "damage": 15 },
+      { "name": "Exotic", "gravity": 0.05, "speed": -500, "damage": 17 },
+      { "name": "Ebony", "gravity": 0.06, "speed": -550, "damage": 16 },
+      { "name": "Black Sacrament", "gravity": 0.02, "speed": 250, "damage": 15 },
+      { "name": "Daedric", "gravity": 0.08, "speed": -700, "damage": 18 },
+      { "name": "Forsworn", "gravity": -0.01, "speed": 100, "damage": 5 },
+      { "name": "Elven", "gravity": -0.02, "speed": 200, "damage": 10 },
+      { "name": "Seeker", "gravity": -0.02, "speed": 200, "damage": 12 },
+      { "name": "Glass", "gravity": -0.04, "speed": 400, "damage": 14 },
+      { "name": "Dariit", "gravity": -0.04, "speed": 400, "damage": 13 },
+      { "name": "Dragonbone", "gravity": -0.06, "speed": 600, "damage": 20 },
+      { "name": "Dragon", "gravity": -0.06, "speed": 600, "damage": 20 },
+      { "name": "Dragonsteel", "gravity": -0.06, "speed": 400, "damage": 20 },
+      { "name": "Bound", "gravity": -0.1, "speed": 1000, "damage": 13 },
+      { "name": "Bloodcursed", "gravity": -0.03, "speed": 250, "damage": 11 },
+      { "name": "Bloodcursed Elven", "gravity": -0.03, "speed": 250, "damage": 13 },
+      { "name": "Sunhallowed", "gravity": -0.03, "speed": 250, "damage": 7 },
+      { "name": "Scoia'tael", "gravity": -0.02, "speed": 200, "damage": 9 },
+      { "name": "Black Scoia'tael", "gravity": -0.02, "speed": 300, "damage": 11 },
+      { "name": "Nordic", "gravity": -0.02, "speed": 200, "damage": 12 },
+      { "name": "Stalhrim", "gravity": 0.06, "speed": -550, "damage": 16 },
+      { "name": "Scout", "gravity": 0.01, "speed": -90, "damage": 7 },
+      { "name": "Ancient Black Sacrament", "gravity": 0.08, "speed": -700, "damage": 18 },
+      { "name": "Dark Brotherhood", "gravity": 0.08, "speed": -700, "damage": 16 },
+      { "name": "Thieves Guild", "gravity": 0.08, "speed": -700, "damage": 16 },
+      { "name": "Imperial", "gravity": 0.01, "speed": -100, "damage": 4 },
+      { "name": "Stormcloak", "gravity": 0.01, "speed": -100, "damage": 4 },
+      { "name": "Dawnguard", "gravity": 0.08, "speed": -700, "damage": 9 },
+      { "name": "Bosmer Arrow", "gravity": 0.02, "speed": -200, "damage": 11 },
+      { "name": "Bosmer Elder Arrow", "gravity": 0.04, "speed": -400, "damage": 13 },
+      { "name": "Corundum", "gravity": 0.03, "speed": -300, "damage": 13 },
+      { "name": "Arrow - Bonelord", "gravity": -0.06, "speed": 600, "damage": 17 }
     ],
     "excludedAmmunitionVariants": [
       "Oil",

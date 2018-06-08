@@ -198,13 +198,13 @@ export default class WeaponPatcher {
   }
 
   getWeaponTypeOverride(name) {
-    const override = this.weapons.typeOverrides.find(t => name === t.weaponName);
-    return override ? override.weaponType : null;
+    const override = this.weapons.typeOverrides.find(t => name === t.name);
+    return override ? override.type : null;
   }
 
   getWeaponMaterialOverrideString(name) {
-    const override = this.weapons.materialOverrides.find(o => name.includes(o.weaponSubstring));
-    return override ? override.materialOverride : null;
+    const override = this.weapons.materialOverrides.find(o => name.includes(o.substring));
+    return override ? override.material : null;
   }
 
   hasWeaponKeyword(weapon) {
@@ -238,7 +238,7 @@ export default class WeaponPatcher {
       this.weapons.typeDefinitions,
       this.names[weapon],
       'substring',
-      'typeBinding'
+      'binding'
     );
 
     if (!typeString) {
@@ -317,7 +317,7 @@ export default class WeaponPatcher {
       kwda(s.kwWeapTypeMace) ||
       kwda(s.kwWeapTypeDagger)
     ) {
-      base = this.settings.weaponBaseStats.iDamageBaseOneHanded;
+      base = this.settings.weaponBaseStats.damageOneHanded;
     }
 
     if (
@@ -325,15 +325,15 @@ export default class WeaponPatcher {
       kwda(s.kwWeapTypeWarhammer) ||
       kwda(s.kwWeapTypeBattleaxe)
     ) {
-      base = this.settings.weaponBaseStats.iDamageBaseTwoHanded;
+      base = this.settings.weaponBaseStats.damageTwoHanded;
     }
 
     if (kwda(s.kwWeapTypeCrossbow)) {
-      base = this.settings.weaponBaseStats.iDamageBaseCrossbow;
+      base = this.settings.weaponBaseStats.damageCrossbow;
     }
 
     if (kwda(s.kwWeapTypeBow)) {
-      base = this.settings.weaponBaseStats.iDamageBaseBow;
+      base = this.settings.weaponBaseStats.damageBow;
     }
 
     if (base === null) {
@@ -347,7 +347,7 @@ export default class WeaponPatcher {
 
   getWeaponMaterialDamageModifier(weapon) {
     let modifier = null;
-    modifier = h.getValueFromName(this.weapons.materials, this.names[weapon], 'name', 'iDamage');
+    modifier = h.getValueFromName(this.weapons.materials, this.names[weapon], 'name', 'damage');
 
     if (modifier) {
       return modifier;
@@ -358,7 +358,7 @@ export default class WeaponPatcher {
       this.weapons.materials,
       weapon,
       'name',
-      'iDamage'
+      'damage'
     );
 
     if (modifier === null) {
@@ -377,7 +377,7 @@ export default class WeaponPatcher {
       this.weapons.types,
       weapon,
       'name',
-      'iDamage',
+      'damage',
       false
     );
 
@@ -392,12 +392,12 @@ export default class WeaponPatcher {
   }
 
   patchWeaponReach(weapon) {
-    const reach = this.getWeaponTypeFloatValueModifier(weapon, 'fReach');
+    const reach = this.getWeaponTypeFloatValueModifier(weapon, 'reach');
     xelib.SetFloatValue(weapon, 'DNAM\\Reach', reach);
   }
 
   patchWeaponSpeed(weapon) {
-    const speed = this.getWeaponTypeFloatValueModifier(weapon, 'fSpeed');
+    const speed = this.getWeaponTypeFloatValueModifier(weapon, 'speed');
     xelib.SetFloatValue(weapon, 'DNAM\\Speed', speed);
   }
 
@@ -801,7 +801,7 @@ export default class WeaponPatcher {
     const baseDamage = this.getBaseDamage(weapon);
     const materialDamage = this.getWeaponMaterialDamageModifier(weapon);
     const typeDamage = this.getWeaponTypeDamageModifier(weapon);
-    const recurveDamage = this.settings.weaponBaseStats.iDamageBonusRecurveCrossbow;
+    const recurveDamage = this.settings.weaponBaseStats.damageBonusRecurveCrossbow;
     const desc = xelib.GetValue(weapon, 'DESC');
     xelib.SetUIntValue(
       weapon,
@@ -818,12 +818,12 @@ export default class WeaponPatcher {
     xelib.SetFloatValue(
       weapon,
       'DNAM\\Speed',
-      speed + this.settings.weaponBaseStats.fSpeedBonusArbalestCrossbow
+      speed + this.settings.weaponBaseStats.speedBonusArbalestCrossbow
     );
     xelib.SetFloatValue(
       weapon,
       'DATA\\Weight',
-      weight + this.settings.weaponBaseStats.fWeightFactorArbalestCrossbow
+      weight + this.settings.weaponBaseStats.weightFactorArbalestCrossbow
     );
     xelib.AddElementValue(
       weapon,
@@ -839,12 +839,12 @@ export default class WeaponPatcher {
     xelib.SetFloatValue(
       weapon,
       'DNAM\\Speed',
-      speed + this.settings.weaponBaseStats.fSpeedBonusLightweightCrossbow
+      speed + this.settings.weaponBaseStats.speedBonusLightweightCrossbow
     );
     xelib.SetFloatValue(
       weapon,
       'DATA\\Weight',
-      weight + this.settings.weaponBaseStats.fWeightFactorLightweightCrossbow
+      weight + this.settings.weaponBaseStats.weightFactorLightweightCrossbow
     );
     xelib.AddElementValue(weapon, 'DESC', `${desc} Has increased attack speed.`);
   }
