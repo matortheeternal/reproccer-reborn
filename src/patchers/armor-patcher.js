@@ -1,82 +1,81 @@
-import * as h from './helpers';
+import {
+  addPerkScript,
+  createGetItemCountCondition,
+  createHasPerkCondition,
+  getKwda,
+  getValueFromName,
+  overrideCraftingRecipes,
+  updateHasPerkCondition
+} from './helpers';
 
 export default class ArmorPatcher {
-  constructor() {
-    this.load = this.load.bind(this);
-    this.patch = this.patch.bind(this);
+  names = {};
+
+  constructor(helpers, locals, patch, settings) {
+    this.baseStats = settings.armor.baseStats;
+    this.cobj = locals.cobj;
+    this.helpers = helpers;
+    this.locals = locals;
+    this.patchFile = patch;
+    this.rules = locals.rules.armor;
+    this.settings = settings;
+    this.s = locals.statics;
+
+    if (this.settings.armor.enabled) {
+      this.updateGameSettings();
+    }
   }
 
-  // eslint-disable-next-line no-unused-vars
-  load(plugin, helpers, settings, locals) {
-    if (!settings.patchArmor) {
-      return false;
-    }
+  load = {
+    filter: record => {
+      if (!this.settings.armor.enabled) {
+        return false;
+      }
 
-    this.settings = settings;
-    this.patchFile = locals.patch;
-    this.armor = locals.rules.armor;
-    this.statics = locals.statics;
-    this.cobj = locals.cobj;
-    this.names = {};
-
-    this.updateGameSettings();
-
-    return {
-      signature: 'ARMO',
-      filter: armor => {
-        if (xelib.HasElement(armor, 'TNAM')) {
-          return true;
-        }
-
-        if (!xelib.FullName(armor) || !xelib.HasElement(armor, 'KWDA')) {
-          return false;
-        }
-
-        if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwVendorItemClothing)) {
-          return true;
-        }
-
-        if (xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwJewelry)) {
-          return false;
-        }
-
-        if (
-          !(
-            xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorHeavy) ||
-            xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorLight) ||
-            xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorSlotShield)
-          )
-        ) {
-          return false;
-        }
-
+      if (xelib.HasElement(record, 'TNAM')) {
         return true;
       }
-    };
-  }
+
+      if (!xelib.FullName(record) || !xelib.HasElement(record, 'KWDA')) {
+        return false;
+      }
+
+      if (xelib.HasArrayItem(record, 'KWDA', '', this.s.kwVendorItemClothing)) {
+        return true;
+      }
+
+      if (xelib.HasArrayItem(record, 'KWDA', '', this.s.kwJewelry)) {
+        return false;
+      }
+
+      const keywords = [this.s.kwArmorHeavy, this.s.kwArmorLight, this.s.kwArmorSlotShield];
+      if (!keywords.some(kwda => xelib.HasArrayItem(record, 'KWDA', '', kwda))) {
+        return false;
+      }
+
+      return true;
+    },
+
+    signature: 'ARMO'
+  };
 
   updateGameSettings() {
-    const armorScalingFactorBaseRecord = xelib.GetRecord(
-      0,
-      parseInt(this.statics.gmstArmorScalingFactor, 16)
-    );
-    const fArmorScalingFactor = xelib.CopyElement(armorScalingFactorBaseRecord, this.patchFile);
+    let hexFormId = parseInt(this.s.gmstArmorScalingFactor, 16);
+    const protectionPerArmorBaseRecord = xelib.GetRecord(0, hexFormId);
+    const protectionPerArmor = xelib.CopyElement(protectionPerArmorBaseRecord, this.patchFile);
     xelib.SetFloatValue(
-      fArmorScalingFactor,
+      protectionPerArmor,
       'DATA\\Float',
-      this.settings.armorBaseStats.protectionPerArmor
+      this.settings.armor.baseStats.protectionPerArmor
     );
 
-    const maxArmorRatingBaseRecord = xelib.GetRecord(
-      0,
-      parseInt(this.statics.gmstMaxArmorRating, 16)
-    );
-    const maxArmorRating = xelib.CopyElement(maxArmorRatingBaseRecord, this.patchFile);
-    xelib.SetFloatValue(maxArmorRating, 'DATA\\Float', this.settings.armorBaseStats.maxProtection);
+    hexFormId = parseInt(this.s.gmstMaxArmorRating, 16);
+    const maxProtectionBaseRecord = xelib.GetRecord(0, hexFormId);
+    const maxProtection = xelib.CopyElement(maxProtectionBaseRecord, this.patchFile);
+    xelib.SetFloatValue(maxProtection, 'DATA\\Float', this.settings.armor.baseStats.maxProtection);
   }
 
-  // eslint-disable-next-line no-unused-vars
-  patch(armor, helpers, settings, locals) {
+  patch = armor => {
     this.names[armor] = xelib.FullName(armor);
 
     if (xelib.HasElement(armor, 'TNAM')) {
@@ -84,7 +83,7 @@ export default class ArmorPatcher {
       return;
     } else if (
       xelib.HasElement(armor, 'KWDA') &&
-      xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwVendorItemClothing)
+      xelib.HasArrayItem(armor, 'KWDA', '', this.s.kwVendorItemClothing)
     ) {
       this.patchMasqueradeKeywords(armor);
       this.processClothing(armor);
@@ -97,25 +96,25 @@ export default class ArmorPatcher {
     this.patchShieldWeight(armor);
     this.modifyRecipes(armor);
     this.addMeltdownRecipe(armor);
-  }
+  };
 
   patchShieldWeight(armor) {
     if (
       !xelib.HasElement(armor, 'KWDA') ||
-      !xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorSlotShield)
+      !xelib.HasArrayItem(armor, 'KWDA', '', this.s.kwArmorSlotShield)
     ) {
       return;
     }
 
     if (this.hasHeavyMaterialKeyword(armor)) {
-      xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwArmorShieldHeavy);
+      xelib.AddElementValue(armor, 'KWDA\\.', this.s.kwArmorShieldHeavy);
 
       if (!this.names[armor].includes('Heavy Shield')) {
         this.names[armor] = this.names[armor].replace('Shield', 'Heavy Shield');
         xelib.AddElementValue(armor, 'FULL', this.names[armor]);
       }
     } else {
-      xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwArmorShieldLight);
+      xelib.AddElementValue(armor, 'KWDA\\.', this.s.kwArmorShieldLight);
 
       if (!this.names[armor].includes('Light Shield')) {
         this.names[armor] = this.names[armor].replace('Shield', 'Light Shield');
@@ -125,8 +124,8 @@ export default class ArmorPatcher {
   }
 
   hasHeavyMaterialKeyword(armor) {
-    const s = this.statics;
-    const kwda = h.getKwda(armor);
+    const { s } = this;
+    const kwda = getKwda(armor);
     return (
       kwda(s.kwArmorMaterialBlades) ||
       kwda(s.kwArmorMaterialDraugr) ||
@@ -148,30 +147,30 @@ export default class ArmorPatcher {
 
   patchMasqueradeKeywords(armor) {
     if (this.names[armor].includes('Thalmor')) {
-      xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeThalmor);
+      xelib.AddElementValue(armor, 'KWDA\\.', this.s.kwMasqueradeThalmor);
     }
 
     if (this.names[armor].includes('Bandit') || this.names[armor].includes('Fur')) {
-      xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeBandit);
+      xelib.AddElementValue(armor, 'KWDA\\.', this.s.kwMasqueradeBandit);
     }
 
     if (this.names[armor].includes('Imperial')) {
-      xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeImperial);
+      xelib.AddElementValue(armor, 'KWDA\\.', this.s.kwMasqueradeImperial);
     }
 
     if (this.names[armor].includes('Stormcloak')) {
-      xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeStormcloak);
+      xelib.AddElementValue(armor, 'KWDA\\.', this.s.kwMasqueradeStormcloak);
     }
 
     if (this.names[armor].includes('Forsworn') || this.names[armor].includes('Old God')) {
-      xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeForsworn);
+      xelib.AddElementValue(armor, 'KWDA\\.', this.s.kwMasqueradeForsworn);
     }
   }
 
   processClothing(armor) {
     this.addClothingMeltdownRecipe(armor);
 
-    if (this.armor.excludedDreamcloth.find(ed => this.names[armor].includes(ed))) {
+    if (this.rules.excludedDreamcloth.find(ed => this.names[armor].includes(ed))) {
       return;
     }
 
@@ -189,8 +188,8 @@ export default class ArmorPatcher {
   }
 
   createDreamcloth(armor) {
-    const s = this.statics;
-    const kwda = h.getKwda(armor);
+    const { s } = this;
+    const kwda = getKwda(armor);
     let dreamclothPerk;
 
     if (kwda(s.kwClothingBody)) {
@@ -216,14 +215,14 @@ export default class ArmorPatcher {
     xelib.RemoveElement(newDreamcloth, 'DESC');
     xelib.AddElementValue(newDreamcloth, 'KWDA\\.', s.kwArmorDreamcloth);
 
-    h.addPerkScript(newDreamcloth, 'xxxDreamCloth', 'p', dreamclothPerk);
+    addPerkScript(newDreamcloth, 'xxxDreamCloth', 'p', dreamclothPerk);
 
     return newDreamcloth;
   }
 
   addClothingMeltdownRecipe(armor, isDreamCloth) {
-    const s = this.statics;
-    const kwda = h.getKwda(armor);
+    const { s } = this;
+    const kwda = getKwda(armor);
     let returnQuantity = 1;
     const inputQuantity = 1;
 
@@ -246,18 +245,18 @@ export default class ArmorPatcher {
 
     xelib.AddElement(newRecipe, 'Conditions');
     const condition = xelib.GetElement(newRecipe, 'Conditions\\[0]');
-    h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, s.perkSmithingMeltdown);
+    updateHasPerkCondition(newRecipe, condition, 10000000, 1, s.perkSmithingMeltdown);
 
     if (isDreamCloth) {
-      h.createHasPerkCondition(newRecipe, 10000000, 1, s.perkSmithingWeavingMill);
+      createHasPerkCondition(newRecipe, 10000000, 1, s.perkSmithingWeavingMill);
     }
 
-    h.createGetItemCountCondition(newRecipe, 11000000, 1, armor);
+    createGetItemCountCondition(newRecipe, 11000000, 1, armor);
   }
 
   addClothingCraftingRecipe(armor, isDreamCloth) {
-    const s = this.statics;
-    const kwda = h.getKwda(armor);
+    const { s } = this;
+    const kwda = getKwda(armor);
     const newRecipe = xelib.AddElement(this.patchFile, 'Constructible Object\\COBJ');
     xelib.AddElementValue(newRecipe, 'EDID', `REP_CRAFT_CLOTHING_${this.names[armor]}`);
 
@@ -285,7 +284,7 @@ export default class ArmorPatcher {
 
       xelib.AddElement(newRecipe, 'Conditions');
       const condition = xelib.AddElement(newRecipe, 'Conditions\\[0]');
-      h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, s.perkSmithingWeavingMill);
+      updateHasPerkCondition(newRecipe, condition, 10000000, 1, s.perkSmithingWeavingMill);
     }
 
     secondaryIngredients.forEach(hexcode => {
@@ -304,42 +303,42 @@ export default class ArmorPatcher {
 
     // prettier-ignore
     const overrideMap = {
-      BONEMOLD_HEAVY: { kwda: this.statics.kwArmorMaterialNordicLight,    perk: this.statics.perkSmithingAdvanced },
-      DAEDRIC:        { kwda: this.statics.kwArmorMaterialDaedric,        perk: this.statics.perkSmithingDaedric  },
-      DRAGONPLATE:    { kwda: this.statics.kwArmorMaterialDragonPlate,    perk: this.statics.perkSmithingDragon   },
-      DRAGONSCALE:    { kwda: this.statics.kwArmorMaterialDragonscale,    perk: this.statics.perkSmithingDragon   },
-      DWARVEN:        { kwda: this.statics.kwArmorMaterialDwarven,        perk: this.statics.perkSmithingDwarven  },
-      EBONY:          { kwda: this.statics.kwArmorMaterialEbony,          perk: this.statics.perkSmithingEbony    },
-      ELVEN:          { kwda: this.statics.kwArmorMaterialElven,          perk: this.statics.perkSmithingElven    },
-      FALMER:         { kwda: this.statics.kwArmorMaterialFalmer,         perk: this.statics.perkSmithingAdvanced },
-      FUR:            { kwda: this.statics.kwArmorMaterialFur,            perk: null                              },
-      GLASS:          { kwda: this.statics.kwArmorMaterialGlass,          perk: this.statics.perkSmithingGlass    },
-      HIDE:           { kwda: this.statics.kwArmorMaterialHide,           perk: null                              },
-      IRON:           { kwda: this.statics.kwArmorMaterialIron,           perk: null                              },
-      LEATHER:        { kwda: this.statics.kwArmorMaterialLeather,        perk: this.statics.perkSmithingLeather  },
-      NORDIC_HEAVY:   { kwda: this.statics.kwArmorMaterialNordicHeavy,    perk: this.statics.perkSmithingAdvanced },
-      ORCISH:         { kwda: this.statics.kwArmorMaterialOrcish,         perk: this.statics.perkSmithingOrcish   },
-      SCALED:         { kwda: this.statics.kwArmorMaterialScaled,         perk: this.statics.perkSmithingAdvanced },
-      STALHRIM_HEAVY: { kwda: this.statics.kwArmorMaterialStalhrimHeavy,  perk: this.statics.perkSmithingAdvanced },
-      STALHRIM_LIGHT: { kwda: this.statics.kwArmorMaterialStalhrimLight,  perk: this.statics.perkSmithingAdvanced },
-      STEEL:          { kwda: this.statics.kwArmorMaterialSteel,          perk: this.statics.perkSmithingSteel    },
-      STEELPLATE:     { kwda: this.statics.kwArmorMaterialSteelPlate,     perk: this.statics.perkSmithingAdvanced }
+      BONEMOLD_HEAVY: { kwda: this.s.kwArmorMaterialNordicLight,    perk: this.s.perkSmithingAdvanced },
+      DAEDRIC:        { kwda: this.s.kwArmorMaterialDaedric,        perk: this.s.perkSmithingDaedric  },
+      DRAGONPLATE:    { kwda: this.s.kwArmorMaterialDragonPlate,    perk: this.s.perkSmithingDragon   },
+      DRAGONSCALE:    { kwda: this.s.kwArmorMaterialDragonscale,    perk: this.s.perkSmithingDragon   },
+      DWARVEN:        { kwda: this.s.kwArmorMaterialDwarven,        perk: this.s.perkSmithingDwarven  },
+      EBONY:          { kwda: this.s.kwArmorMaterialEbony,          perk: this.s.perkSmithingEbony    },
+      ELVEN:          { kwda: this.s.kwArmorMaterialElven,          perk: this.s.perkSmithingElven    },
+      FALMER:         { kwda: this.s.kwArmorMaterialFalmer,         perk: this.s.perkSmithingAdvanced },
+      FUR:            { kwda: this.s.kwArmorMaterialFur,            perk: null                        },
+      GLASS:          { kwda: this.s.kwArmorMaterialGlass,          perk: this.s.perkSmithingGlass    },
+      HIDE:           { kwda: this.s.kwArmorMaterialHide,           perk: null                        },
+      IRON:           { kwda: this.s.kwArmorMaterialIron,           perk: null                        },
+      LEATHER:        { kwda: this.s.kwArmorMaterialLeather,        perk: this.s.perkSmithingLeather  },
+      NORDIC_HEAVY:   { kwda: this.s.kwArmorMaterialNordicHeavy,    perk: this.s.perkSmithingAdvanced },
+      ORCISH:         { kwda: this.s.kwArmorMaterialOrcish,         perk: this.s.perkSmithingOrcish   },
+      SCALED:         { kwda: this.s.kwArmorMaterialScaled,         perk: this.s.perkSmithingAdvanced },
+      STALHRIM_HEAVY: { kwda: this.s.kwArmorMaterialStalhrimHeavy,  perk: this.s.perkSmithingAdvanced },
+      STALHRIM_LIGHT: { kwda: this.s.kwArmorMaterialStalhrimLight,  perk: this.s.perkSmithingAdvanced },
+      STEEL:          { kwda: this.s.kwArmorMaterialSteel,          perk: this.s.perkSmithingSteel    },
+      STEELPLATE:     { kwda: this.s.kwArmorMaterialSteelPlate,     perk: this.s.perkSmithingAdvanced }
     };
 
     if (overrideMap[override]) {
       xelib.AddElementValue(armor, 'KWDA\\.', overrideMap[override].kwda);
-      h.overrideCraftingRecipes(this.cobj, armor, overrideMap[override].perk, this.patchFile);
+      overrideCraftingRecipes(this.cobj, armor, overrideMap[override].perk, this.patchFile);
     }
   }
 
   getArmorMaterialOverride(name) {
-    const override = this.armor.materialOverrides.find(o => name.includes(o.substring));
+    const override = this.rules.materialOverrides.find(o => name.includes(o.substring));
     return override ? override.material : null;
   }
 
   hasMaterialKeyword(armor) {
-    const s = this.statics;
-    const kwda = h.getKwda(armor);
+    const { s } = this;
+    const kwda = getKwda(armor);
     return (
       kwda(s.kwArmorMaterialDaedric) ||
       kwda(s.kwArmorMaterialSteel) ||
@@ -372,34 +371,34 @@ export default class ArmorPatcher {
   }
 
   getArmorSlotMultiplier(armor) {
-    const kwda = h.getKwda(armor);
-    if (kwda(this.statics.kwArmorSlotBoots)) {
-      return this.settings.armorBaseStats.armorFactorBoots;
+    const kwda = getKwda(armor);
+    if (kwda(this.s.kwArmorSlotBoots)) {
+      return this.settings.armor.baseStats.multipliers.boots;
     }
-    if (kwda(this.statics.kwArmorSlotCuirass)) {
-      return this.settings.armorBaseStats.armorFactorCuirass;
+    if (kwda(this.s.kwArmorSlotCuirass)) {
+      return this.settings.armor.baseStats.multipliers.cuirass;
     }
-    if (kwda(this.statics.kwArmorSlotGauntlets)) {
-      return this.settings.armorBaseStats.armorFactorGauntlets;
+    if (kwda(this.s.kwArmorSlotGauntlets)) {
+      return this.settings.armor.baseStats.multipliers.gauntlets;
     }
-    if (kwda(this.statics.kwArmorSlotHelmet)) {
-      return this.settings.armorBaseStats.armorFactorHelmet;
+    if (kwda(this.s.kwArmorSlotHelmet)) {
+      return this.settings.armor.baseStats.multipliers.helmet;
     }
-    if (kwda(this.statics.kwArmorSlotShield)) {
-      return this.settings.armorBaseStats.armorFactorShield;
+    if (kwda(this.s.kwArmorSlotShield)) {
+      return this.settings.armor.baseStats.multipliers.shield;
     }
 
     return 0;
   }
 
   getMaterialArmorModifier(armor) {
-    let armorRating = h.getValueFromName(this.armor.materials, this.names[armor], 'name', 'armor');
+    let armorRating = getValueFromName(this.rules.materials, this.names[armor], 'name', 'armor');
 
     if (armorRating !== null) {
       return armorRating;
     }
 
-    const s = this.statics;
+    const { s } = this;
 
     // prettier-ignore
     const keywordMaterialMap = [
@@ -446,7 +445,7 @@ export default class ArmorPatcher {
         return false;
       }
 
-      armorRating = h.getValueFromName(this.armor.materials, pair.name, 'name', 'armor');
+      armorRating = getValueFromName(this.rules.materials, pair.name, 'name', 'armor');
       return true;
     });
 
@@ -463,7 +462,7 @@ export default class ArmorPatcher {
       armor,
       'KWDA',
       '',
-      this.statics.kwArmorMaterialLeather
+      this.s.kwArmorMaterialLeather
     );
 
     this.cobj.forEach(recipe => {
@@ -474,7 +473,7 @@ export default class ArmorPatcher {
 
   modifyTemperingRecipe(armor, armorFormID, recipe) {
     const { bnam, cnam } = recipe;
-    const bench = parseInt(this.statics.kwCraftingSmithingArmorTable, 16);
+    const bench = parseInt(this.s.kwCraftingSmithingArmorTable, 16);
 
     if (bnam !== bench || cnam !== armorFormID) {
       return;
@@ -488,12 +487,12 @@ export default class ArmorPatcher {
 
     const newRecipe = xelib.CopyElement(recipe.handle, this.patchFile);
     const condition = xelib.AddElement(newRecipe, 'Conditions\\^0');
-    h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
+    updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
   }
 
   temperingPerkFromKeyword(armor) {
-    const s = this.statics;
-    const kwda = h.getKwda(armor);
+    const { s } = this;
+    const kwda = getKwda(armor);
     let perk;
 
     if (kwda(s.kwArmorMaterialDaedric)) {
@@ -564,12 +563,12 @@ export default class ArmorPatcher {
     }
 
     const newRecipe = xelib.CopyElement(recipe.handle, this.patchFile);
-    h.createHasPerkCondition(newRecipe, 10000000, 1, this.statics.perkSmithingLeather);
+    createHasPerkCondition(newRecipe, 10000000, 1, this.s.perkSmithingLeather);
   }
 
   addMeltdownRecipe(armor) {
-    const s = this.statics;
-    const kwda = h.getKwda(armor);
+    const { s } = this;
+    const kwda = getKwda(armor);
     const incr = v => v + 1;
     const noop = v => v;
 
@@ -653,12 +652,27 @@ export default class ArmorPatcher {
 
     xelib.AddElement(recipe, 'Conditions');
     const condition = xelib.GetElement(recipe, 'Conditions\\[0]');
-    h.updateHasPerkCondition(recipe, condition, 10000000, 1, this.statics.perkSmithingMeltdown);
+    updateHasPerkCondition(recipe, condition, 10000000, 1, this.s.perkSmithingMeltdown);
 
     if (perk) {
-      h.createHasPerkCondition(recipe, 10000000, 1, perk);
+      createHasPerkCondition(recipe, 10000000, 1, perk);
     }
 
-    h.createGetItemCountCondition(recipe, 11000000, 1.0, armor);
+    createGetItemCountCondition(recipe, 11000000, 1.0, armor);
   }
 }
+
+export const defaultSettings = {
+  baseStats: {
+    maxProtection: 95,
+    multipliers: {
+      boots: 1,
+      cuirass: 3,
+      gauntlets: 1,
+      helmet: 1.5,
+      shield: 1.5
+    },
+    protectionPerArmor: 0.1
+  },
+  enabled: true
+};

@@ -136,96 +136,6 @@ function _defineProperty(obj, key, value) {
   return obj;
 }
 
-var AlchemyPatcher =
-/*#__PURE__*/
-function () {
-  function AlchemyPatcher() {
-    _classCallCheck(this, AlchemyPatcher);
-
-    this.load = this.load.bind(this);
-    this.patch = this.patch.bind(this);
-    this.updateEffect = this.updateEffect.bind(this);
-  } // eslint-disable-next-line no-unused-vars
-
-
-  _createClass(AlchemyPatcher, [{
-    key: "load",
-    value: function load(plugin, helpers, settings, locals) {
-      this.alchemy = locals.rules.alchemy;
-      this.settings = settings;
-
-      if (!settings.patchAlchemyIngredients) {
-        return false;
-      }
-
-      return {
-        signature: 'INGR'
-      };
-    } // eslint-disable-next-line no-unused-vars
-
-  }, {
-    key: "patch",
-    value: function patch(ingredient, helpers, settings, locals) {
-      this.updateEffects(ingredient);
-      this.clampValue(ingredient);
-    }
-  }, {
-    key: "updateEffects",
-    value: function updateEffects(ingredient) {
-      xelib.GetElements(ingredient, 'Effects').forEach(this.updateEffect);
-    }
-  }, {
-    key: "updateEffect",
-    value: function updateEffect(effect) {
-      var _this = this;
-
-      var mgef = xelib.GetWinningOverride(xelib.GetLinksTo(effect, 'EFID'));
-      var name = xelib.FullName(mgef);
-
-      if (this.alchemy.excludedEffects.includes(name)) {
-        return;
-      }
-
-      var newDuration = xelib.GetIntValue(effect, 'EFIT\\Duration');
-      var newMagnitude = xelib.GetFloatValue(effect, 'EFIT\\Magnitude');
-      this.alchemy.baseStats.effects.some(function (e) {
-        if (!name.includes(e.name)) {
-          return false;
-        }
-
-        newDuration = _this.settings.alchemyBaseStats.durationBase + e.durationBonus;
-        newMagnitude *= e.magnitudeFactor;
-        return true;
-      });
-
-      if (xelib.HasElement(mgef, 'Magic Effect Data') && !xelib.GetFlag(mgef, 'Magic Effect Data\\DATA\\Flags', 'No Duration')) {
-        xelib.SetUIntValue(effect, 'EFIT\\Duration', newDuration);
-      }
-
-      if (xelib.HasElement(mgef, 'Magic Effect Data') && !xelib.GetFlag(mgef, 'Magic Effect Data\\DATA\\Flags', 'No Magnitude')) {
-        newMagnitude = Math.max(1.0, newMagnitude);
-        xelib.SetFloatValue(effect, 'EFIT\\Magnitude', newMagnitude);
-      }
-    }
-  }, {
-    key: "clampValue",
-    value: function clampValue(ingredient) {
-      if (!this.settings.alchemyBaseStats.usePriceLimits) {
-        return;
-      }
-
-      var min = this.settings.alchemyBaseStats.priceLimitLower;
-      var max = this.settings.alchemyBaseStats.priceLimitUpper;
-      var originalValue = xelib.GetValue(ingredient, 'DATA\\Value');
-      var newValue = Math.min(Math.max(originalValue, min), max);
-      xelib.SetFlag(ingredient, 'ENIT\\Flags', 'No auto-calculation', true);
-      xelib.SetUIntValue(ingredient, 'DATA\\Value', newValue);
-    }
-  }]);
-
-  return AlchemyPatcher;
-}();
-
 function overrideCraftingRecipes(cobj, armor, perk, patchFile) {
   var armorFormID = xelib.GetFormID(armor);
   cobj.forEach(function (recipe) {
@@ -323,109 +233,230 @@ function addPerkScript(weapon, scriptName, propertyName, perk) {
   xelib.SetValue(property, 'Value\\Object Union\\Object v2\\FormID', perk);
   xelib.SetValue(property, 'Value\\Object Union\\Object v2\\Alias', 'None');
 }
+function safeHasFlag(handle, path, flag) {
+  return xelib.HasElement(handle, path.split('\\')[0]) && !xelib.GetFlag(handle, path, flag);
+}
+function safeHasArrayItem(handle, path, subPath, value) {
+  return xelib.HasElement(handle, path) && xelib.HasArrayItem(handle, path, subPath, value);
+}
+function safeNotHasArrayItem(handle, path, subPath, value) {
+  return xelib.HasElement(handle, path) && !xelib.HasArrayItem(handle, path, subPath, value);
+}
+function clamp(min, value, max) {
+  return Math.min(Math.max(value, min), max);
+}
+
+var AlchemyPatcher =
+/*#__PURE__*/
+function () {
+  function AlchemyPatcher(helpers, locals, patch, settings) {
+    var _this = this;
+
+    _classCallCheck(this, AlchemyPatcher);
+
+    _defineProperty(this, "load", {
+      filter: function filter(record) {
+        if (!_this.settings.alchemy.enabled) {
+          return false;
+        }
+
+        return true;
+      },
+      signature: 'INGR'
+    });
+
+    _defineProperty(this, "patch", function (record) {
+      _this.updateEffects(record);
+
+      _this.clampValue(record);
+    });
+
+    _defineProperty(this, "updateEffect", function (effectsHandle) {
+      var mgefHandle = xelib.GetWinningOverride(xelib.GetLinksTo(effectsHandle, 'EFID'));
+      var name = xelib.FullName(mgefHandle);
+
+      if (_this.rules.excludedEffects.includes(name)) {
+        return;
+      }
+
+      var newDuration = xelib.GetIntValue(effectsHandle, 'EFIT\\Duration');
+      var newMagnitude = xelib.GetFloatValue(effectsHandle, 'EFIT\\Magnitude');
+
+      _this.rules.effects.some(function (effect) {
+        if (!name.includes(effect.name)) {
+          return false;
+        }
+
+        newDuration = _this.baseStats.duration + effect.bonus;
+        newMagnitude *= effect.magnitudeFactor;
+        return true;
+      });
+
+      if (safeHasFlag(mgefHandle, 'Magic Effect Data\\DATA\\Flags', 'No Duration')) {
+        xelib.SetUIntValue(effectsHandle, 'EFIT\\Duration', newDuration);
+      }
+
+      if (safeHasFlag(mgefHandle, 'Magic Effect Data\\DATA\\Flags', 'No Magnitude')) {
+        newMagnitude = Math.max(1.0, newMagnitude);
+        xelib.SetFloatValue(effectsHandle, 'EFIT\\Magnitude', newMagnitude);
+      }
+    });
+
+    this.baseStats = settings.alchemy.baseStats;
+    this.helpers = helpers;
+    this.locals = locals;
+    this.rules = locals.rules.alchemy;
+    this.settings = settings;
+  }
+
+  _createClass(AlchemyPatcher, [{
+    key: "updateEffects",
+    value: function updateEffects(record) {
+      xelib.GetElements(record, 'Effects').forEach(this.updateEffect);
+    }
+  }, {
+    key: "clampValue",
+    value: function clampValue(record) {
+      if (!this.baseStats.usePriceLimits) {
+        return;
+      }
+
+      var newValue = clamp(this.baseStats.priceLimits.lower, xelib.GetValue(record, 'DATA\\Value'), this.baseStats.priceLimits.upper);
+      xelib.SetFlag(record, 'ENIT\\Flags', 'No auto-calculation', true);
+      xelib.SetUIntValue(record, 'DATA\\Value', newValue);
+    }
+  }]);
+
+  return AlchemyPatcher;
+}();
+
+var defaultSettings = {
+  baseStats: {
+    duration: 2,
+    priceLimits: {
+      lower: 5,
+      upper: 150
+    },
+    usePriceLimits: true
+  },
+  enabled: true
+};
 
 var ArmorPatcher =
 /*#__PURE__*/
 function () {
-  function ArmorPatcher() {
+  function ArmorPatcher(helpers, locals, patch, settings) {
+    var _this = this;
+
     _classCallCheck(this, ArmorPatcher);
 
-    this.load = this.load.bind(this);
-    this.patch = this.patch.bind(this);
-  } // eslint-disable-next-line no-unused-vars
+    _defineProperty(this, "names", {});
 
+    _defineProperty(this, "load", {
+      filter: function filter(record) {
+        if (!_this.settings.armor.enabled) {
+          return false;
+        }
 
-  _createClass(ArmorPatcher, [{
-    key: "load",
-    value: function load(plugin, helpers, settings, locals) {
-      var _this = this;
-
-      if (!settings.patchArmor) {
-        return false;
-      }
-
-      this.settings = settings;
-      this.patchFile = locals.patch;
-      this.armor = locals.rules.armor;
-      this.statics = locals.statics;
-      this.cobj = locals.cobj;
-      this.names = {};
-      this.updateGameSettings();
-      return {
-        signature: 'ARMO',
-        filter: function filter(armor) {
-          if (xelib.HasElement(armor, 'TNAM')) {
-            return true;
-          }
-
-          if (!xelib.FullName(armor) || !xelib.HasElement(armor, 'KWDA')) {
-            return false;
-          }
-
-          if (xelib.HasArrayItem(armor, 'KWDA', '', _this.statics.kwVendorItemClothing)) {
-            return true;
-          }
-
-          if (xelib.HasArrayItem(armor, 'KWDA', '', _this.statics.kwJewelry)) {
-            return false;
-          }
-
-          if (!(xelib.HasArrayItem(armor, 'KWDA', '', _this.statics.kwArmorHeavy) || xelib.HasArrayItem(armor, 'KWDA', '', _this.statics.kwArmorLight) || xelib.HasArrayItem(armor, 'KWDA', '', _this.statics.kwArmorSlotShield))) {
-            return false;
-          }
-
+        if (xelib.HasElement(record, 'TNAM')) {
           return true;
         }
-      };
-    }
-  }, {
-    key: "updateGameSettings",
-    value: function updateGameSettings() {
-      var armorScalingFactorBaseRecord = xelib.GetRecord(0, parseInt(this.statics.gmstArmorScalingFactor, 16));
-      var fArmorScalingFactor = xelib.CopyElement(armorScalingFactorBaseRecord, this.patchFile);
-      xelib.SetFloatValue(fArmorScalingFactor, 'DATA\\Float', this.settings.armorBaseStats.protectionPerArmor);
-      var maxArmorRatingBaseRecord = xelib.GetRecord(0, parseInt(this.statics.gmstMaxArmorRating, 16));
-      var maxArmorRating = xelib.CopyElement(maxArmorRatingBaseRecord, this.patchFile);
-      xelib.SetFloatValue(maxArmorRating, 'DATA\\Float', this.settings.armorBaseStats.maxProtection);
-    } // eslint-disable-next-line no-unused-vars
 
-  }, {
-    key: "patch",
-    value: function patch(armor, helpers, settings, locals) {
-      this.names[armor] = xelib.FullName(armor);
+        if (!xelib.FullName(record) || !xelib.HasElement(record, 'KWDA')) {
+          return false;
+        }
+
+        if (xelib.HasArrayItem(record, 'KWDA', '', _this.s.kwVendorItemClothing)) {
+          return true;
+        }
+
+        if (xelib.HasArrayItem(record, 'KWDA', '', _this.s.kwJewelry)) {
+          return false;
+        }
+
+        var keywords = [_this.s.kwArmorHeavy, _this.s.kwArmorLight, _this.s.kwArmorSlotShield];
+
+        if (!keywords.some(function (kwda) {
+          return xelib.HasArrayItem(record, 'KWDA', '', kwda);
+        })) {
+          return false;
+        }
+
+        return true;
+      },
+      signature: 'ARMO'
+    });
+
+    _defineProperty(this, "patch", function (armor) {
+      _this.names[armor] = xelib.FullName(armor);
 
       if (xelib.HasElement(armor, 'TNAM')) {
-        this.patchShieldWeight(armor);
+        _this.patchShieldWeight(armor);
+
         return;
-      } else if (xelib.HasElement(armor, 'KWDA') && xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwVendorItemClothing)) {
-        this.patchMasqueradeKeywords(armor);
-        this.processClothing(armor);
+      } else if (xelib.HasElement(armor, 'KWDA') && xelib.HasArrayItem(armor, 'KWDA', '', _this.s.kwVendorItemClothing)) {
+        _this.patchMasqueradeKeywords(armor);
+
+        _this.processClothing(armor);
+
         return;
       }
 
-      this.overrideMaterialKeywords(armor);
-      this.patchMasqueradeKeywords(armor);
-      this.patchArmorRating(armor);
-      this.patchShieldWeight(armor);
-      this.modifyRecipes(armor);
-      this.addMeltdownRecipe(armor);
+      _this.overrideMaterialKeywords(armor);
+
+      _this.patchMasqueradeKeywords(armor);
+
+      _this.patchArmorRating(armor);
+
+      _this.patchShieldWeight(armor);
+
+      _this.modifyRecipes(armor);
+
+      _this.addMeltdownRecipe(armor);
+    });
+
+    this.baseStats = settings.armor.baseStats;
+    this.cobj = locals.cobj;
+    this.helpers = helpers;
+    this.locals = locals;
+    this.patchFile = patch;
+    this.rules = locals.rules.armor;
+    this.settings = settings;
+    this.s = locals.statics;
+
+    if (this.settings.armor.enabled) {
+      this.updateGameSettings();
+    }
+  }
+
+  _createClass(ArmorPatcher, [{
+    key: "updateGameSettings",
+    value: function updateGameSettings() {
+      var hexFormId = parseInt(this.s.gmstArmorScalingFactor, 16);
+      var protectionPerArmorBaseRecord = xelib.GetRecord(0, hexFormId);
+      var protectionPerArmor = xelib.CopyElement(protectionPerArmorBaseRecord, this.patchFile);
+      xelib.SetFloatValue(protectionPerArmor, 'DATA\\Float', this.settings.armor.baseStats.protectionPerArmor);
+      hexFormId = parseInt(this.s.gmstMaxArmorRating, 16);
+      var maxProtectionBaseRecord = xelib.GetRecord(0, hexFormId);
+      var maxProtection = xelib.CopyElement(maxProtectionBaseRecord, this.patchFile);
+      xelib.SetFloatValue(maxProtection, 'DATA\\Float', this.settings.armor.baseStats.maxProtection);
     }
   }, {
     key: "patchShieldWeight",
     value: function patchShieldWeight(armor) {
-      if (!xelib.HasElement(armor, 'KWDA') || !xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorSlotShield)) {
+      if (!xelib.HasElement(armor, 'KWDA') || !xelib.HasArrayItem(armor, 'KWDA', '', this.s.kwArmorSlotShield)) {
         return;
       }
 
       if (this.hasHeavyMaterialKeyword(armor)) {
-        xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwArmorShieldHeavy);
+        xelib.AddElementValue(armor, 'KWDA\\.', this.s.kwArmorShieldHeavy);
 
         if (!this.names[armor].includes('Heavy Shield')) {
           this.names[armor] = this.names[armor].replace('Shield', 'Heavy Shield');
           xelib.AddElementValue(armor, 'FULL', this.names[armor]);
         }
       } else {
-        xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwArmorShieldLight);
+        xelib.AddElementValue(armor, 'KWDA\\.', this.s.kwArmorShieldLight);
 
         if (!this.names[armor].includes('Light Shield')) {
           this.names[armor] = this.names[armor].replace('Shield', 'Light Shield');
@@ -436,7 +467,7 @@ function () {
   }, {
     key: "hasHeavyMaterialKeyword",
     value: function hasHeavyMaterialKeyword(armor) {
-      var s = this.statics;
+      var s = this.s;
       var kwda = getKwda(armor);
       return kwda(s.kwArmorMaterialBlades) || kwda(s.kwArmorMaterialDraugr) || kwda(s.kwArmorMaterialIron) || kwda(s.kwArmorMaterialDwarven) || kwda(s.kwArmorMaterialOrcish) || kwda(s.kwArmorMaterialFalmer) || kwda(s.kwArmorMaterialFalmerHeavyOriginal) || kwda(s.kwArmorMaterialDaedric) || kwda(s.kwArmorMaterialEbony) || kwda(s.kwArmorMaterialDawnguard) || kwda(s.kwArmorMaterialImperialHeavy) || kwda(s.kwArmorMaterialSteel) || kwda(s.kwArmorMaterialIronBanded) || kwda(s.kwArmorMaterialDragonplate) || kwda(s.kwArmorMaterialSteelPlate);
     }
@@ -444,23 +475,23 @@ function () {
     key: "patchMasqueradeKeywords",
     value: function patchMasqueradeKeywords(armor) {
       if (this.names[armor].includes('Thalmor')) {
-        xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeThalmor);
+        xelib.AddElementValue(armor, 'KWDA\\.', this.s.kwMasqueradeThalmor);
       }
 
       if (this.names[armor].includes('Bandit') || this.names[armor].includes('Fur')) {
-        xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeBandit);
+        xelib.AddElementValue(armor, 'KWDA\\.', this.s.kwMasqueradeBandit);
       }
 
       if (this.names[armor].includes('Imperial')) {
-        xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeImperial);
+        xelib.AddElementValue(armor, 'KWDA\\.', this.s.kwMasqueradeImperial);
       }
 
       if (this.names[armor].includes('Stormcloak')) {
-        xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeStormcloak);
+        xelib.AddElementValue(armor, 'KWDA\\.', this.s.kwMasqueradeStormcloak);
       }
 
       if (this.names[armor].includes('Forsworn') || this.names[armor].includes('Old God')) {
-        xelib.AddElementValue(armor, 'KWDA\\.', this.statics.kwMasqueradeForsworn);
+        xelib.AddElementValue(armor, 'KWDA\\.', this.s.kwMasqueradeForsworn);
       }
     }
   }, {
@@ -470,7 +501,7 @@ function () {
 
       this.addClothingMeltdownRecipe(armor);
 
-      if (this.armor.excludedDreamcloth.find(function (ed) {
+      if (this.rules.excludedDreamcloth.find(function (ed) {
         return _this2.names[armor].includes(ed);
       })) {
         return;
@@ -492,7 +523,7 @@ function () {
   }, {
     key: "createDreamcloth",
     value: function createDreamcloth(armor) {
-      var s = this.statics;
+      var s = this.s;
       var kwda = getKwda(armor);
       var dreamclothPerk;
 
@@ -524,7 +555,7 @@ function () {
   }, {
     key: "addClothingMeltdownRecipe",
     value: function addClothingMeltdownRecipe(armor, isDreamCloth) {
-      var s = this.statics;
+      var s = this.s;
       var kwda = getKwda(armor);
       var returnQuantity = 1;
       var inputQuantity = 1;
@@ -557,7 +588,7 @@ function () {
   }, {
     key: "addClothingCraftingRecipe",
     value: function addClothingCraftingRecipe(armor, isDreamCloth) {
-      var s = this.statics;
+      var s = this.s;
       var kwda = getKwda(armor);
       var newRecipe = xelib.AddElement(this.patchFile, 'Constructible Object\\COBJ');
       xelib.AddElementValue(newRecipe, 'EDID', "REP_CRAFT_CLOTHING_".concat(this.names[armor]));
@@ -604,84 +635,84 @@ function () {
 
       var overrideMap = {
         BONEMOLD_HEAVY: {
-          kwda: this.statics.kwArmorMaterialNordicLight,
-          perk: this.statics.perkSmithingAdvanced
+          kwda: this.s.kwArmorMaterialNordicLight,
+          perk: this.s.perkSmithingAdvanced
         },
         DAEDRIC: {
-          kwda: this.statics.kwArmorMaterialDaedric,
-          perk: this.statics.perkSmithingDaedric
+          kwda: this.s.kwArmorMaterialDaedric,
+          perk: this.s.perkSmithingDaedric
         },
         DRAGONPLATE: {
-          kwda: this.statics.kwArmorMaterialDragonPlate,
-          perk: this.statics.perkSmithingDragon
+          kwda: this.s.kwArmorMaterialDragonPlate,
+          perk: this.s.perkSmithingDragon
         },
         DRAGONSCALE: {
-          kwda: this.statics.kwArmorMaterialDragonscale,
-          perk: this.statics.perkSmithingDragon
+          kwda: this.s.kwArmorMaterialDragonscale,
+          perk: this.s.perkSmithingDragon
         },
         DWARVEN: {
-          kwda: this.statics.kwArmorMaterialDwarven,
-          perk: this.statics.perkSmithingDwarven
+          kwda: this.s.kwArmorMaterialDwarven,
+          perk: this.s.perkSmithingDwarven
         },
         EBONY: {
-          kwda: this.statics.kwArmorMaterialEbony,
-          perk: this.statics.perkSmithingEbony
+          kwda: this.s.kwArmorMaterialEbony,
+          perk: this.s.perkSmithingEbony
         },
         ELVEN: {
-          kwda: this.statics.kwArmorMaterialElven,
-          perk: this.statics.perkSmithingElven
+          kwda: this.s.kwArmorMaterialElven,
+          perk: this.s.perkSmithingElven
         },
         FALMER: {
-          kwda: this.statics.kwArmorMaterialFalmer,
-          perk: this.statics.perkSmithingAdvanced
+          kwda: this.s.kwArmorMaterialFalmer,
+          perk: this.s.perkSmithingAdvanced
         },
         FUR: {
-          kwda: this.statics.kwArmorMaterialFur,
+          kwda: this.s.kwArmorMaterialFur,
           perk: null
         },
         GLASS: {
-          kwda: this.statics.kwArmorMaterialGlass,
-          perk: this.statics.perkSmithingGlass
+          kwda: this.s.kwArmorMaterialGlass,
+          perk: this.s.perkSmithingGlass
         },
         HIDE: {
-          kwda: this.statics.kwArmorMaterialHide,
+          kwda: this.s.kwArmorMaterialHide,
           perk: null
         },
         IRON: {
-          kwda: this.statics.kwArmorMaterialIron,
+          kwda: this.s.kwArmorMaterialIron,
           perk: null
         },
         LEATHER: {
-          kwda: this.statics.kwArmorMaterialLeather,
-          perk: this.statics.perkSmithingLeather
+          kwda: this.s.kwArmorMaterialLeather,
+          perk: this.s.perkSmithingLeather
         },
         NORDIC_HEAVY: {
-          kwda: this.statics.kwArmorMaterialNordicHeavy,
-          perk: this.statics.perkSmithingAdvanced
+          kwda: this.s.kwArmorMaterialNordicHeavy,
+          perk: this.s.perkSmithingAdvanced
         },
         ORCISH: {
-          kwda: this.statics.kwArmorMaterialOrcish,
-          perk: this.statics.perkSmithingOrcish
+          kwda: this.s.kwArmorMaterialOrcish,
+          perk: this.s.perkSmithingOrcish
         },
         SCALED: {
-          kwda: this.statics.kwArmorMaterialScaled,
-          perk: this.statics.perkSmithingAdvanced
+          kwda: this.s.kwArmorMaterialScaled,
+          perk: this.s.perkSmithingAdvanced
         },
         STALHRIM_HEAVY: {
-          kwda: this.statics.kwArmorMaterialStalhrimHeavy,
-          perk: this.statics.perkSmithingAdvanced
+          kwda: this.s.kwArmorMaterialStalhrimHeavy,
+          perk: this.s.perkSmithingAdvanced
         },
         STALHRIM_LIGHT: {
-          kwda: this.statics.kwArmorMaterialStalhrimLight,
-          perk: this.statics.perkSmithingAdvanced
+          kwda: this.s.kwArmorMaterialStalhrimLight,
+          perk: this.s.perkSmithingAdvanced
         },
         STEEL: {
-          kwda: this.statics.kwArmorMaterialSteel,
-          perk: this.statics.perkSmithingSteel
+          kwda: this.s.kwArmorMaterialSteel,
+          perk: this.s.perkSmithingSteel
         },
         STEELPLATE: {
-          kwda: this.statics.kwArmorMaterialSteelPlate,
-          perk: this.statics.perkSmithingAdvanced
+          kwda: this.s.kwArmorMaterialSteelPlate,
+          perk: this.s.perkSmithingAdvanced
         }
       };
 
@@ -693,7 +724,7 @@ function () {
   }, {
     key: "getArmorMaterialOverride",
     value: function getArmorMaterialOverride(name) {
-      var override = this.armor.materialOverrides.find(function (o) {
+      var override = this.rules.materialOverrides.find(function (o) {
         return name.includes(o.substring);
       });
       return override ? override.material : null;
@@ -701,7 +732,7 @@ function () {
   }, {
     key: "hasMaterialKeyword",
     value: function hasMaterialKeyword(armor) {
-      var s = this.statics;
+      var s = this.s;
       var kwda = getKwda(armor);
       return kwda(s.kwArmorMaterialDaedric) || kwda(s.kwArmorMaterialSteel) || kwda(s.kwArmorMaterialIron) || kwda(s.kwArmorMaterialDwarven) || kwda(s.kwArmorMaterialFalmer) || kwda(s.kwArmorMaterialOrcish) || kwda(s.kwArmorMaterialEbony) || kwda(s.kwArmorMaterialSteelPlate) || kwda(s.kwArmorMaterialDragonplate) || kwda(s.kwArmorMaterialFur) || kwda(s.kwArmorMaterialHide) || kwda(s.kwArmorMaterialLeather) || kwda(s.kwArmorMaterialElven) || kwda(s.kwArmorMaterialScaled) || kwda(s.kwArmorMaterialGlass) || kwda(s.kwArmorMaterialDragonscale) || kwda(s.kwArmorMaterialNordicHeavy) || kwda(s.kwArmorMaterialStalhrimHeavy) || kwda(s.kwArmorMaterialStalhrimLight) || kwda(s.kwArmorMaterialBonemoldHeavy);
     }
@@ -716,24 +747,24 @@ function () {
     value: function getArmorSlotMultiplier(armor) {
       var kwda = getKwda(armor);
 
-      if (kwda(this.statics.kwArmorSlotBoots)) {
-        return this.settings.armorBaseStats.armorFactorBoots;
+      if (kwda(this.s.kwArmorSlotBoots)) {
+        return this.settings.armor.baseStats.multipliers.boots;
       }
 
-      if (kwda(this.statics.kwArmorSlotCuirass)) {
-        return this.settings.armorBaseStats.armorFactorCuirass;
+      if (kwda(this.s.kwArmorSlotCuirass)) {
+        return this.settings.armor.baseStats.multipliers.cuirass;
       }
 
-      if (kwda(this.statics.kwArmorSlotGauntlets)) {
-        return this.settings.armorBaseStats.armorFactorGauntlets;
+      if (kwda(this.s.kwArmorSlotGauntlets)) {
+        return this.settings.armor.baseStats.multipliers.gauntlets;
       }
 
-      if (kwda(this.statics.kwArmorSlotHelmet)) {
-        return this.settings.armorBaseStats.armorFactorHelmet;
+      if (kwda(this.s.kwArmorSlotHelmet)) {
+        return this.settings.armor.baseStats.multipliers.helmet;
       }
 
-      if (kwda(this.statics.kwArmorSlotShield)) {
-        return this.settings.armorBaseStats.armorFactorShield;
+      if (kwda(this.s.kwArmorSlotShield)) {
+        return this.settings.armor.baseStats.multipliers.shield;
       }
 
       return 0;
@@ -743,13 +774,13 @@ function () {
     value: function getMaterialArmorModifier(armor) {
       var _this3 = this;
 
-      var armorRating = getValueFromName(this.armor.materials, this.names[armor], 'name', 'armor');
+      var armorRating = getValueFromName(this.rules.materials, this.names[armor], 'name', 'armor');
 
       if (armorRating !== null) {
         return armorRating;
       }
 
-      var s = this.statics; // prettier-ignore
+      var s = this.s; // prettier-ignore
 
       var keywordMaterialMap = [{
         kwda: s.kwArmorMaterialBlades,
@@ -865,7 +896,7 @@ function () {
           return false;
         }
 
-        armorRating = getValueFromName(_this3.armor.materials, pair.name, 'name', 'armor');
+        armorRating = getValueFromName(_this3.rules.materials, pair.name, 'name', 'armor');
         return true;
       });
 
@@ -881,7 +912,7 @@ function () {
       var _this4 = this;
 
       var armorFormID = xelib.GetFormID(armor);
-      var armorHasLeatherKwda = xelib.HasArrayItem(armor, 'KWDA', '', this.statics.kwArmorMaterialLeather);
+      var armorHasLeatherKwda = xelib.HasArrayItem(armor, 'KWDA', '', this.s.kwArmorMaterialLeather);
       this.cobj.forEach(function (recipe) {
         _this4.modifyTemperingRecipe(armor, armorFormID, recipe);
 
@@ -893,7 +924,7 @@ function () {
     value: function modifyTemperingRecipe(armor, armorFormID, recipe) {
       var bnam = recipe.bnam,
           cnam = recipe.cnam;
-      var bench = parseInt(this.statics.kwCraftingSmithingArmorTable, 16);
+      var bench = parseInt(this.s.kwCraftingSmithingArmorTable, 16);
 
       if (bnam !== bench || cnam !== armorFormID) {
         return;
@@ -912,7 +943,7 @@ function () {
   }, {
     key: "temperingPerkFromKeyword",
     value: function temperingPerkFromKeyword(armor) {
-      var s = this.statics;
+      var s = this.s;
       var kwda = getKwda(armor);
       var perk;
 
@@ -960,12 +991,12 @@ function () {
       }
 
       var newRecipe = xelib.CopyElement(recipe.handle, this.patchFile);
-      createHasPerkCondition(newRecipe, 10000000, 1, this.statics.perkSmithingLeather);
+      createHasPerkCondition(newRecipe, 10000000, 1, this.s.perkSmithingLeather);
     }
   }, {
     key: "addMeltdownRecipe",
     value: function addMeltdownRecipe(armor) {
-      var s = this.statics;
+      var s = this.s;
       var kwda = getKwda(armor);
 
       var incr = function incr(v) {
@@ -1214,7 +1245,7 @@ function () {
       xelib.SetUIntValue(baseItem, 'CNTO\\Count', inputQuantity);
       xelib.AddElement(recipe, 'Conditions');
       var condition = xelib.GetElement(recipe, 'Conditions\\[0]');
-      updateHasPerkCondition(recipe, condition, 10000000, 1, this.statics.perkSmithingMeltdown);
+      updateHasPerkCondition(recipe, condition, 10000000, 1, this.s.perkSmithingMeltdown);
 
       if (perk) {
         createHasPerkCondition(recipe, 10000000, 1, perk);
@@ -1227,64 +1258,75 @@ function () {
   return ArmorPatcher;
 }();
 
+var defaultSettings$1 = {
+  baseStats: {
+    maxProtection: 95,
+    multipliers: {
+      boots: 1,
+      cuirass: 3,
+      gauntlets: 1,
+      helmet: 1.5,
+      shield: 1.5
+    },
+    protectionPerArmor: 0.1
+  },
+  enabled: true
+};
+
 var ProjectilePatcher =
 /*#__PURE__*/
 function () {
-  function ProjectilePatcher() {
+  function ProjectilePatcher(helpers, locals, patch, settings) {
+    var _this = this;
+
     _classCallCheck(this, ProjectilePatcher);
 
-    this.load = this.load.bind(this);
-    this.patch = this.patch.bind(this);
+    _defineProperty(this, "names", {});
+
+    _defineProperty(this, "load", {
+      filter: function filter(record) {
+        if (!_this.settings.projectiles.enabled) {
+          return false;
+        }
+
+        var name = xelib.FullName(record);
+
+        if (!name) {
+          return false;
+        }
+
+        if (_this.rules.excludedAmmunition.find(function (ex) {
+          return name.includes(ex);
+        })) {
+          return false;
+        }
+
+        if (!_this.rules.baseStats.find(function (bs) {
+          return name.includes(bs.identifier);
+        })) {
+          return false;
+        }
+
+        return true;
+      },
+      signature: 'AMMO'
+    });
+
+    _defineProperty(this, "patch", function (record) {
+      _this.names[record] = xelib.FullName(record);
+
+      _this.patchStats(record);
+
+      _this.addVariants(record);
+    });
+
+    this.patchFile = patch;
+    this.rules = locals.rules.projectiles;
+    this.settings = settings;
+    this.statics = locals.statics;
   }
 
   _createClass(ProjectilePatcher, [{
-    key: "load",
-    value: function load(plugin, helpers, settings, locals) {
-      var _this = this;
-
-      if (!settings.patchProjectiles) {
-        return false;
-      }
-
-      this.patchFile = locals.patch;
-      this.projectiles = locals.rules.projectiles;
-      this.statics = locals.statics;
-      this.names = {};
-      return {
-        signature: 'AMMO',
-        filter: function filter(record) {
-          var ammo = xelib.GetWinningOverride(record);
-          var name = xelib.FullName(ammo);
-
-          if (!name) {
-            return false;
-          }
-
-          if (_this.projectiles.excludedAmmunition.find(function (ex) {
-            return name.includes(ex);
-          })) {
-            return false;
-          }
-
-          if (!_this.projectiles.baseStats.find(function (bs) {
-            return name.includes(bs.identifier);
-          })) {
-            return false;
-          }
-
-          return true;
-        }
-      };
-    } // eslint-disable-next-line no-unused-vars
-
-  }, {
-    key: "patch",
-    value: function patch(ammo, helpers, settings, locals) {
-      this.names[ammo] = xelib.FullName(ammo);
-      this.patchStats(ammo);
-      this.addVariants(ammo);
-    }
-  }, {
     key: "patchStats",
     value: function patchStats(ammo) {
       var _this$calculateProjec = this.calculateProjectileStats(this.names[ammo]),
@@ -1315,7 +1357,7 @@ function () {
       var newRange = 0;
       var newDamage = 0;
       var failed = false;
-      this.projectiles.baseStats.some(function (bs) {
+      this.rules.baseStats.some(function (bs) {
         if (!name.includes(bs.identifier)) {
           return false;
         }
@@ -1326,7 +1368,7 @@ function () {
         newDamage = bs.damage;
         return true;
       });
-      this.projectiles.materialStats.some(function (ms) {
+      this.rules.materialStats.some(function (ms) {
         if (!name.includes(ms.name)) {
           return false;
         }
@@ -1336,7 +1378,7 @@ function () {
         newDamage += ms.damage;
         return true;
       });
-      this.projectiles.modifierStats.some(function (ms) {
+      this.rules.modifierStats.some(function (ms) {
         if (!name.includes(ms.name)) {
           return false;
         }
@@ -1360,7 +1402,7 @@ function () {
     value: function addVariants(ammo) {
       var _this2 = this;
 
-      if (this.projectiles.excludedAmmunitionVariants.find(function (v) {
+      if (this.rules.excludedAmmunitionVariants.find(function (v) {
         return _this2.names[ammo].includes(v);
       })) {
         return;
@@ -1374,7 +1416,7 @@ function () {
     value: function multiplyBolts(ammo) {
       var _this3 = this;
 
-      var found = this.projectiles.baseStats.find(function (bs) {
+      var found = this.rules.baseStats.find(function (bs) {
         return _this3.names[ammo].includes(bs.identifier) && bs.type !== 'BOLT';
       });
 
@@ -1533,7 +1575,7 @@ function () {
       ingredients = [s.pettySoulGem, s.boneMeal];
       perks = [s.perkSneakThiefsToolbox0];
       this.addCraftingRecipe(ammo, noisemakerAmmo, ingredients, perks);
-      var found = this.projectiles.baseStats.find(function (bs) {
+      var found = this.rules.baseStats.find(function (bs) {
         return _this4.names[ammo].includes(bs.identifier) && bs.type !== 'ARROW';
       });
 
@@ -1611,102 +1653,110 @@ function () {
   return ProjectilePatcher;
 }();
 
+var defaultSettings$2 = {
+  enabled: true
+};
+
 var WeaponPatcher =
 /*#__PURE__*/
 function () {
-  function WeaponPatcher() {
+  function WeaponPatcher(helpers, locals, patch, settings) {
+    var _this = this;
+
     _classCallCheck(this, WeaponPatcher);
 
-    this.names = {};
-    this.load = this.load.bind(this);
-    this.patch = this.patch.bind(this);
-    this.checkBroadswordName = this.checkBroadswordName.bind(this);
-  } // eslint-disable-next-line no-unused-vars
+    _defineProperty(this, "names", {});
 
+    _defineProperty(this, "load", {
+      filter: function filter(record) {
+        if (!_this.settings.weapons.enabled) {
+          return false;
+        }
 
-  _createClass(WeaponPatcher, [{
-    key: "load",
-    value: function load(plugin, helpers, settings, locals) {
-      var _this = this;
+        var name = xelib.FullName(record);
 
-      if (!settings.patchWeapons) {
-        return false;
-      }
+        if (name && _this.rules.excludedWeapons.find(function (e) {
+          return name.includes(e);
+        })) {
+          return false;
+        }
 
-      this.settings = settings;
-      this.weapons = locals.rules.weapons;
-      this.statics = locals.statics;
-      this.cobj = locals.cobj;
-      this.patchFile = locals.patch;
-      this.createKeywordMaps();
-      return {
-        signature: 'WEAP',
-        filter: function filter(weapon) {
-          var name = xelib.FullName(weapon);
+        if (safeHasArrayItem(record, 'KWDA', '', _this.statics.kwWeapTypeStaff)) {
+          return false;
+        }
 
-          if (name && _this.weapons.excludedWeapons.find(function (e) {
-            return name.includes(e);
-          })) {
-            return false;
-          }
-
-          if (xelib.HasElement(weapon, 'KWDA') && xelib.HasArrayItem(weapon, 'KWDA', '', _this.statics.kwWeapTypeStaff)) {
-            return false;
-          }
-
-          if (xelib.HasElement(weapon, 'CNAM')) {
-            return true;
-          }
-
-          if (xelib.GetFlag(weapon, 'DNAM\\Flags', 'Non-playable')) {
-            return false;
-          }
-
-          if (!name) {
-            return false;
-          }
-
+        if (xelib.HasElement(record, 'CNAM')) {
           return true;
         }
-      };
-    } // eslint-disable-next-line no-unused-vars
 
-  }, {
-    key: "patch",
-    value: function patch(weapon, helpers, settings, locals) {
-      this.names[weapon] = xelib.FullName(weapon) || '';
+        if (xelib.GetFlag(record, 'DNAM\\Flags', 'Non-playable')) {
+          return false;
+        }
+
+        if (!name) {
+          return false;
+        }
+
+        return true;
+      },
+      signature: 'WEAP'
+    });
+
+    _defineProperty(this, "patch", function (weapon) {
+      _this.names[weapon] = xelib.FullName(weapon) || '';
 
       if (xelib.HasElement(weapon, 'CNAM')) {
-        this.checkBroadswordName(weapon, true);
-        this.patchBowType(weapon, true);
+        _this.checkBroadswordName(weapon, true);
+
+        _this.patchBowType(weapon, true);
+
         return;
       }
 
-      this.checkOverrides(weapon);
-      this.patchWeaponKeywords(weapon);
-      this.patchWeaponDamage(weapon);
-      this.patchWeaponReach(weapon);
-      this.patchWeaponSpeed(weapon);
-      this.processCrossbow(weapon);
-      this.processSilverWeapon(weapon);
-      this.addMeltdownRecipe(weapon);
-      this.modifyRecipes(weapon);
-    }
-  }, {
-    key: "checkBroadswordName",
-    value: function checkBroadswordName(weapon, enchanted) {
-      if (enchanted && !xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeSword)) {
+      _this.checkOverrides(weapon);
+
+      _this.patchWeaponKeywords(weapon);
+
+      _this.patchWeaponDamage(weapon);
+
+      _this.patchWeaponReach(weapon);
+
+      _this.patchWeaponSpeed(weapon);
+
+      _this.processCrossbow(weapon);
+
+      _this.processSilverWeapon(weapon);
+
+      _this.addMeltdownRecipe(weapon);
+
+      _this.modifyRecipes(weapon);
+    });
+
+    _defineProperty(this, "checkBroadswordName", function (weapon, enchanted) {
+      if (enchanted && !xelib.HasArrayItem(weapon, 'KWDA', '', _this.statics.kwWeapTypeSword)) {
         return;
       }
 
-      if (this.names[weapon].includes('Broadsword')) {
+      if (_this.names[weapon].includes('Broadsword')) {
         return;
       }
 
-      this.names[weapon] = this.names[weapon].replace('Sword', 'Broadsword');
-      xelib.AddElementValue(weapon, 'FULL', this.names[weapon]);
-    }
-  }, {
+      _this.names[weapon] = _this.names[weapon].replace('Sword', 'Broadsword');
+      xelib.AddElementValue(weapon, 'FULL', _this.names[weapon]);
+    });
+
+    this.baseStats = settings.weapons.baseStats;
+    this.cobj = locals.cobj;
+    this.helpers = helpers;
+    this.locals = locals;
+    this.patchFile = patch;
+    this.rules = locals.rules.weapons;
+    this.settings = settings;
+    this.statics = locals.statics;
+    this.createKeywordMaps();
+  }
+
+  _createClass(WeaponPatcher, [{
     key: "patchBowType",
     value: function patchBowType(weapon, enchanted) {
       var kwda = getKwda(weapon);
@@ -1747,13 +1797,10 @@ function () {
 
       var override = this.getWeaponMaterialOverrideString(this.names[weapon]);
 
-      if (!override) {
+      if (!override || this.hasWeaponKeyword(weapon)) {
         return;
-      }
+      } // prettier-ignore
 
-      if (this.hasWeaponKeyword(weapon)) {
-        return;
-      }
 
       var overrideMap = {
         ADVANCED: {
@@ -1830,7 +1877,7 @@ function () {
   }, {
     key: "getWeaponTypeOverride",
     value: function getWeaponTypeOverride(name) {
-      var override = this.weapons.typeOverrides.find(function (t) {
+      var override = this.rules.typeOverrides.find(function (t) {
         return name === t.name;
       });
       return override ? override.type : null;
@@ -1838,7 +1885,7 @@ function () {
   }, {
     key: "getWeaponMaterialOverrideString",
     value: function getWeaponMaterialOverrideString(name) {
-      var override = this.weapons.materialOverrides.find(function (o) {
+      var override = this.rules.materialOverrides.find(function (o) {
         return name.includes(o.substring);
       });
       return override ? override.material : null;
@@ -1859,7 +1906,7 @@ function () {
     value: function patchWeaponKeywords(weapon) {
       var _this2 = this;
 
-      var typeString = getValueFromName(this.weapons.typeDefinitions, this.names[weapon], 'substring', 'binding');
+      var typeString = getValueFromName(this.rules.typeDefinitions, this.names[weapon], 'substring', 'binding');
 
       if (!typeString) {
         this.patchBowType(weapon);
@@ -1998,7 +2045,7 @@ function () {
       };
       var map = weaponKeywordMap[typeString];
 
-      if (map && xelib.HasElement(weapon, 'KWDA') && !xelib.HasArrayItem(weapon, 'KWDA', '', map.kwda)) {
+      if (map && safeNotHasArrayItem(weapon, 'KWDA', '', map.kwda)) {
         xelib.AddArrayItem(weapon, 'KWDA', '', map.kwda);
         map.func(weapon, map.perk);
       }
@@ -2011,9 +2058,7 @@ function () {
       var typeDamage = this.getWeaponTypeDamageModifier(weapon);
 
       if (baseDamage === null || materialDamage === null || typeDamage === null) {
-        var name = this.names[weapon];
-        var formId = xelib.GetHexFormID(weapon);
-        console.log("".concat(name, "(").concat(formId, "): Base: ").concat(baseDamage, " Material: ").concat(materialDamage, " Type: ").concat(typeDamage));
+        this.log("Base: ".concat(baseDamage, " Material: ").concat(materialDamage, " Type: ").concat(typeDamage));
       }
 
       xelib.SetUIntValue(weapon, 'DATA\\Damage', baseDamage + materialDamage + typeDamage);
@@ -2026,24 +2071,23 @@ function () {
       var base = null;
 
       if (kwda(s.kwWeapTypeSword) || kwda(s.kwWeapTypeWaraxe) || kwda(s.kwWeapTypeMace) || kwda(s.kwWeapTypeDagger)) {
-        base = this.settings.weaponBaseStats.damageOneHanded;
+        base = this.baseStats.damage.oneHanded;
       }
 
       if (kwda(s.kwWeapTypeGreatsword) || kwda(s.kwWeapTypeWarhammer) || kwda(s.kwWeapTypeBattleaxe)) {
-        base = this.settings.weaponBaseStats.damageTwoHanded;
+        base = this.baseStats.damage.twoHanded;
       }
 
       if (kwda(s.kwWeapTypeCrossbow)) {
-        base = this.settings.weaponBaseStats.damageCrossbow;
+        base = this.baseStats.damage.crossbow;
       }
 
       if (kwda(s.kwWeapTypeBow)) {
-        base = this.settings.weaponBaseStats.damageBow;
+        base = this.baseStats.damage.bow;
       }
 
       if (base === null) {
-        var formId = xelib.GetHexFormID(weapon);
-        console.log("".concat(this.names[weapon], "(").concat(formId, "): Couldn't set base weapon damage."));
+        this.log("Couldn't set base weapon damage.");
       }
 
       return base;
@@ -2052,18 +2096,16 @@ function () {
     key: "getWeaponMaterialDamageModifier",
     value: function getWeaponMaterialDamageModifier(weapon) {
       var modifier = null;
-      modifier = getValueFromName(this.weapons.materials, this.names[weapon], 'name', 'damage');
+      modifier = getValueFromName(this.rules.materials, this.names[weapon], 'name', 'damage');
 
       if (modifier) {
         return modifier;
       }
 
-      modifier = getModifierFromMap(this.keywordMaterialMap, this.weapons.materials, weapon, 'name', 'damage');
+      modifier = getModifierFromMap(this.keywordMaterialMap, this.rules.materials, weapon, 'name', 'damage');
 
       if (modifier === null) {
-        var name = this.names[weapon];
-        var formId = xelib.GetHexFormID(weapon);
-        console.log("".concat(name, "(").concat(formId, "): Couldn't find material damage modifier for weapon."));
+        this.log("Couldn't find material damage modifier for weapon.");
       }
 
       return modifier;
@@ -2071,12 +2113,10 @@ function () {
   }, {
     key: "getWeaponTypeDamageModifier",
     value: function getWeaponTypeDamageModifier(weapon) {
-      var modifier = getModifierFromMap(this.keywordTypesMap, this.weapons.types, weapon, 'name', 'damage', false);
+      var modifier = getModifierFromMap(this.keywordTypesMap, this.rules.types, weapon, 'name', 'damage', false);
 
       if (modifier === null) {
-        var name = this.names[weapon];
-        var formId = xelib.GetHexFormID(weapon);
-        console.log("".concat(name, "(").concat(formId, "): Couldn't find type damage modifier for weapon."));
+        this.log("Couldn't find type damage modifier for weapon.");
       }
 
       return modifier;
@@ -2096,24 +2136,22 @@ function () {
   }, {
     key: "getWeaponTypeFloatValueModifier",
     value: function getWeaponTypeFloatValueModifier(weapon, field2) {
-      var modifier = getModifierFromMap(this.skyreTypesMap, this.weapons.types, weapon, 'name', field2, false);
+      var modifier = getModifierFromMap(this.skyreTypesMap, this.rules.types, weapon, 'name', field2, false);
 
       if (modifier) {
         return modifier;
       }
 
-      modifier = getValueFromName(this.weapons.types, this.names[weapon], 'name', field2, false);
+      modifier = getValueFromName(this.rules.types, this.names[weapon], 'name', field2, false);
 
       if (modifier) {
         return modifier;
       }
 
-      modifier = getModifierFromMap(this.vanillaTypesMap, this.weapons.types, weapon, 'name', field2, false);
+      modifier = getModifierFromMap(this.vanillaTypesMap, this.rules.types, weapon, 'name', field2, false);
 
       if (modifier === null) {
-        var name = this.names[weapon];
-        var formId = xelib.GetHexFormID(weapon);
-        console.log("".concat(name, "(").concat(formId, "): Couldn't find type ").concat(field2, " modifier for weapon."));
+        this.log("Couldn't find type ".concat(field2, " modifier for weapon."));
       }
 
       return modifier === null ? 0 : modifier;
@@ -2125,7 +2163,7 @@ function () {
 
       var weaponFormID = xelib.GetFormID(weapon);
       var weaponIsCrossbow = xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeCrossbow);
-      var excludedCrossbow = this.weapons.excludedCrossbows.find(function (e) {
+      var excludedCrossbow = this.rules.excludedCrossbows.find(function (e) {
         return _this3.names[weapon].includes(e);
       });
       this.cobj.forEach(function (recipe) {
@@ -2237,9 +2275,7 @@ function () {
       });
 
       if (!perk && !kwda(s.kwWeapMaterialIron) && !kwda(s.kwWeapMaterialWood)) {
-        var name = this.names[weapon];
-        var formId = xelib.GetHexFormID(weapon);
-        console.log("".concat(name, "(").concat(formId, "): Couldn't determine material - tempering recipe not modified."));
+        this.log("Couldn't determine material - tempering recipe not modified.");
       }
 
       return perk;
@@ -2253,7 +2289,7 @@ function () {
         return;
       }
 
-      if (this.weapons.excludedCrossbows.find(function (e) {
+      if (this.rules.excludedCrossbows.find(function (e) {
         return _this4.names[weapon].includes(e);
       })) {
         return;
@@ -2455,7 +2491,7 @@ function () {
       var baseDamage = this.getBaseDamage(weapon);
       var materialDamage = this.getWeaponMaterialDamageModifier(weapon);
       var typeDamage = this.getWeaponTypeDamageModifier(weapon);
-      var recurveDamage = this.settings.weaponBaseStats.damageBonusRecurveCrossbow;
+      var recurveDamage = this.baseStats.damageBonuses.recurveCrossbow;
       var desc = xelib.GetValue(weapon, 'DESC');
       xelib.SetUIntValue(weapon, 'DATA\\Damage', baseDamage + materialDamage + typeDamage + recurveDamage);
       xelib.AddElementValue(weapon, 'DESC', "".concat(desc, " Deals additional damage."));
@@ -2466,8 +2502,8 @@ function () {
       var speed = xelib.GetIntValue(weapon, 'DNAM\\Speed');
       var weight = xelib.GetIntValue(weapon, 'DATA\\Weight');
       var desc = xelib.GetValue(weapon, 'DESC');
-      xelib.SetFloatValue(weapon, 'DNAM\\Speed', speed + this.settings.weaponBaseStats.speedBonusArbalestCrossbow);
-      xelib.SetFloatValue(weapon, 'DATA\\Weight', weight + this.settings.weaponBaseStats.weightFactorArbalestCrossbow);
+      xelib.SetFloatValue(weapon, 'DNAM\\Speed', speed + this.baseStats.speedBonuses.arbalestCrossbow);
+      xelib.SetFloatValue(weapon, 'DATA\\Weight', weight + this.baseStats.weightMultipliers.arbalestCrossbow);
       xelib.AddElementValue(weapon, 'DESC', "".concat(desc, " Deals double damage against blocking enemies but fires slower."));
     }
   }, {
@@ -2476,8 +2512,8 @@ function () {
       var speed = xelib.GetIntValue(weapon, 'DNAM\\Speed');
       var weight = xelib.GetIntValue(weapon, 'DATA\\Weight');
       var desc = xelib.GetValue(weapon, 'DESC');
-      xelib.SetFloatValue(weapon, 'DNAM\\Speed', speed + this.settings.weaponBaseStats.speedBonusLightweightCrossbow);
-      xelib.SetFloatValue(weapon, 'DATA\\Weight', weight + this.settings.weaponBaseStats.weightFactorLightweightCrossbow);
+      xelib.SetFloatValue(weapon, 'DNAM\\Speed', speed + this.baseStats.speedBonuses.lightweightCrossbow);
+      xelib.SetFloatValue(weapon, 'DATA\\Weight', weight + this.baseStats.weightMultipliers.lightweightCrossbow);
       xelib.AddElementValue(weapon, 'DESC', "".concat(desc, " Has increased attack speed."));
     }
   }, {
@@ -2900,47 +2936,50 @@ function () {
         perk: s.perkSmithingAdvanced
       }];
     }
+  }, {
+    key: "log",
+    value: function log(weapon, message) {
+      var name = this.names[weapon];
+      var formId = xelib.GetHexFormID(weapon);
+      this.helpers.logMessage("".concat(name, "(").concat(formId, "): ").concat(message));
+    }
   }]);
 
   return WeaponPatcher;
 }();
 
+var defaultSettings$3 = {
+  baseStats: {
+    damage: {
+      bow: 22,
+      crossbow: 30,
+      oneHanded: 12,
+      twoHanded: 23
+    },
+    damageBonuses: {
+      recurveCrossbow: 8
+    },
+    speedBonuses: {
+      arbalestCrossbow: -0.2,
+      lightweightCrossbow: 0.25
+    },
+    weightMultipliers: {
+      arbalestCrossbow: 1.25,
+      lightweightCrossbow: 0.75
+    }
+  },
+  enabled: true
+};
+
 var Settings = {
   label: 'Reproccer Reborn',
-  templateUrl: '../../../modules/reproccerReborn/settings.html',
-  patchFileName: 'ReProccer.esp',
+  templateUrl: "".concat(patcherUrl, "/settings.html"),
   defaultSettings: {
-    patchWeapons: true,
-    patchArmor: true,
-    patchAlchemyIngredients: true,
-    patchProjectiles: true,
-    alchemyBaseStats: {
-      usePriceLimits: true,
-      durationBase: 2,
-      priceLimitLower: 5,
-      priceLimitUpper: 150
-    },
-    armorBaseStats: {
-      armorFactorBoots: 1,
-      armorFactorCuirass: 3,
-      armorFactorGauntlets: 1,
-      armorFactorHelmet: 1.5,
-      armorFactorShield: 1.5,
-      protectionPerArmor: 0.1,
-      maxProtection: 95
-    },
-    weaponBaseStats: {
-      speedBonusArbalestCrossbow: -0.2,
-      speedBonusLightweightCrossbow: 0.25,
-      weightFactorArbalestCrossbow: 1.25,
-      weightFactorLighweightCrossbow: 0.75,
-      damageBow: 22,
-      damageCrossbow: 30,
-      damageOneHanded: 12,
-      damageTwoHanded: 23,
-      damageBonusRecurveCrossbow: 8
-    },
-    requiredFiles: ['SkyRe_Main.esp'],
+    patchFileName: 'ReProccer.esp',
+    alchemy: defaultSettings,
+    armor: defaultSettings$1,
+    projectiles: defaultSettings$2,
+    weapons: defaultSettings$3,
     ignoredFiles: ['The Huntsman.esp', 'Apocalypse - The Spell Package.esp', 'Lilarcor.esp', 'NPO Module - Crossbows.esp', 'Post Reproccer Scoped Bows Patch.esp', 'brokenmod.esp', 'Bashed Patch, 0.esp', 'Chesko_WearableLantern.esp', 'Chesko_WearableLantern_Guards.esp', 'Chesko_WearableLantern_Caravaner.esp', 'Chesko_WearableLantern_Candle.esp', 'Chesko_WearableLantern_Candle_DG.esp', 'EMCompViljaSkyrim.esp', 'Outfitmerge.esp', 'ReProccerNONPLAYERfix.esp', 'WICskyreFix.esp', 'Dr_Bandolier.esp', 'Dr_BandolierDG.esp', 'BandolierForNPCsCheaperBandoliers.esp', 'BandolierForNPCsCheaperBandoliers_BalancedWeight.esp', 'BandolierForNPCsCheaperBandoliersDawnguard.esp', 'BandolierForNPCsCheaperBandoliers_BalancedWeight_Dawnguard.esp', 'dwarvenrifle.esp', 'j3x-autocrossbows.esp', 'dwavenautorifle1.esp', 'Post ReProccer Fixes CCOR IA7 aMidianSS Content Addon Patch.esp', 'Post ReProccer Fixes CCOR IA7 aMidianSS Patch.esp', 'Post ReProccer Fixes CCOR IA7 IW aMidianSS Content Addon Patch.esp', 'Post ReProccer Fixes CCOR IA7 IW aMidianSS Patch.esp', 'Post ReProccer Fixes CCOR IA7 IW Patch.esp', 'Post ReProccer Fixes CCOR IA7 IW Patch(Personal).esp', 'Post ReProccer Fixes CCOR IA7 IW UU aMidianSS Content Addon Patch.esp', 'Post ReProccer Fixes CCOR IA7 IW UU aMidianSS Patch.esp', 'Post ReProccer Fixes CCOR IA7 IW UU Patch.esp', 'Post ReProccer Fixes CCOR IA7 UU aMidianSS Content Addon Patch.esp', 'Post ReProccer Fixes CCOR IA7 UU aMidianSS Patch.esp', 'Post ReProccer Fixes CCOR IA7 UU Patch.esp', 'Post ReProccer Fixes IA7 aMidianSS Content AddonPatch.esp', 'Post ReProccer Fixes IA7 aMidianSS Patch.esp', 'Post ReProccer Fixes IA7 IW aMidianSS Content AddonPatch.esp', 'Post ReProccer Fixes IA7 IW aMidianSS Patch.esp', 'Post ReProccer Fixes IA7 IW Patch.esp', 'Post ReProccer Fixes IA7 IW UU aMidianSS Content Addon Patch.esp', 'Post ReProccer Fixes IA7 IW UU aMidianSS Patch.esp', 'Post ReProccer Fixes IA7 IW UU Patch.esp', 'Post ReProccer Fixes IA7 Patch.esp', 'Post ReProccer Fixes IA7 UU aMidianSS Content Addon Patch.esp', 'Post ReProccer Fixes IA7 UU aMidianSS Patch.esp', 'Post ReProccer Fixes IA7 UU Patch.esp']
   }
 };
@@ -2948,66 +2987,76 @@ var Settings = {
 var ReproccerReborn =
 /*#__PURE__*/
 function () {
-  function ReproccerReborn(fh, info) {
-    var _this = this;
-
+  function ReproccerReborn() {
     _classCallCheck(this, ReproccerReborn);
 
-    _defineProperty(this, "initialize", function (patch, helpers, settings, locals) {
-      _this.start = new Date();
-      console.log("started patching: ".concat(_this.start));
-      locals.patch = patch;
+    _defineProperty(this, "gameModes", [xelib.gmTES5, xelib.gmSSE]);
 
-      _this.buildRules(locals);
+    _defineProperty(this, "settings", Settings);
 
-      _this.loadStatics(locals);
-
-      locals.cobj = helpers.loadRecords('COBJ').map(function (handle) {
-        return {
-          handle: xelib.GetWinningOverride(handle),
-          cnam: xelib.GetUIntValue(handle, 'CNAM'),
-          bnam: xelib.GetUIntValue(handle, 'BNAM')
-        };
-      });
-    });
-
-    _defineProperty(this, "finalize", function (patch, helpers, settings, locals) {
-      var end = new Date();
-      console.log("finished patching: ".concat(end));
-      console.log("".concat(Math.abs(_this.start - end) / 1000, "s"));
-    });
-
-    this.fh = fh;
-    this.info = info;
-    this.gameModes = [xelib.gmTES5, xelib.gmSSE];
-    this.requiredFiles = Settings.requiredFiles;
-    this.settings = Settings;
-    this.execute = {
-      initialize: this.initialize,
-      process: [new AlchemyPatcher(), new ArmorPatcher(), new ProjectilePatcher(), new WeaponPatcher()],
-      finalize: this.finalize
-    };
+    _defineProperty(this, "info", info);
   }
 
   _createClass(ReproccerReborn, [{
+    key: "execute",
+    value: function execute(patch, helpers, settings, locals) {
+      var patchers = [AlchemyPatcher, ArmorPatcher, ProjectilePatcher, WeaponPatcher];
+      return {
+        initialize: function initialize() {
+          ReproccerReborn.buildRules(locals);
+          ReproccerReborn.loadStatics(locals);
+          locals.cobj = helpers.loadRecords('COBJ').map(function (handle) {
+            return {
+              handle: xelib.GetWinningOverride(handle),
+              cnam: xelib.GetUIntValue(handle, 'CNAM'),
+              bnam: xelib.GetUIntValue(handle, 'BNAM')
+            };
+          });
+
+          for (var i = 0; i < patchers.length; i += 1) {
+            patchers[i] = new patchers[i](helpers, locals, patch, settings);
+          }
+        },
+        process: patchers,
+        finalize: function finalize() {}
+      };
+    }
+  }, {
     key: "getFilesToPatch",
     value: function getFilesToPatch(filenames) {
       return filenames.subtract(['ReProccer.esp']);
-    } // eslint-disable-next-line no-unused-vars
+    }
+  }, {
+    key: "requiredFiles",
+    value: function requiredFiles() {
+      return ['SkyRe_Main.esp'];
+    }
+  }], [{
+    key: "buildRules",
+    value: function buildRules(locals) {
+      var rules = {};
+      var first = fh.loadJsonFile("".concat(patcherPath, "/data/first.json"), null);
+      Object.deepAssign(rules, first);
+      xelib.GetLoadedFileNames().forEach(function (plugin) {
+        var data = fh.loadJsonFile("".concat(patcherPath, "/data/").concat(plugin.slice(0, -4), ".json"), null);
 
+        if (data) {
+          Object.deepAssign(rules, data);
+        }
+      });
+      var last = fh.loadJsonFile("".concat(patcherPath, "/data/last.json"), null);
+      Object.deepAssign(rules, last);
+      locals.rules = rules;
+    }
   }, {
     key: "loadStatics",
-    // eslint-disable-next-line no-unused-vars
     value: function loadStatics(locals) {
       var files = {};
       var loadOrders = {};
 
-      function getFile(filename) {
-        if (!files[filename]) {
-          files[filename] = xelib.FileByName(filename);
-        }
-
-        return files[filename];
+      function GetHex(formId, filename) {
+        var loadOrder = getLoadOrder(getFile(filename));
+        return xelib.Hex(loadOrder << 24 | formId);
       }
 
       function getLoadOrder(file) {
@@ -3018,9 +3067,12 @@ function () {
         return loadOrders[file];
       }
 
-      function GetHex(formId, filename) {
-        var loadOrder = getLoadOrder(getFile(filename));
-        return xelib.Hex(loadOrder << 24 | formId);
+      function getFile(filename) {
+        if (!files[filename]) {
+          files[filename] = xelib.FileByName(filename);
+        }
+
+        return files[filename];
       }
 
       locals.statics = {
@@ -3226,29 +3278,10 @@ function () {
         perkWeaponSilverRefined: GetHex(0x056b5c, 'SkyRe_Main.esp'),
         perkWeaponYari: GetHex(0x09e623, 'SkyRe_Main.esp')
       };
-    } // eslint-disable-next-line no-unused-vars
-
-  }, {
-    key: "buildRules",
-    value: function buildRules(locals) {
-      var rules = {};
-      var first = fh.loadJsonFile("modules/reproccerReborn/data/first.json", null);
-      Object.deepAssign(rules, first);
-      xelib.GetLoadedFileNames().forEach(function (plugin) {
-        var data = fh.loadJsonFile("modules/reproccerReborn/data/".concat(plugin.slice(0, -4), ".json"), null);
-
-        if (data) {
-          Object.deepAssign(rules, data);
-        }
-      });
-      var last = fh.loadJsonFile("modules/reproccerReborn/data/last.json", null);
-      Object.deepAssign(rules, last);
-      locals.rules = rules;
-      console.log(locals.rules);
     }
   }]);
 
   return ReproccerReborn;
 }();
 
-registerPatcher(new ReproccerReborn(fh, info));
+registerPatcher(new ReproccerReborn());

@@ -1,50 +1,46 @@
-import * as h from './helpers';
+import { createGetItemCountCondition, updateHasPerkCondition } from './helpers';
 
 export default class ProjectilePatcher {
-  constructor() {
-    this.load = this.load.bind(this);
-    this.patch = this.patch.bind(this);
-  }
+  names = {};
 
-  load(plugin, helpers, settings, locals) {
-    if (!settings.patchProjectiles) {
-      return false;
-    }
-
-    this.patchFile = locals.patch;
-    this.projectiles = locals.rules.projectiles;
+  constructor(helpers, locals, patch, settings) {
+    this.patchFile = patch;
+    this.rules = locals.rules.projectiles;
+    this.settings = settings;
     this.statics = locals.statics;
-    this.names = {};
+  }
 
-    return {
-      signature: 'AMMO',
-      filter: record => {
-        const ammo = xelib.GetWinningOverride(record);
-        const name = xelib.FullName(ammo);
-
-        if (!name) {
-          return false;
-        }
-
-        if (this.projectiles.excludedAmmunition.find(ex => name.includes(ex))) {
-          return false;
-        }
-
-        if (!this.projectiles.baseStats.find(bs => name.includes(bs.identifier))) {
-          return false;
-        }
-
-        return true;
+  load = {
+    filter: record => {
+      if (!this.settings.projectiles.enabled) {
+        return false;
       }
-    };
-  }
 
-  // eslint-disable-next-line no-unused-vars
-  patch(ammo, helpers, settings, locals) {
-    this.names[ammo] = xelib.FullName(ammo);
-    this.patchStats(ammo);
-    this.addVariants(ammo);
-  }
+      const name = xelib.FullName(record);
+
+      if (!name) {
+        return false;
+      }
+
+      if (this.rules.excludedAmmunition.find(ex => name.includes(ex))) {
+        return false;
+      }
+
+      if (!this.rules.baseStats.find(bs => name.includes(bs.identifier))) {
+        return false;
+      }
+
+      return true;
+    },
+
+    signature: 'AMMO'
+  };
+
+  patch = record => {
+    this.names[record] = xelib.FullName(record);
+    this.patchStats(record);
+    this.addVariants(record);
+  };
 
   patchStats(ammo) {
     const { newGravity, newSpeed, newRange, newDamage, failed } = this.calculateProjectileStats(
@@ -74,7 +70,7 @@ export default class ProjectilePatcher {
     let newDamage = 0;
     let failed = false;
 
-    this.projectiles.baseStats.some(bs => {
+    this.rules.baseStats.some(bs => {
       if (!name.includes(bs.identifier)) {
         return false;
       }
@@ -86,7 +82,7 @@ export default class ProjectilePatcher {
       return true;
     });
 
-    this.projectiles.materialStats.some(ms => {
+    this.rules.materialStats.some(ms => {
       if (!name.includes(ms.name)) {
         return false;
       }
@@ -97,7 +93,7 @@ export default class ProjectilePatcher {
       return true;
     });
 
-    this.projectiles.modifierStats.some(ms => {
+    this.rules.modifierStats.some(ms => {
       if (!name.includes(ms.name)) {
         return false;
       }
@@ -114,7 +110,7 @@ export default class ProjectilePatcher {
   }
 
   addVariants(ammo) {
-    if (this.projectiles.excludedAmmunitionVariants.find(v => this.names[ammo].includes(v))) {
+    if (this.rules.excludedAmmunitionVariants.find(v => this.names[ammo].includes(v))) {
       return;
     }
 
@@ -123,7 +119,7 @@ export default class ProjectilePatcher {
   }
 
   multiplyBolts(ammo) {
-    const found = this.projectiles.baseStats.find(
+    const found = this.rules.baseStats.find(
       bs => this.names[ammo].includes(bs.identifier) && bs.type !== 'BOLT'
     );
 
@@ -290,7 +286,7 @@ export default class ProjectilePatcher {
     perks = [s.perkSneakThiefsToolbox0];
     this.addCraftingRecipe(ammo, noisemakerAmmo, ingredients, perks);
 
-    const found = this.projectiles.baseStats.find(
+    const found = this.rules.baseStats.find(
       bs => this.names[ammo].includes(bs.identifier) && bs.type !== 'ARROW'
     );
 
@@ -369,9 +365,13 @@ export default class ProjectilePatcher {
         condition = xelib.AddElement(newRecipe, 'Conditions\\.');
       }
 
-      h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
+      updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
     });
 
-    h.createGetItemCountCondition(newRecipe, 11000000, ammoReforgeInputCount, baseAmmo);
+    createGetItemCountCondition(newRecipe, 11000000, ammoReforgeInputCount, baseAmmo);
   }
 }
+
+export const defaultSettings = {
+  enabled: true
+};

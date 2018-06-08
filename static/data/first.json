@@ -1221,17 +1221,15 @@
   },
   "alchemy": {
     "excludedEffects": [],
-    "baseStats": {
-      "effects": [
-        { "name": "Lingering", "magnitudeFactor": 0.2, "durationBonus": 23 },
-        { "name": "Damage", "magnitudeFactor": 0.75, "durationBonus": 3 },
-        { "name": "Restore", "magnitudeFactor": 0.25, "durationBonus": 4 },
-        { "name": "Regen", "magnitudeFactor": 1.5, "durationBonus": 178 },
-        { "name": "Resist", "magnitudeFactor": 2, "durationBonus": 28 },
-        { "name": "Fortify", "magnitudeFactor": 1.5, "durationBonus": 28 },
-        { "name": "Ravage", "magnitudeFactor": 0.5, "durationBonus": 8 }
-      ]
-    }
+    "effects": [
+      { "name": "Lingering", "magnitudeFactor": 0.2, "bonus": 23 },
+      { "name": "Damage", "magnitudeFactor": 0.75, "bonus": 3 },
+      { "name": "Restore", "magnitudeFactor": 0.25, "bonus": 4 },
+      { "name": "Regen", "magnitudeFactor": 1.5, "bonus": 178 },
+      { "name": "Resist", "magnitudeFactor": 2, "bonus": 28 },
+      { "name": "Fortify", "magnitudeFactor": 1.5, "bonus": 28 },
+      { "name": "Ravage", "magnitudeFactor": 0.5, "bonus": 8 }
+    ]
   },
   "projectiles": {
     "baseStats": [

@@ -9,6 +9,8 @@
     "info": true,
     "locals": true,
     "Logger": true,
+    "patcherPath": true,
+    "patcherUrl": true,
     "registerPatcher": true,
     "xelib": true
   },

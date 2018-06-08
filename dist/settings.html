@@ -5,7 +5,7 @@
     <ignore-plugins patcher-id="reproccerReborn"></ignore-plugins>
 </section>
 <section>
-    <div><span class="input-label">Patch Weapons</span><input type="checkbox" ng-model="settings.reproccerReborn.patchWeapons" />
+    <div><span class="input-label">Patch Weapons</span><input type="checkbox" ng-model="settings.reproccerReborn.weapons.enabled" />
         <ul>
             <li>Adjusts weapon stats as specified by Stats.json</li>
             <li>Generates meltdown recipes and modifies tempering recipes.</li>
@@ -14,7 +14,7 @@
             <li>Links mod-added weapons to Skyrim Redone's perks.</li>
         </ul>
     </div>
-    <div><span class="input-label">Patch Armor</span><input type="checkbox" ng-model="settings.reproccerReborn.patchArmor" />
+    <div><span class="input-label">Patch Armor</span><input type="checkbox" ng-model="settings.reproccerReborn.armor.enabled" />
         <ul>
             <li>Adjusts armor stats as specified by Stats.json.</li>
             <li>Generates meltdown recipes and modifies tempering recipes</li>
@@ -22,13 +22,13 @@
             <li>Generates dreamcloth variants of regular clothing pieces.</li>
         </ul>
     </div>
-    <div><span class="input-label">Patch Alchemy Ingredients</span><input type="checkbox" ng-model="settings.reproccerReborn.patchAlchemyIngredients" />
+    <div><span class="input-label">Patch Alchemy Ingredients</span><input type="checkbox" ng-model="settings.reproccerReborn.alchemy.enabled" />
         <ul>
             <li>Adjusts alchemy ingredients to work over time.</li>
             <li>Optionally enforces upper and lower price limits for ingredients.</li>
         </ul>
     </div>
-    <div><span class="input-label">Patch Projectiles</span><input type="checkbox" ng-model="settings.reproccerReborn.patchProjectiles" />
+    <div><span class="input-label">Patch Projectiles</span><input type="checkbox" ng-model="settings.reproccerReborn.projectiles.enabled" />
         <ul>
             <li>Adjusts both arrow and bolt speed, gravity influence, reach, and damage. </li>
             <li>Creates explosive, timebomb, barbed, elemental, strong and stronger variants if applicable.</li>

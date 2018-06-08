@@ -95,3 +95,19 @@ export function addPerkScript(weapon, scriptName, propertyName, perk) {
   xelib.SetValue(property, 'Value\\Object Union\\Object v2\\FormID', perk);
   xelib.SetValue(property, 'Value\\Object Union\\Object v2\\Alias', 'None');
 }
+
+export function safeHasFlag(handle, path, flag) {
+  return xelib.HasElement(handle, path.split('\\')[0]) && !xelib.GetFlag(handle, path, flag);
+}
+
+export function safeHasArrayItem(handle, path, subPath, value) {
+  return xelib.HasElement(handle, path) && xelib.HasArrayItem(handle, path, subPath, value);
+}
+
+export function safeNotHasArrayItem(handle, path, subPath, value) {
+  return xelib.HasElement(handle, path) && !xelib.HasArrayItem(handle, path, subPath, value);
+}
+
+export function clamp(min, value, max) {
+  return Math.min(Math.max(value, min), max);
+}

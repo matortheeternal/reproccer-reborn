@@ -1,45 +1,18 @@
+import { defaultSettings as alchemy } from '../patchers/alchemy-patcher';
+import { defaultSettings as armor } from '../patchers/armor-patcher';
+import { defaultSettings as projectiles } from '../patchers/projectile-patcher';
+import { defaultSettings as weapons } from '../patchers/weapon-patcher';
+
 export default {
   label: 'Reproccer Reborn',
-  templateUrl: '../../../modules/reproccerReborn/settings.html',
-  patchFileName: 'ReProccer.esp',
+  templateUrl: `${patcherUrl}/settings.html`,
 
   defaultSettings: {
-    patchWeapons: true,
-    patchArmor: true,
-    patchAlchemyIngredients: true,
-    patchProjectiles: true,
-
-    alchemyBaseStats: {
-      usePriceLimits: true,
-      durationBase: 2,
-      priceLimitLower: 5,
-      priceLimitUpper: 150
-    },
-
-    armorBaseStats: {
-      armorFactorBoots: 1,
-      armorFactorCuirass: 3,
-      armorFactorGauntlets: 1,
-      armorFactorHelmet: 1.5,
-      armorFactorShield: 1.5,
-      protectionPerArmor: 0.1,
-      maxProtection: 95
-    },
-
-    weaponBaseStats: {
-      speedBonusArbalestCrossbow: -0.2,
-      speedBonusLightweightCrossbow: 0.25,
-      weightFactorArbalestCrossbow: 1.25,
-      weightFactorLighweightCrossbow: 0.75,
-      damageBow: 22,
-      damageCrossbow: 30,
-      damageOneHanded: 12,
-      damageTwoHanded: 23,
-      damageBonusRecurveCrossbow: 8
-    },
-
-    requiredFiles: ['SkyRe_Main.esp'],
-
+    patchFileName: 'ReProccer.esp',
+    alchemy,
+    armor,
+    projectiles,
+    weapons,
     ignoredFiles: [
       'The Huntsman.esp',
       'Apocalypse - The Spell Package.esp',

@@ -5,24 +5,32 @@ import WeaponPatcher from './patchers/weapon-patcher';
 import Settings from './settings/settings';
 
 export default class ReproccerReborn {
-  constructor(fh, info) {
-    this.fh = fh;
-    this.info = info;
-    this.gameModes = [xelib.gmTES5, xelib.gmSSE];
-    this.requiredFiles = Settings.requiredFiles;
-    this.settings = Settings;
+  gameModes = [xelib.gmTES5, xelib.gmSSE];
+  settings = Settings;
+  info = info;
 
-    this.execute = {
-      initialize: this.initialize,
+  execute(patch, helpers, settings, locals) {
+    const patchers = [AlchemyPatcher, ArmorPatcher, ProjectilePatcher, WeaponPatcher];
 
-      process: [
-        new AlchemyPatcher(),
-        new ArmorPatcher(),
-        new ProjectilePatcher(),
-        new WeaponPatcher()
-      ],
+    return {
+      initialize() {
+        ReproccerReborn.buildRules(locals);
+        ReproccerReborn.loadStatics(locals);
 
-      finalize: this.finalize
+        locals.cobj = helpers.loadRecords('COBJ').map(handle => ({
+          handle: xelib.GetWinningOverride(handle),
+          cnam: xelib.GetUIntValue(handle, 'CNAM'),
+          bnam: xelib.GetUIntValue(handle, 'BNAM')
+        }));
+
+        for (let i = 0; i < patchers.length; i += 1) {
+          patchers[i] = new patchers[i](helpers, locals, patch, settings);
+        }
+      },
+
+      process: patchers,
+
+      finalize: () => {}
     };
   }
 
@@ -30,32 +38,37 @@ export default class ReproccerReborn {
     return filenames.subtract(['ReProccer.esp']);
   }
 
-  // eslint-disable-next-line no-unused-vars
-  initialize = (patch, helpers, settings, locals) => {
-    this.start = new Date();
-    console.log(`started patching: ${this.start}`);
+  requiredFiles() {
+    return ['SkyRe_Main.esp'];
+  }
 
-    locals.patch = patch;
-    this.buildRules(locals);
-    this.loadStatics(locals);
-    locals.cobj = helpers.loadRecords('COBJ').map(handle => ({
-      handle: xelib.GetWinningOverride(handle),
-      cnam: xelib.GetUIntValue(handle, 'CNAM'),
-      bnam: xelib.GetUIntValue(handle, 'BNAM')
-    }));
-  };
+  static buildRules(locals) {
+    const rules = {};
 
-  // eslint-disable-next-line no-unused-vars
-  loadStatics(locals) {
+    const first = fh.loadJsonFile(`${patcherPath}/data/first.json`, null);
+    Object.deepAssign(rules, first);
+
+    xelib.GetLoadedFileNames().forEach(plugin => {
+      const data = fh.loadJsonFile(`${patcherPath}/data/${plugin.slice(0, -4)}.json`, null);
+
+      if (data) {
+        Object.deepAssign(rules, data);
+      }
+    });
+
+    const last = fh.loadJsonFile(`${patcherPath}/data/last.json`, null);
+    Object.deepAssign(rules, last);
+
+    locals.rules = rules;
+  }
+
+  static loadStatics(locals) {
     const files = {};
     const loadOrders = {};
 
-    function getFile(filename) {
-      if (!files[filename]) {
-        files[filename] = xelib.FileByName(filename);
-      }
-
-      return files[filename];
+    function GetHex(formId, filename) {
+      const loadOrder = getLoadOrder(getFile(filename));
+      return xelib.Hex((loadOrder << 24) | formId);
     }
 
     function getLoadOrder(file) {
@@ -66,9 +79,12 @@ export default class ReproccerReborn {
       return loadOrders[file];
     }
 
-    function GetHex(formId, filename) {
-      const loadOrder = getLoadOrder(getFile(filename));
-      return xelib.Hex((loadOrder << 24) | formId);
+    function getFile(filename) {
+      if (!files[filename]) {
+        files[filename] = xelib.FileByName(filename);
+      }
+
+      return files[filename];
     }
 
     locals.statics = {
@@ -280,36 +296,5 @@ export default class ReproccerReborn {
       perkWeaponSilverRefined: GetHex(0x056b5c, 'SkyRe_Main.esp'),
       perkWeaponYari: GetHex(0x09e623, 'SkyRe_Main.esp')
     };
-  }
-
-  // eslint-disable-next-line no-unused-vars
-  finalize = (patch, helpers, settings, locals) => {
-    const end = new Date();
-    console.log(`finished patching: ${end}`);
-    console.log(`${Math.abs(this.start - end) / 1000}s`);
-  };
-
-  buildRules(locals) {
-    const rules = {};
-
-    const first = fh.loadJsonFile(`modules/reproccerReborn/data/first.json`, null);
-    Object.deepAssign(rules, first);
-
-    xelib.GetLoadedFileNames().forEach(plugin => {
-      const data = fh.loadJsonFile(
-        `modules/reproccerReborn/data/${plugin.slice(0, -4)}.json`,
-        null
-      );
-
-      if (data) {
-        Object.deepAssign(rules, data);
-      }
-    });
-
-    const last = fh.loadJsonFile(`modules/reproccerReborn/data/last.json`, null);
-    Object.deepAssign(rules, last);
-
-    locals.rules = rules;
-    console.log(locals.rules);
   }
 }
