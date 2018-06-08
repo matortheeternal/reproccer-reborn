@@ -1,5 +1,39 @@
+##   This will handle all files NOT defined below.
 * text eol=lf
-*.png binary
-*.jpg binary
+
+## SOURCE CODE
+*.css   text
+*.html  text
+*.js    text
+*.json  text
+*.scss  text
+*.sh    text
+
+## DOCUMENTATION
+*.md    text
+*.txt   text
+LICENSE text
+
+## LINTERS
+.eslintrc text
+
+## CONFIGS
+.editorconfig   text
+.gitattributes  text
+.gitconfig      text
+.gitignore      text
+
+## GRAPHICS
+*.bmp binary
+*.gif binary
 *.ico binary
-*.icns binary
+*.jpg binary
+*.png binary
+*.svg text
+
+## FONTS
+*.ttf   binary
+*.eot   binary
+*.otf   binary
+*.woff  binary
+*.woff2 binary

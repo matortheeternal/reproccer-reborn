@@ -1,0 +1,44 @@
+{
+  "env": {
+    "browser": true,
+    "node": true
+  },
+  "extends": ["airbnb-base", "prettier"],
+  "globals": {
+    "fh": true,
+    "info": true,
+    "locals": true,
+    "Logger": true,
+    "registerPatcher": true,
+    "xelib": true
+  },
+  "parser": "babel-eslint",
+  "plugins": ["prettier"],
+  "root": true,
+  "rules": {
+    "class-methods-use-this": 0,
+    "default-case": 0,
+    "no-bitwise": 0,
+    "no-cond-assign": [2, "except-parens"],
+    "no-console": 0,
+    "no-debugger": 0,
+    "no-else-return": 0,
+    "no-param-reassign": 0,
+    "no-unused-vars": [
+      1,
+      {
+        "vars": "local",
+        "args": "none"
+      }
+    ],
+    "no-use-before-define": [
+      "error",
+      {
+        "functions": false,
+        "classes": true
+      }
+    ],
+    "prettier/prettier": "error",
+    "radix": 0
+  }
+}

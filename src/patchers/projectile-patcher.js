@@ -18,16 +18,25 @@ export default class ProjectilePatcher {
 
     return {
       signature: 'AMMO',
-      filter: (record) => {
+      filter: record => {
         const ammo = xelib.GetWinningOverride(record);
         const name = xelib.FullName(ammo);
-        if (!name) { return false; }
-        if (this.projectiles.excludedAmmunition.find((ex) => name.includes(ex))) { return false; }
-        if (!this.projectiles.baseStats.find((bs) => name.includes(bs.sIdentifier))) { return false; }
+
+        if (!name) {
+          return false;
+        }
+
+        if (this.projectiles.excludedAmmunition.find(ex => name.includes(ex))) {
+          return false;
+        }
+
+        if (!this.projectiles.baseStats.find(bs => name.includes(bs.sIdentifier))) {
+          return false;
+        }
 
         return true;
       }
-    }
+    };
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -38,9 +47,13 @@ export default class ProjectilePatcher {
   }
 
   patchStats(ammo) {
-    let {newGravity, newSpeed, newRange, newDamage, failed } = this.calculateProjectileStats(this.names[ammo]);
+    const { newGravity, newSpeed, newRange, newDamage, failed } = this.calculateProjectileStats(
+      this.names[ammo]
+    );
 
-    if (failed) { return; }
+    if (failed) {
+      return;
+    }
 
     const oldProjectile = xelib.GetWinningOverride(xelib.GetLinksTo(ammo, 'DATA\\Projectile'));
     const newProjectile = xelib.CopyElement(oldProjectile, this.patchFile, true);
@@ -51,7 +64,7 @@ export default class ProjectilePatcher {
     xelib.SetFloatValue(newProjectile, 'DATA\\Range', newRange);
 
     xelib.SetValue(ammo, 'DATA\\Projectile', xelib.GetHexFormID(newProjectile));
-    xelib.SetIntValue(ammo, 'DATA\\Damage', newDamage);
+    xelib.SetUIntValue(ammo, 'DATA\\Damage', newDamage);
   }
 
   calculateProjectileStats(name) {
@@ -61,32 +74,38 @@ export default class ProjectilePatcher {
     let newDamage = 0;
     let failed = false;
 
-    this.projectiles.baseStats.some((bs) => {
-      if (name.includes(bs.sIdentifier)) {
-        newGravity = bs.fGravityBase;
-        newSpeed = bs.fSpeedBase;
-        newRange = bs.fRangeBase;
-        newDamage = bs.iDamageBase;
-        return true;
+    this.projectiles.baseStats.some(bs => {
+      if (!name.includes(bs.sIdentifier)) {
+        return false;
       }
+
+      newGravity = bs.fGravityBase;
+      newSpeed = bs.fSpeedBase;
+      newRange = bs.fRangeBase;
+      newDamage = bs.iDamageBase;
+      return true;
     });
 
-    this.projectiles.materialStats.some((ms) => {
-      if (name.includes(ms.name)) {
-        newGravity += ms.fGravityModifier;
-        newSpeed += ms.fSpeedModifier;
-        newDamage += ms.iDamageModifier;
-        return true;
+    this.projectiles.materialStats.some(ms => {
+      if (!name.includes(ms.name)) {
+        return false;
       }
+
+      newGravity += ms.fGravityModifier;
+      newSpeed += ms.fSpeedModifier;
+      newDamage += ms.iDamageModifier;
+      return true;
     });
 
-    this.projectiles.modifierStats.some((ms) => {
-      if (name.includes(ms.name)) {
-        newGravity += ms.fGravityModifier;
-        newSpeed += ms.fSpeedModifier;
-        newDamage += ms.iDamageModifier;
-        return true;
+    this.projectiles.modifierStats.some(ms => {
+      if (!name.includes(ms.name)) {
+        return false;
       }
+
+      newGravity += ms.fGravityModifier;
+      newSpeed += ms.fSpeedModifier;
+      newDamage += ms.iDamageModifier;
+      return true;
     });
 
     failed = newGravity <= 0 || newSpeed <= 0 || newRange <= 0 || newDamage <= 0;
@@ -95,7 +114,7 @@ export default class ProjectilePatcher {
   }
 
   addVariants(ammo) {
-    if (this.projectiles.excludedAmmunitionVariants.find((v) => this.names[ammo].includes(v))) {
+    if (this.projectiles.excludedAmmunitionVariants.find(v => this.names[ammo].includes(v))) {
       return;
     }
 
@@ -104,7 +123,11 @@ export default class ProjectilePatcher {
   }
 
   multiplyBolts(ammo) {
-    if (this.projectiles.baseStats.find((bs) => this.names[ammo].includes(bs.sIdentifier) && bs.sType !== 'BOLT')) {
+    const found = this.projectiles.baseStats.find(
+      bs => this.names[ammo].includes(bs.sIdentifier) && bs.sType !== 'BOLT'
+    );
+
+    if (found) {
       return;
     }
 
@@ -128,7 +151,7 @@ export default class ProjectilePatcher {
   createStrongAmmo(ammo) {
     const strongAmmo = xelib.CopyElement(ammo, this.patchFile, true);
     this.names[strongAmmo] = `${this.names[ammo]} - Strong`;
-    xelib.AddElementValue(strongAmmo, 'EDID', `REP_${this.names[ammo]} - Strong`)
+    xelib.AddElementValue(strongAmmo, 'EDID', `REP_${this.names[ammo]} - Strong`);
     xelib.AddElementValue(strongAmmo, 'FULL', this.names[strongAmmo]);
     this.patchStats(strongAmmo);
 
@@ -138,7 +161,7 @@ export default class ProjectilePatcher {
   createStrongestAmmo(ammo) {
     const strongestAmmo = xelib.CopyElement(ammo, this.patchFile, true);
     this.names[strongestAmmo] = `${this.names[ammo]} - Strongest`;
-    xelib.AddElementValue(strongestAmmo, 'EDID', `REP_${this.names[ammo]} - Strongest`)
+    xelib.AddElementValue(strongestAmmo, 'EDID', `REP_${this.names[ammo]} - Strongest`);
     xelib.AddElementValue(strongestAmmo, 'FULL', this.names[strongestAmmo]);
     this.patchStats(strongestAmmo);
 
@@ -154,9 +177,13 @@ export default class ProjectilePatcher {
     const timer = 3;
     const timebombAmmo = xelib.CopyElement(ammo, this.patchFile, true);
     this.names[timebombAmmo] = `${this.names[ammo]} - Timebomb`;
-    xelib.AddElementValue(timebombAmmo, 'EDID', `REP_${this.names[ammo]} - Timebomb`)
+    xelib.AddElementValue(timebombAmmo, 'EDID', `REP_${this.names[ammo]} - Timebomb`);
     xelib.AddElementValue(timebombAmmo, 'FULL', this.names[timebombAmmo]);
-    xelib.AddElementValue(timebombAmmo, 'DESC', 'Explodes 3 seconds after being fired into a surface, dealing 150 points of non-elemental damage.')
+    xelib.AddElementValue(
+      timebombAmmo,
+      'DESC',
+      'Explodes 3 seconds after being fired into a surface, dealing 150 points of non-elemental damage.'
+    );
     this.patchStats(timebombAmmo);
 
     const projectile = xelib.GetWinningOverride(xelib.GetLinksTo(timebombAmmo, 'DATA\\Projectile'));
@@ -184,24 +211,28 @@ export default class ProjectilePatcher {
   }
 
   createBarbedAmmo(ammo) {
-    const desc = 'Deals 6 points of bleeding damag per second over 8 seconds, and slows the target down by 20%.';
+    const desc =
+      'Deals 6 points of bleeding damag per second over 8 seconds, and slows the target down by 20%.';
     return this.createExplosiveAmmo(ammo, this.statics.expBarbed, 'Barbed', desc);
   }
 
   createHeavyweightAmmo(ammo) {
-    const desc = 'Has a 50% increased chance to stagger, and a 25% chance to strike the target down.';
+    const desc =
+      'Has a 50% increased chance to stagger, and a 25% chance to strike the target down.';
     return this.createExplosiveAmmo(ammo, this.statics.expHeavyweight, 'Heavyweight', desc);
   }
 
   createLightsourceAmmo(ammo) {
     const lightsourceAmmo = xelib.CopyElement(ammo, this.patchFile, true);
     this.names[lightsourceAmmo] = `${this.names[ammo]} - Lightsource`;
-    xelib.AddElementValue(lightsourceAmmo, 'EDID', `REP_${this.names[ammo]} - Lightsource`)
+    xelib.AddElementValue(lightsourceAmmo, 'EDID', `REP_${this.names[ammo]} - Lightsource`);
     xelib.AddElementValue(lightsourceAmmo, 'FULL', this.names[lightsourceAmmo]);
-    xelib.AddElementValue(lightsourceAmmo, 'DESC', 'Emits light after being fired.')
+    xelib.AddElementValue(lightsourceAmmo, 'DESC', 'Emits light after being fired.');
     this.patchStats(lightsourceAmmo);
 
-    const projectile = xelib.GetWinningOverride(xelib.GetLinksTo(lightsourceAmmo, 'DATA\\Projectile'));
+    const projectile = xelib.GetWinningOverride(
+      xelib.GetLinksTo(lightsourceAmmo, 'DATA\\Projectile')
+    );
     xelib.SetValue(projectile, 'DATA\\Light', this.statics.lightLightsource);
 
     return lightsourceAmmo;
@@ -213,14 +244,15 @@ export default class ProjectilePatcher {
   }
 
   createNeuralgiaAmmo(ammo) {
-    const desc = 'Doubles spell casting cost and drains 10 points of Magicka per second for 10 seconds.';
+    const desc =
+      'Doubles spell casting cost and drains 10 points of Magicka per second for 10 seconds.';
     return this.createExplosiveAmmo(ammo, this.statics.expNeuralgia, 'Neuralgia', desc);
   }
 
   createExplosiveAmmo(ammo, explosion, type, desc) {
     const newAmmo = xelib.CopyElement(ammo, this.patchFile, true);
     this.names[newAmmo] = `${this.names[ammo]} - ${type}`;
-    xelib.AddElementValue(newAmmo, 'EDID', `REP_${this.names[ammo]} - ${type}`)
+    xelib.AddElementValue(newAmmo, 'EDID', `REP_${this.names[ammo]} - ${type}`);
     xelib.AddElementValue(newAmmo, 'FULL', this.names[newAmmo]);
     xelib.AddElementValue(newAmmo, 'DESC', desc);
     this.patchStats(newAmmo);
@@ -258,7 +290,11 @@ export default class ProjectilePatcher {
     perks = [s.perkSneakThiefsToolbox0];
     this.addCraftingRecipe(ammo, noisemakerAmmo, ingredients, perks);
 
-    if (this.projectiles.baseStats.find((bs) => this.names[ammo].includes(bs.sIdentifier) && bs.sType !== 'ARROW')) {
+    const found = this.projectiles.baseStats.find(
+      bs => this.names[ammo].includes(bs.sIdentifier) && bs.sType !== 'ARROW'
+    );
+
+    if (found) {
       this.createCrossbowOnlyVariants(ammo);
     }
   }
@@ -308,14 +344,14 @@ export default class ProjectilePatcher {
     xelib.AddElementValue(newRecipe, 'EDID', `REP_CRAFT_AMMO_${this.names[newAmmo]}`);
 
     xelib.AddElement(newRecipe, 'Items');
-    const baseItem = xelib.GetElement(newRecipe, 'Items\\[0]')
+    const baseItem = xelib.GetElement(newRecipe, 'Items\\[0]');
     xelib.SetValue(baseItem, 'CNTO\\Item', xelib.GetHexFormID(baseAmmo));
-    xelib.SetIntValue(baseItem, 'CNTO\\Count', ammoReforgeInputCount);
+    xelib.SetUIntValue(baseItem, 'CNTO\\Count', ammoReforgeInputCount);
 
-    secondaryIngredients.forEach((ingredient) => {
+    secondaryIngredients.forEach(ingredient => {
       const secondaryItem = xelib.AddElement(newRecipe, 'Items\\.');
       xelib.SetValue(secondaryItem, 'CNTO\\Item', ingredient);
-      xelib.SetIntValue(secondaryItem, 'CNTO\\Count', secondaryIngredientInputCount);
+      xelib.SetUIntValue(secondaryItem, 'CNTO\\Count', secondaryIngredientInputCount);
     });
 
     xelib.AddElementValue(newRecipe, 'BNAM', this.statics.kwCraftingSmithingForge);
@@ -327,8 +363,8 @@ export default class ProjectilePatcher {
     requiredPerks.forEach((perk, index) => {
       let condition;
 
-      if (index == 0) {
-          condition = xelib.GetElement(newRecipe, 'Conditions\\[0]');
+      if (index === 0) {
+        condition = xelib.GetElement(newRecipe, 'Conditions\\[0]');
       } else {
         condition = xelib.AddElement(newRecipe, 'Conditions\\.');
       }

@@ -16,7 +16,7 @@ export default class AlchemyPatcher {
 
     return {
       signature: 'INGR'
-    }
+    };
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -40,19 +40,28 @@ export default class AlchemyPatcher {
     let newDuration = xelib.GetIntValue(effect, 'EFIT\\Duration');
     let newMagnitude = xelib.GetFloatValue(effect, 'EFIT\\Magnitude');
 
-    this.alchemy.baseStats.effects.some((e) => {
-      if (name.includes(e.name)) {
-        newDuration = this.settings.alchemyBaseStats.iDurationBase + e.iDurationBonus;
-        newMagnitude = newMagnitude * e.fMagnitudeFactor;
-        return true;
+    this.alchemy.baseStats.effects.some(e => {
+      if (!name.includes(e.name)) {
+        return false;
       }
+
+      newDuration = this.settings.alchemyBaseStats.iDurationBase + e.iDurationBonus;
+      newMagnitude *= e.fMagnitudeFactor;
+
+      return true;
     });
 
-    if (xelib.HasElement(mgef, 'Magic Effect Data') && !xelib.GetFlag(mgef, 'Magic Effect Data\\DATA\\Flags', 'No Duration')) {
-      xelib.SetIntValue(effect, 'EFIT\\Duration', newDuration);
+    if (
+      xelib.HasElement(mgef, 'Magic Effect Data') &&
+      !xelib.GetFlag(mgef, 'Magic Effect Data\\DATA\\Flags', 'No Duration')
+    ) {
+      xelib.SetUIntValue(effect, 'EFIT\\Duration', newDuration);
     }
 
-    if (xelib.HasElement(mgef, 'Magic Effect Data') && !xelib.GetFlag(mgef, 'Magic Effect Data\\DATA\\Flags', 'No Magnitude')) {
+    if (
+      xelib.HasElement(mgef, 'Magic Effect Data') &&
+      !xelib.GetFlag(mgef, 'Magic Effect Data\\DATA\\Flags', 'No Magnitude')
+    ) {
       newMagnitude = Math.max(1.0, newMagnitude);
       xelib.SetFloatValue(effect, 'EFIT\\Magnitude', newMagnitude);
     }
@@ -69,6 +78,6 @@ export default class AlchemyPatcher {
     const newValue = Math.min(Math.max(originalValue, min), max);
 
     xelib.SetFlag(ingredient, 'ENIT\\Flags', 'No auto-calculation', true);
-    xelib.SetIntValue(ingredient, 'DATA\\Value', newValue);
+    xelib.SetUIntValue(ingredient, 'DATA\\Value', newValue);
   }
 }

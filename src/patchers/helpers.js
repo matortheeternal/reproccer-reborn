@@ -1,8 +1,10 @@
 export function overrideCraftingRecipes(cobj, armor, perk, patchFile) {
   const armorFormID = xelib.GetFormID(armor);
 
-  cobj.forEach((recipe) => {
-    if (recipe.cnam !== armorFormID) { return; }
+  cobj.forEach(recipe => {
+    if (recipe.cnam !== armorFormID) {
+      return;
+    }
 
     const newRecipe = xelib.CopyElement(recipe.handle, patchFile);
     xelib.RemoveElement(newRecipe, 'Conditions');
@@ -43,15 +45,16 @@ export function updateGetItemCountCondition(recipe, condition, type, value, obje
   xelib.SetValue(condition, 'CTDA\\Run On', 'Subject');
 }
 
-const includes = function(a, b) { return a.includes(b); }
-const equals = function(a, b) { return a === b; }
-const compare = (a, b, inclusion) => inclusion ? includes(a, b) : equals(a, b)
-export function getValueFromName(collection, name, field1, field2, includes = true) {
+const includes = (a, b) => a.includes(b);
+const equals = (a, b) => a === b;
+const compare = (a, b, inclusion) => (inclusion ? includes(a, b) : equals(a, b));
+
+export function getValueFromName(collection, name, field1, field2, inclusion = true) {
   let maxLength = 0;
   let value = null;
 
-  collection.forEach((thing) => {
-    if (compare(name, thing[field1], includes) && thing[field1].length > maxLength) {
+  collection.forEach(thing => {
+    if (compare(name, thing[field1], inclusion) && thing[field1].length > maxLength) {
       value = thing[field2];
       maxLength = thing[field1].length;
     }
@@ -60,23 +63,23 @@ export function getValueFromName(collection, name, field1, field2, includes = tr
   return value;
 }
 
-export function getModifierFromMap(map, collection, handle, field1, field2, includes = true) {
+export function getModifierFromMap(map, collection, handle, field1, field2, inclusion = true) {
   let modifier = null;
 
-  map.some((e) => {
-    if (xelib.HasArrayItem(handle, 'KWDA', '', e.kwda)) {
-      modifier = getValueFromName(collection, e.name, field1, field2, includes);
-      return true;
+  map.some(e => {
+    if (!xelib.HasArrayItem(handle, 'KWDA', '', e.kwda)) {
+      return false;
     }
+
+    modifier = getValueFromName(collection, e.name, field1, field2, inclusion);
+    return true;
   });
 
   return modifier;
 }
 
 export function getKwda(handle) {
-  return function(kwda) {
-    return xelib.HasArrayItem(handle, 'KWDA', '', kwda);
-  }
+  return kwda => xelib.HasArrayItem(handle, 'KWDA', '', kwda);
 }
 
 export function addPerkScript(weapon, scriptName, propertyName, perk) {
@@ -87,7 +90,7 @@ export function addPerkScript(weapon, scriptName, propertyName, perk) {
   xelib.SetValue(script, 'scriptName', scriptName);
   const property = xelib.AddElement(script, 'Properties\\.');
   xelib.SetValue(property, 'propertyName', propertyName);
-  xelib.SetIntValue(property, 'Type', 1);
+  xelib.SetValue(property, 'Type', 'Object');
   xelib.SetValue(property, 'Flags', 'Edited');
   xelib.SetValue(property, 'Value\\Object Union\\Object v2\\FormID', perk);
   xelib.SetValue(property, 'Value\\Object Union\\Object v2\\Alias', 'None');

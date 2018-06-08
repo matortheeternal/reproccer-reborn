@@ -24,18 +24,31 @@ export default class WeaponPatcher {
 
     return {
       signature: 'WEAP',
-      filter: (weapon) => {
+      filter: weapon => {
         const name = xelib.FullName(weapon);
 
-        if (name && this.weapons.excludedWeapons.find((e) => name.includes(e))) { return false; }
-        if (xelib.HasElement(weapon, 'KWDA') && xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeStaff)) { return false; }
-        if (xelib.HasElement(weapon, 'CNAM')) { return true; }
-        if (xelib.GetFlag(weapon, 'DNAM\\Flags', 'Non-playable')) { return false; }
-        if (!name) { return false; }
+        if (name && this.weapons.excludedWeapons.find(e => name.includes(e))) {
+          return false;
+        }
+        if (
+          xelib.HasElement(weapon, 'KWDA') &&
+          xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeStaff)
+        ) {
+          return false;
+        }
+        if (xelib.HasElement(weapon, 'CNAM')) {
+          return true;
+        }
+        if (xelib.GetFlag(weapon, 'DNAM\\Flags', 'Non-playable')) {
+          return false;
+        }
+        if (!name) {
+          return false;
+        }
 
         return true;
       }
-    }
+    };
   }
 
   // eslint-disable-next-line no-unused-vars
@@ -60,8 +73,12 @@ export default class WeaponPatcher {
   }
 
   checkBroadswordName(weapon, enchanted) {
-    if (enchanted && !xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeSword)) { return; }
-    if (this.names[weapon].includes('Broadsword')) { return; }
+    if (enchanted && !xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeSword)) {
+      return;
+    }
+    if (this.names[weapon].includes('Broadsword')) {
+      return;
+    }
 
     this.names[weapon] = this.names[weapon].replace('Sword', 'Broadsword');
     xelib.AddElementValue(weapon, 'FULL', this.names[weapon]);
@@ -69,11 +86,21 @@ export default class WeaponPatcher {
 
   patchBowType(weapon, enchanted) {
     const kwda = h.getKwda(weapon);
-    if (!kwda(this.statics.kwWeapTypeBow) || kwda(this.statics.kwWeapTypeCrossbow)) { return; }
-    if (kwda(this.statics.kwWeapTypeLongbow) || kwda(this.statics.kwWeapTypeShortbow)) { return; }
+    if (!kwda(this.statics.kwWeapTypeBow) || kwda(this.statics.kwWeapTypeCrossbow)) {
+      return;
+    }
+    if (kwda(this.statics.kwWeapTypeLongbow) || kwda(this.statics.kwWeapTypeShortbow)) {
+      return;
+    }
 
     const name = this.names[weapon];
-    if (enchanted && name.includes('Longbow') || name.includes('Shortbow') || name.includes('Crossbow')) { return; }
+    if (
+      (enchanted && name.includes('Longbow')) ||
+      name.includes('Shortbow') ||
+      name.includes('Crossbow')
+    ) {
+      return;
+    }
 
     xelib.AddElementValue(weapon, 'KWDA\\.', this.statics.kwWeapTypeShortbow);
 
@@ -95,27 +122,73 @@ export default class WeaponPatcher {
     }
 
     const override = this.getWeaponMaterialOverrideString(this.names[weapon]);
-    if (!override) { return; }
+    if (!override) {
+      return;
+    }
 
-    if (this.hasWeaponKeyword(weapon)) { return; }
+    if (this.hasWeaponKeyword(weapon)) {
+      return;
+    }
 
     const overrideMap = {
-      ADVANCED:       { kwda: this.statics.kwWeapMaterialAdvanced,       perk: this.statics.perkSmithingAdvanced },
-      DRAGONBONE:     { kwda: this.statics.kwWeapMaterialDragonPlate,    perk: this.statics.perkSmithingDragon   },
-      DAEDRIC:        { kwda: this.statics.kwWeapMaterialDaedric,        perk: this.statics.perkSmithingDaedric  },
-      DRAUGR:         { kwda: this.statics.kwWeapMaterialDraugr,         perk: this.statics.perkSmithingSteel    },
-      DWARVEN:        { kwda: this.statics.kwWeapMaterialDwarven,        perk: this.statics.perkSmithingDwarven  },
-      EBONY:          { kwda: this.statics.kwWeapMaterialEbony,          perk: this.statics.perkSmithingEbony    },
-      ELVEN:          { kwda: this.statics.kwWeapMaterialElven,          perk: this.statics.perkSmithingElven    },
-      FALMER:         { kwda: this.statics.kwWeapMaterialFalmer,         perk: this.statics.perkSmithingAdvanced },
-      GLASS:          { kwda: this.statics.kwWeapMaterialGlass,          perk: this.statics.perkSmithingGlass    },
-      IRON:           { kwda: this.statics.kwWeapMaterialIron,           perk: null                              },
-      NORDIC:         { kwda: this.statics.kwWeapMaterialNordic,         perk: this.statics.perkSmithingAdvanced },
-      ORCISH:         { kwda: this.statics.kwWeapMaterialOrcish,         perk: this.statics.perkSmithingOrcish   },
-      SILVER:         { kwda: this.statics.kwWeapMaterialSilver,         perk: this.statics.perkSmithingSilver   },
-      STALHRIM:       { kwda: this.statics.kwWeapMaterialStalhrim,       perk: this.statics.perkSmithingAdvanced },
-      STEEL:          { kwda: this.statics.kwWeapMaterialSteel,          perk: this.statics.perkSmithingSteel    },
-      WOODEN:         { kwda: this.statics.kwWeapMaterialWood,           perk: null                              }
+      ADVANCED: {
+        kwda: this.statics.kwWeapMaterialAdvanced,
+        perk: this.statics.perkSmithingAdvanced
+      },
+      DRAGONBONE: {
+        kwda: this.statics.kwWeapMaterialDragonPlate,
+        perk: this.statics.perkSmithingDragon
+      },
+      DAEDRIC: {
+        kwda: this.statics.kwWeapMaterialDaedric,
+        perk: this.statics.perkSmithingDaedric
+      },
+      DRAUGR: {
+        kwda: this.statics.kwWeapMaterialDraugr,
+        perk: this.statics.perkSmithingSteel
+      },
+      DWARVEN: {
+        kwda: this.statics.kwWeapMaterialDwarven,
+        perk: this.statics.perkSmithingDwarven
+      },
+      EBONY: {
+        kwda: this.statics.kwWeapMaterialEbony,
+        perk: this.statics.perkSmithingEbony
+      },
+      ELVEN: {
+        kwda: this.statics.kwWeapMaterialElven,
+        perk: this.statics.perkSmithingElven
+      },
+      FALMER: {
+        kwda: this.statics.kwWeapMaterialFalmer,
+        perk: this.statics.perkSmithingAdvanced
+      },
+      GLASS: {
+        kwda: this.statics.kwWeapMaterialGlass,
+        perk: this.statics.perkSmithingGlass
+      },
+      IRON: { kwda: this.statics.kwWeapMaterialIron, perk: null },
+      NORDIC: {
+        kwda: this.statics.kwWeapMaterialNordic,
+        perk: this.statics.perkSmithingAdvanced
+      },
+      ORCISH: {
+        kwda: this.statics.kwWeapMaterialOrcish,
+        perk: this.statics.perkSmithingOrcish
+      },
+      SILVER: {
+        kwda: this.statics.kwWeapMaterialSilver,
+        perk: this.statics.perkSmithingSilver
+      },
+      STALHRIM: {
+        kwda: this.statics.kwWeapMaterialStalhrim,
+        perk: this.statics.perkSmithingAdvanced
+      },
+      STEEL: {
+        kwda: this.statics.kwWeapMaterialSteel,
+        perk: this.statics.perkSmithingSteel
+      },
+      WOODEN: { kwda: this.statics.kwWeapMaterialWood, perk: null }
     };
 
     if (overrideMap[override]) {
@@ -125,28 +198,48 @@ export default class WeaponPatcher {
   }
 
   getWeaponTypeOverride(name) {
-    const override = this.weapons.typeOverrides.find((t) => name === t.weaponName);
+    const override = this.weapons.typeOverrides.find(t => name === t.weaponName);
     return override ? override.weaponType : null;
   }
 
   getWeaponMaterialOverrideString(name) {
-    const override = this.weapons.materialOverrides.find((o) => name.includes(o.weaponSubstring));
+    const override = this.weapons.materialOverrides.find(o => name.includes(o.weaponSubstring));
     return override ? override.materialOverride : null;
   }
 
   hasWeaponKeyword(weapon) {
     const s = this.statics;
-    const kwda = function(kwda) { return xelib.HasArrayItem(weapon, 'KWDA', '', kwda); }
-    return !kwda(s.kwWeapMaterialDaedric) || kwda(s.kwWeapMaterialDragonbone) || kwda(s.kwWeapMaterialDraugr) ||
-           kwda(s.kwWeapMaterialDraugrHoned) || kwda(s.kwWeapMaterialDwarven) || kwda(s.kwWeapMaterialEbony) ||
-           kwda(s.kwWeapMaterialElven) || kwda(s.kwWeapMaterialFalmer) || kwda(s.kwWeapMaterialFalmerHoned) ||
-           kwda(s.kwWeapMaterialGlass) || kwda(s.kwWeapMaterialImperial) || kwda(s.kwWeapMaterialOrcish) ||
-           kwda(s.kwWeapMaterialSilver) || kwda(s.kwWeapMaterialSilverRefined) || kwda(s.kwWeapMaterialSteel) ||
-           kwda(s.kwWeapMaterialWood) || kwda(s.kwWeapMaterialStalhrim) || kwda(s.kwWeapMaterialNordic);
+    const kwda = k => xelib.HasArrayItem(weapon, 'KWDA', '', k);
+
+    return (
+      !kwda(s.kwWeapMaterialDaedric) ||
+      kwda(s.kwWeapMaterialDragonbone) ||
+      kwda(s.kwWeapMaterialDraugr) ||
+      kwda(s.kwWeapMaterialDraugrHoned) ||
+      kwda(s.kwWeapMaterialDwarven) ||
+      kwda(s.kwWeapMaterialEbony) ||
+      kwda(s.kwWeapMaterialElven) ||
+      kwda(s.kwWeapMaterialFalmer) ||
+      kwda(s.kwWeapMaterialFalmerHoned) ||
+      kwda(s.kwWeapMaterialGlass) ||
+      kwda(s.kwWeapMaterialImperial) ||
+      kwda(s.kwWeapMaterialOrcish) ||
+      kwda(s.kwWeapMaterialSilver) ||
+      kwda(s.kwWeapMaterialSilverRefined) ||
+      kwda(s.kwWeapMaterialSteel) ||
+      kwda(s.kwWeapMaterialWood) ||
+      kwda(s.kwWeapMaterialStalhrim) ||
+      kwda(s.kwWeapMaterialNordic)
+    );
   }
 
   patchWeaponKeywords(weapon) {
-    const typeString = h.getValueFromName(this.weapons.typeDefinitions, this.names[weapon], 'substring', 'typeBinding');
+    const typeString = h.getValueFromName(
+      this.weapons.typeDefinitions,
+      this.names[weapon],
+      'substring',
+      'typeBinding'
+    );
 
     if (!typeString) {
       this.patchBowType(weapon);
@@ -154,9 +247,11 @@ export default class WeaponPatcher {
     }
 
     const s = this.statics;
-    const noop = function() { return; };
-    const addp = function(weapon, perk) { h.addPerkScript(weapon, 'xxxAddPerkWhileEquipped', 'p', perk); };
-    const broad = (weapon) => this.checkBroadswordName(weapon);
+    const noop = () => {};
+    const addp = (w, p) => h.addPerkScript(w, 'xxxAddPerkWhileEquipped', 'p', p);
+    const broad = w => this.checkBroadswordName(w);
+
+    // prettier-ignore
     const weaponKeywordMap = {
       BASTARDSWORD: { kwda: s.kwWeapTypeBastardSword, func: noop,   perk: null                              },
       BATTLESTAFF:  { kwda: s.kwWeapTypeBattlestaff,  func: noop,   perk: null                              },
@@ -184,7 +279,11 @@ export default class WeaponPatcher {
     };
 
     const map = weaponKeywordMap[typeString];
-    if (map && xelib.HasElement(weapon, 'KWDA') && !xelib.HasArrayItem(weapon, 'KWDA', '', map.kwda)) {
+    if (
+      map &&
+      xelib.HasElement(weapon, 'KWDA') &&
+      !xelib.HasArrayItem(weapon, 'KWDA', '', map.kwda)
+    ) {
       xelib.AddArrayItem(weapon, 'KWDA', '', map.kwda);
       map.func(weapon, map.perk);
     }
@@ -196,10 +295,15 @@ export default class WeaponPatcher {
     const typeDamage = this.getWeaponTypeDamageModifier(weapon);
 
     if (baseDamage === null || materialDamage === null || typeDamage === null) {
-      console.log(`${this.names[weapon]}(${xelib.GetHexFormID(weapon)}): Base: ${baseDamage} Material: ${materialDamage} Type: ${typeDamage}`);
+      const name = this.names[weapon];
+      const formId = xelib.GetHexFormID(weapon);
+
+      console.log(
+        `${name}(${formId}): Base: ${baseDamage} Material: ${materialDamage} Type: ${typeDamage}`
+      );
     }
 
-    xelib.SetIntValue(weapon, 'DATA\\Damage', baseDamage + materialDamage + typeDamage);
+    xelib.SetUIntValue(weapon, 'DATA\\Damage', baseDamage + materialDamage + typeDamage);
   }
 
   getBaseDamage(weapon) {
@@ -207,11 +311,20 @@ export default class WeaponPatcher {
     const kwda = h.getKwda(weapon);
     let base = null;
 
-    if (kwda(s.kwWeapTypeSword) || kwda(s.kwWeapTypeWaraxe) || kwda(s.kwWeapTypeMace) || kwda(s.kwWeapTypeDagger)) {
+    if (
+      kwda(s.kwWeapTypeSword) ||
+      kwda(s.kwWeapTypeWaraxe) ||
+      kwda(s.kwWeapTypeMace) ||
+      kwda(s.kwWeapTypeDagger)
+    ) {
       base = this.settings.weaponBaseStats.iDamageBaseOneHanded;
     }
 
-    if (kwda(s.kwWeapTypeGreatsword) || kwda(s.kwWeapTypeWarhammer) || kwda(s.kwWeapTypeBattleaxe)) {
+    if (
+      kwda(s.kwWeapTypeGreatsword) ||
+      kwda(s.kwWeapTypeWarhammer) ||
+      kwda(s.kwWeapTypeBattleaxe)
+    ) {
       base = this.settings.weaponBaseStats.iDamageBaseTwoHanded;
     }
 
@@ -224,7 +337,9 @@ export default class WeaponPatcher {
     }
 
     if (base === null) {
-      console.log(`${this.names[weapon]}(${xelib.GetHexFormID(weapon)}): Couldn't set base weapon damage.`);
+      const formId = xelib.GetHexFormID(weapon);
+
+      console.log(`${this.names[weapon]}(${formId}): Couldn't set base weapon damage.`);
     }
 
     return base;
@@ -234,24 +349,43 @@ export default class WeaponPatcher {
     let modifier = null;
     modifier = h.getValueFromName(this.weapons.materials, this.names[weapon], 'name', 'iDamage');
 
-    if (modifier) { return modifier; }
+    if (modifier) {
+      return modifier;
+    }
 
-    modifier = h.getModifierFromMap(this.keywordMaterialMap, this.weapons.materials, weapon, 'name', 'iDamage');
+    modifier = h.getModifierFromMap(
+      this.keywordMaterialMap,
+      this.weapons.materials,
+      weapon,
+      'name',
+      'iDamage'
+    );
 
     if (modifier === null) {
-      console.log(`${this.names[weapon]}(${xelib.GetHexFormID(weapon)}): Couldn't find material damage modifier for weapon.`);
+      const name = this.names[weapon];
+      const formId = xelib.GetHexFormID(weapon);
+
+      console.log(`${name}(${formId}): Couldn't find material damage modifier for weapon.`);
     }
 
     return modifier;
   }
 
   getWeaponTypeDamageModifier(weapon) {
-    let modifier;
-
-    modifier = h.getModifierFromMap(this.keywordTypesMap, this.weapons.types, weapon, 'name', 'iDamage', false);
+    const modifier = h.getModifierFromMap(
+      this.keywordTypesMap,
+      this.weapons.types,
+      weapon,
+      'name',
+      'iDamage',
+      false
+    );
 
     if (modifier === null) {
-      console.log(`${this.names[weapon]}(${xelib.GetHexFormID(weapon)}): Couldn't find type damage modifier for weapon.`);
+      const name = this.names[weapon];
+      const formId = xelib.GetHexFormID(weapon);
+
+      console.log(`${name}(${formId}): Couldn't find type damage modifier for weapon.`);
     }
 
     return modifier;
@@ -268,15 +402,39 @@ export default class WeaponPatcher {
   }
 
   getWeaponTypeFloatValueModifier(weapon, field2) {
-    let modifier = h.getModifierFromMap(this.skyreTypesMap, this.weapons.types, weapon, 'name', field2, false);
-    if (modifier) { return modifier; }
+    let modifier = h.getModifierFromMap(
+      this.skyreTypesMap,
+      this.weapons.types,
+      weapon,
+      'name',
+      field2,
+      false
+    );
+
+    if (modifier) {
+      return modifier;
+    }
 
     modifier = h.getValueFromName(this.weapons.types, this.names[weapon], 'name', field2, false);
-    if (modifier) { return modifier; }
 
-    modifier = h.getModifierFromMap(this.vanillaTypesMap, this.weapons.types, weapon, 'name', field2, false);
+    if (modifier) {
+      return modifier;
+    }
+
+    modifier = h.getModifierFromMap(
+      this.vanillaTypesMap,
+      this.weapons.types,
+      weapon,
+      'name',
+      field2,
+      false
+    );
+
     if (modifier === null) {
-      console.log(`${this.names[weapon]}(${xelib.GetHexFormID(weapon)}): Couldn't find type ${field2} modifier for weapon.`);
+      const name = this.names[weapon];
+      const formId = xelib.GetHexFormID(weapon);
+
+      console.log(`${name}(${formId}): Couldn't find type ${field2} modifier for weapon.`);
     }
 
     return modifier === null ? 0 : modifier;
@@ -284,17 +442,32 @@ export default class WeaponPatcher {
 
   modifyRecipes(weapon) {
     const weaponFormID = xelib.GetFormID(weapon);
-    const weaponIsCrossbow = xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeCrossbow);
-    const excludedCrossbow = this.weapons.excludedCrossbows.find((e) => this.names[weapon].includes(e));
+    const weaponIsCrossbow = xelib.HasArrayItem(
+      weapon,
+      'KWDA',
+      '',
+      this.statics.kwWeapTypeCrossbow
+    );
+    const excludedCrossbow = this.weapons.excludedCrossbows.find(e =>
+      this.names[weapon].includes(e)
+    );
 
-    this.cobj.forEach((recipe) => {
-      this.modifyCrossbowCraftingRecipe(weapon, weaponFormID, weaponIsCrossbow, excludedCrossbow, recipe);
+    this.cobj.forEach(recipe => {
+      this.modifyCrossbowCraftingRecipe(
+        weapon,
+        weaponFormID,
+        weaponIsCrossbow,
+        excludedCrossbow,
+        recipe
+      );
       this.modifyTemperingRecipe(weapon, weaponFormID, recipe);
     });
   }
 
   modifyCrossbowCraftingRecipe(weapon, weaponFormID, weaponIsCrossbow, excludedCrossbow, recipe) {
-    if (!weaponIsCrossbow || excludedCrossbow || recipe.cnam !== weaponFormID) { return; }
+    if (!weaponIsCrossbow || excludedCrossbow || recipe.cnam !== weaponFormID) {
+      return;
+    }
 
     const bench = parseInt(this.statics.kwCraftingSmithingSharpeningWheel, 16);
     const newRecipe = xelib.CopyElement(recipe.handle, this.patchFile);
@@ -305,19 +478,28 @@ export default class WeaponPatcher {
     xelib.RemoveElement(newRecipe, 'Conditions');
     xelib.AddElement(newRecipe, 'Conditions');
     const condition = xelib.GetElement(newRecipe, 'Conditions\\[0]');
-    h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, this.statics.perkMarksmanshipBallistics);
+    h.updateHasPerkCondition(
+      newRecipe,
+      condition,
+      10000000,
+      1,
+      this.statics.perkMarksmanshipBallistics
+    );
   }
 
   modifyTemperingRecipe(weapon, weaponFormID, recipe) {
-    const bnam = recipe.bnam;
-    const cnam = recipe.cnam;
+    const { bnam, cnam } = recipe;
     const bench = parseInt(this.statics.kwCraftingSmithingSharpeningWheel, 16);
 
-    if (bnam !== bench || cnam !== weaponFormID) { return; }
+    if (bnam !== bench || cnam !== weaponFormID) {
+      return;
+    }
 
     const perk = this.temperingPerkFromKeyword(weapon);
 
-    if (!perk) { return; }
+    if (!perk) {
+      return;
+    }
 
     const newRecipe = xelib.CopyElement(recipe.handle, this.patchFile);
     const condition = xelib.AddElement(newRecipe, 'Conditions\\^0');
@@ -325,8 +507,10 @@ export default class WeaponPatcher {
   }
 
   temperingPerkFromKeyword(weapon) {
-    const s = this.statics
+    const s = this.statics;
     const kwda = h.getKwda(weapon);
+
+    // prettier-ignore
     const keywordPerkMap = [
       { kwda: s.kwWeapMaterialDaedric,        perk: s.perkSmithingDaedric   },
       { kwda: s.kwWeapMaterialDragonbone,     perk: s.perkSmithingDragon    },
@@ -346,23 +530,34 @@ export default class WeaponPatcher {
     ];
 
     let perk;
-    keywordPerkMap.some((e) => {
-      if (xelib.HasArrayItem(weapon, 'KWDA', '', e.kwda)) {
-        perk = e.perk;
-        return true;
+    keywordPerkMap.some(e => {
+      if (!xelib.HasArrayItem(weapon, 'KWDA', '', e.kwda)) {
+        return false;
       }
+
+      ({ perk } = e);
+      return true;
     });
 
     if (!perk && !kwda(s.kwWeapMaterialIron) && !kwda(s.kwWeapMaterialWood)) {
-      console.log(`${this.names[weapon]}(${xelib.GetHexFormID(weapon)}): Couldn't determine material - tempering recipe not modified.`);
+      const name = this.names[weapon];
+      const formId = xelib.GetHexFormID(weapon);
+
+      console.log(
+        `${name}(${formId}): Couldn't determine material - tempering recipe not modified.`
+      );
     }
 
     return perk;
   }
 
   processCrossbow(weapon) {
-    if (!xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeCrossbow)) { return; }
-    if (this.weapons.excludedCrossbows.find((e) => this.names[weapon].includes(e))) { return; }
+    if (!xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapTypeCrossbow)) {
+      return;
+    }
+    if (this.weapons.excludedCrossbows.find(e => this.names[weapon].includes(e))) {
+      return;
+    }
 
     xelib.AddElementValue(weapon, 'DESC', 'Ignores 50% armor.');
 
@@ -392,7 +587,12 @@ export default class WeaponPatcher {
     xelib.AddElementValue(newArbalestCrossbow, 'FULL', newName);
     this.names[newArbalestCrossbow] = newName;
     this.applyArbalestCrossbowChanges(newArbalestCrossbow);
-    h.addPerkScript(newArbalestCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowArbalest);
+    h.addPerkScript(
+      newArbalestCrossbow,
+      'xxxAddPerkWhileEquipped',
+      'p',
+      this.statics.perkWeaponCrossbowArbalest
+    );
     this.addTemperingRecipe(newArbalestCrossbow);
     this.addMeltdownRecipe(newArbalestCrossbow);
     requiredPerks.push(this.statics.perkMarksmanshipBallistics);
@@ -427,7 +627,12 @@ export default class WeaponPatcher {
     xelib.AddElementValue(newSilencedCrossbow, 'FULL', newName);
     this.names[newSilencedCrossbow] = newName;
     this.applySilencedCrossbowChanges(newSilencedCrossbow);
-    h.addPerkScript(newSilencedCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowSilenced);
+    h.addPerkScript(
+      newSilencedCrossbow,
+      'xxxAddPerkWhileEquipped',
+      'p',
+      this.statics.perkWeaponCrossbowSilenced
+    );
     this.addTemperingRecipe(newSilencedCrossbow);
     this.addMeltdownRecipe(newSilencedCrossbow);
     requiredPerks.push(this.statics.perkMarksmanshipBallistics);
@@ -446,7 +651,12 @@ export default class WeaponPatcher {
     this.names[newRecurveArbalestCrossbow] = newName;
     this.applyRecurveCrossbowChanges(newRecurveArbalestCrossbow);
     this.applyArbalestCrossbowChanges(newRecurveArbalestCrossbow);
-    h.addPerkScript(newArbalestCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowArbalest);
+    h.addPerkScript(
+      newArbalestCrossbow,
+      'xxxAddPerkWhileEquipped',
+      'p',
+      this.statics.perkWeaponCrossbowArbalest
+    );
     this.addTemperingRecipe(newRecurveArbalestCrossbow);
     this.addMeltdownRecipe(newRecurveArbalestCrossbow);
     requiredPerks.push(this.statics.perkMarksmanshipBallistics);
@@ -487,7 +697,12 @@ export default class WeaponPatcher {
     this.names[newRecurveSilencedCrossbow] = newName;
     this.applyRecurveCrossbowChanges(newRecurveSilencedCrossbow);
     this.applySilencedCrossbowChanges(newRecurveSilencedCrossbow);
-    h.addPerkScript(newRecurveSilencedCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowSilenced);
+    h.addPerkScript(
+      newRecurveSilencedCrossbow,
+      'xxxAddPerkWhileEquipped',
+      'p',
+      this.statics.perkWeaponCrossbowSilenced
+    );
     this.addTemperingRecipe(newRecurveSilencedCrossbow);
     this.addMeltdownRecipe(newRecurveSilencedCrossbow);
     requiredPerks.push(this.statics.perkMarksmanshipBallistics);
@@ -508,7 +723,12 @@ export default class WeaponPatcher {
     this.names[newLightweightArbalestCrossbow] = newName;
     this.applyArbalestCrossbowChanges(newLightweightArbalestCrossbow);
     this.applyLightweightCrossbowChanges(newLightweightArbalestCrossbow);
-    h.addPerkScript(newLightweightArbalestCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowArbalest);
+    h.addPerkScript(
+      newLightweightArbalestCrossbow,
+      'xxxAddPerkWhileEquipped',
+      'p',
+      this.statics.perkWeaponCrossbowArbalest
+    );
     this.addTemperingRecipe(newLightweightArbalestCrossbow);
     this.addMeltdownRecipe(newLightweightArbalestCrossbow);
     requiredPerks.push(this.statics.perkMarksmanshipBallistics);
@@ -529,7 +749,12 @@ export default class WeaponPatcher {
     this.names[newSilencedArbalestCrossbow] = newName;
     this.applyArbalestCrossbowChanges(newSilencedArbalestCrossbow);
     this.applySilencedCrossbowChanges(newSilencedArbalestCrossbow);
-    h.addPerkScript(newSilencedArbalestCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowArbalestSilenced);
+    h.addPerkScript(
+      newSilencedArbalestCrossbow,
+      'xxxAddPerkWhileEquipped',
+      'p',
+      this.statics.perkWeaponCrossbowArbalestSilenced
+    );
     this.addTemperingRecipe(newSilencedArbalestCrossbow);
     this.addMeltdownRecipe(newSilencedArbalestCrossbow);
     requiredPerks.push(this.statics.perkMarksmanshipBallistics);
@@ -550,7 +775,12 @@ export default class WeaponPatcher {
     this.names[newLightweightSilencedCrossbow] = newName;
     this.applyLightweightCrossbowChanges(newLightweightSilencedCrossbow);
     this.applySilencedCrossbowChanges(newLightweightSilencedCrossbow);
-    h.addPerkScript(newLightweightSilencedCrossbow, 'xxxAddPerkWhileEquipped', 'p', this.statics.perkWeaponCrossbowSilenced);
+    h.addPerkScript(
+      newLightweightSilencedCrossbow,
+      'xxxAddPerkWhileEquipped',
+      'p',
+      this.statics.perkWeaponCrossbowSilenced
+    );
     this.addTemperingRecipe(newLightweightSilencedCrossbow);
     this.addMeltdownRecipe(newLightweightSilencedCrossbow);
     requiredPerks.push(this.statics.perkMarksmanshipBallistics);
@@ -573,7 +803,11 @@ export default class WeaponPatcher {
     const typeDamage = this.getWeaponTypeDamageModifier(weapon);
     const recurveDamage = this.settings.weaponBaseStats.iDamageBonusRecurveCrossbow;
     const desc = xelib.GetValue(weapon, 'DESC');
-    xelib.SetIntValue(weapon, 'DATA\\Damage', baseDamage + materialDamage + typeDamage + recurveDamage);
+    xelib.SetUIntValue(
+      weapon,
+      'DATA\\Damage',
+      baseDamage + materialDamage + typeDamage + recurveDamage
+    );
     xelib.AddElementValue(weapon, 'DESC', `${desc} Deals additional damage.`);
   }
 
@@ -581,17 +815,37 @@ export default class WeaponPatcher {
     const speed = xelib.GetIntValue(weapon, 'DNAM\\Speed');
     const weight = xelib.GetIntValue(weapon, 'DATA\\Weight');
     const desc = xelib.GetValue(weapon, 'DESC');
-    xelib.SetFloatValue(weapon, 'DNAM\\Speed', speed + this.settings.weaponBaseStats.fSpeedBonusArbalestCrossbow);
-    xelib.SetFloatValue(weapon, 'DATA\\Weight', weight + this.settings.weaponBaseStats.fWeightFactorArbalestCrossbow);
-    xelib.AddElementValue(weapon, 'DESC', `${desc} Deals double damage against blocking enemies but fires slower.`);
+    xelib.SetFloatValue(
+      weapon,
+      'DNAM\\Speed',
+      speed + this.settings.weaponBaseStats.fSpeedBonusArbalestCrossbow
+    );
+    xelib.SetFloatValue(
+      weapon,
+      'DATA\\Weight',
+      weight + this.settings.weaponBaseStats.fWeightFactorArbalestCrossbow
+    );
+    xelib.AddElementValue(
+      weapon,
+      'DESC',
+      `${desc} Deals double damage against blocking enemies but fires slower.`
+    );
   }
 
   applyLightweightCrossbowChanges(weapon) {
     const speed = xelib.GetIntValue(weapon, 'DNAM\\Speed');
     const weight = xelib.GetIntValue(weapon, 'DATA\\Weight');
     const desc = xelib.GetValue(weapon, 'DESC');
-    xelib.SetFloatValue(weapon, 'DNAM\\Speed', speed + this.settings.weaponBaseStats.fSpeedBonusLightweightCrossbow);
-    xelib.SetFloatValue(weapon, 'DATA\\Weight', weight + this.settings.weaponBaseStats.fWeightFactorLightweightCrossbow);
+    xelib.SetFloatValue(
+      weapon,
+      'DNAM\\Speed',
+      speed + this.settings.weaponBaseStats.fSpeedBonusLightweightCrossbow
+    );
+    xelib.SetFloatValue(
+      weapon,
+      'DATA\\Weight',
+      weight + this.settings.weaponBaseStats.fWeightFactorLightweightCrossbow
+    );
     xelib.AddElementValue(weapon, 'DESC', `${desc} Has increased attack speed.`);
   }
 
@@ -601,7 +855,9 @@ export default class WeaponPatcher {
   }
 
   processSilverWeapon(weapon) {
-    if (!xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapMaterialSilver)) { return; }
+    if (!xelib.HasArrayItem(weapon, 'KWDA', '', this.statics.kwWeapMaterialSilver)) {
+      return;
+    }
 
     const newName = `Refined ${this.names[weapon]}`;
     const desc = 'These supreme weapons set undead enemies ablaze, dealing extra damage.';
@@ -610,12 +866,19 @@ export default class WeaponPatcher {
     xelib.AddElementValue(newRefinedSilverWeapon, 'FULL', newName);
     this.names[newRefinedSilverWeapon] = newName;
     xelib.AddElementValue(newRefinedSilverWeapon, 'DESC', desc);
-    xelib.AddElementValue(newRefinedSilverWeapon, 'KWDA\\.', this.statics.kwWeapMaterialSilverRefined);
+    xelib.AddElementValue(
+      newRefinedSilverWeapon,
+      'KWDA\\.',
+      this.statics.kwWeapMaterialSilverRefined
+    );
     this.patchWeaponDamage(newRefinedSilverWeapon);
     this.patchWeaponReach(newRefinedSilverWeapon);
     this.patchWeaponSpeed(newRefinedSilverWeapon);
 
-    if (!xelib.HasElement(newRefinedSilverWeapon, 'VMAD') || !xelib.HasScript(newRefinedSilverWeapon, 'SilverSwordScript')) {
+    if (
+      !xelib.HasElement(newRefinedSilverWeapon, 'VMAD') ||
+      !xelib.HasScript(newRefinedSilverWeapon, 'SilverSwordScript')
+    ) {
       const vmad = xelib.AddElement(weapon, 'VMAD');
       xelib.SetIntValue(vmad, 'Version', 5);
       xelib.SetIntValue(vmad, 'Object Format', 2);
@@ -623,13 +886,25 @@ export default class WeaponPatcher {
       xelib.SetValue(script, 'scriptName', 'SilverSwordScript');
       const property = xelib.AddElement(script, 'Properties\\.');
       xelib.SetValue(property, 'propertyName', 'SilverPerk');
-      xelib.SetIntValue(property, 'Type', 1);
-      xelib.SetValue(property, 'Value\\Object Union\\Object v2\\FormID', this.statics.perkWeaponSilverRefined);
+      xelib.SetValue(property, 'Type', 'Object');
+      xelib.SetValue(
+        property,
+        'Value\\Object Union\\Object v2\\FormID',
+        this.statics.perkWeaponSilverRefined
+      );
     }
 
     this.addTemperingRecipe(newRefinedSilverWeapon);
-    const ingredients = [this.statics.ingotGold, this.statics.ingotQuicksilver, xelib.GetHexFormID(newRefinedSilverWeapon)];
-    this.addCraftingRecipe(newRefinedSilverWeapon, [this.statics.perkSmithingSilverRefined], ingredients);
+    const ingredients = [
+      this.statics.ingotGold,
+      this.statics.ingotQuicksilver,
+      xelib.GetHexFormID(newRefinedSilverWeapon)
+    ];
+    this.addCraftingRecipe(
+      newRefinedSilverWeapon,
+      [this.statics.perkSmithingSilverRefined],
+      ingredients
+    );
     this.addMeltdownRecipe(newRefinedSilverWeapon);
   }
 
@@ -637,15 +912,18 @@ export default class WeaponPatcher {
     let input;
     let perk;
 
-    this.keywordTemperMap.some((e) => {
-      if (xelib.HasArrayItem(weapon, 'KWDA', '', e.kwda)) {
-        input = e.input;
-        perk = e.perk;
-        return true;
+    this.keywordTemperMap.some(e => {
+      if (!xelib.HasArrayItem(weapon, 'KWDA', '', e.kwda)) {
+        return false;
       }
+
+      ({ input, perk } = e);
+      return true;
     });
 
-    if (!input) { return; }
+    if (!input) {
+      return;
+    }
 
     const newRecipe = xelib.AddElement(this.patchFile, 'Constructible Object\\COBJ');
     xelib.AddElementValue(newRecipe, 'EDID', `REP_TEMPER_${this.names[weapon]}`);
@@ -653,7 +931,7 @@ export default class WeaponPatcher {
 
     const ingredient = xelib.GetElement(newRecipe, 'Items\\[0]');
     xelib.SetValue(ingredient, 'CNTO\\Item', input);
-    xelib.SetIntValue(ingredient, 'CNTO\\Count', 1);
+    xelib.SetUIntValue(ingredient, 'CNTO\\Count', 1);
     xelib.AddElementValue(newRecipe, 'NAM1', '1');
     xelib.AddElementValue(newRecipe, 'CNAM', xelib.GetHexFormID(weapon));
     xelib.AddElementValue(newRecipe, 'BNAM', this.statics.kwCraftingSmithingSharpeningWheel);
@@ -670,33 +948,45 @@ export default class WeaponPatcher {
     const kwda = h.getKwda(weapon);
     let outputQuantity = 1;
     let inputQuantity = 1;
-    let input, perk;
+    let input;
+    let perk;
 
-    if (kwda(s.kwWeapTypeBattleaxe) || kwda(s.kwWeapTypeGreatsword) ||
-        kwda(s.kwWeapTypeWarhammer) || kwda(s.kwWeapTypeBow)) {
-      outputQuantity++;
+    if (
+      kwda(s.kwWeapTypeBattleaxe) ||
+      kwda(s.kwWeapTypeGreatsword) ||
+      kwda(s.kwWeapTypeWarhammer) ||
+      kwda(s.kwWeapTypeBow)
+    ) {
+      outputQuantity += 1;
     } else if (kwda(s.kwWeapTypeDagger)) {
-      inputQuantity++;
+      inputQuantity += 1;
     }
 
-    this.keywordTemperMap.some((e) => {
-      if (xelib.HasArrayItem(weapon, 'KWDA', '', e.kwda)) {
-        if (e.kwda == s.kwWeapMaterialDaedric || e.kwda == s.kwWeapMaterialDraugr || e.kwda == s.kwWeapMaterialDraugrHoned) {
-          return;
-        }
-
-        input = e.input;
-        perk = e.perk;
-        return true;
+    this.keywordTemperMap.some(e => {
+      if (!xelib.HasArrayItem(weapon, 'KWDA', '', e.kwda)) {
+        return false;
       }
+
+      if (
+        e.kwda === s.kwWeapMaterialDaedric ||
+        e.kwda === s.kwWeapMaterialDraugr ||
+        e.kwda === s.kwWeapMaterialDraugrHoned
+      ) {
+        return false;
+      }
+
+      ({ input, perk } = e);
+      return true;
     });
 
-    if (!input) { return; }
+    if (!input) {
+      return;
+    }
 
     if (kwda(s.kwWeapMaterialDaedric)) {
-      outputQuantity++;
+      outputQuantity += 1;
     } else if (kwda(s.kwWeapMaterialDraugr) || kwda(s.kwWeapMaterialDraugrHoned)) {
-      inputQuantity++;
+      inputQuantity += 1;
     }
 
     const newRecipe = xelib.AddElement(this.patchFile, 'Constructible Object\\COBJ');
@@ -705,8 +995,8 @@ export default class WeaponPatcher {
 
     const ingredient = xelib.GetElement(newRecipe, 'Items\\[0]');
     xelib.SetValue(ingredient, 'CNTO\\Item', input);
-    xelib.SetIntValue(ingredient, 'CNTO\\Count', inputQuantity);
-    xelib.AddElementValue(newRecipe, 'NAM1',`${outputQuantity}`);
+    xelib.SetUIntValue(ingredient, 'CNTO\\Count', inputQuantity);
+    xelib.AddElementValue(newRecipe, 'NAM1', `${outputQuantity}`);
     xelib.AddElementValue(newRecipe, 'CNAM', xelib.GetHexFormID(weapon));
     xelib.AddElementValue(newRecipe, 'BNAM', this.statics.kwCraftingSmelter);
 
@@ -722,30 +1012,34 @@ export default class WeaponPatcher {
   }
 
   addCraftingRecipe(weapon, requiredPerks, secondaryIngredients) {
-    let input, perk;
+    let input;
+    let perk;
 
-    this.keywordTemperMap.some((e) => {
-      if (xelib.HasArrayItem(weapon, 'KWDA', '', e.kwda)) {
-        input = e.input;
-        perk = e.perk;
-        return true;
+    this.keywordTemperMap.some(e => {
+      if (!xelib.HasArrayItem(weapon, 'KWDA', '', e.kwda)) {
+        return false;
       }
+
+      ({ input, perk } = e);
+      return true;
     });
 
-    if (!input) { return; }
+    if (!input) {
+      return;
+    }
 
     const newRecipe = xelib.AddElement(this.patchFile, 'Constructible Object\\COBJ');
     xelib.AddElementValue(newRecipe, 'EDID', `REP_CRAFT_WEAPON_${this.names[weapon]}`);
 
     xelib.AddElement(newRecipe, 'Items');
-    const baseItem = xelib.GetElement(newRecipe, 'Items\\[0]')
+    const baseItem = xelib.GetElement(newRecipe, 'Items\\[0]');
     xelib.SetValue(baseItem, 'CNTO\\Item', input);
-    xelib.SetIntValue(baseItem, 'CNTO\\Count', 2);
+    xelib.SetUIntValue(baseItem, 'CNTO\\Count', 2);
 
-    secondaryIngredients.forEach((ingredient) => {
+    secondaryIngredients.forEach(ingredient => {
       const secondaryItem = xelib.AddElement(newRecipe, 'Items\\.');
       xelib.SetValue(secondaryItem, 'CNTO\\Item', ingredient);
-      xelib.SetIntValue(secondaryItem, 'CNTO\\Count', 1);
+      xelib.SetUIntValue(secondaryItem, 'CNTO\\Count', 1);
     });
 
     xelib.AddElementValue(newRecipe, 'BNAM', this.statics.kwCraftingSmithingForge);
@@ -754,16 +1048,16 @@ export default class WeaponPatcher {
 
     xelib.AddElement(newRecipe, 'Conditions');
 
-    requiredPerks.forEach((perk, index) => {
+    requiredPerks.forEach((p, index) => {
       let condition;
 
-      if (index == 0) {
+      if (index === 0) {
         condition = xelib.GetElement(newRecipe, 'Conditions\\[0]');
       } else {
         condition = xelib.AddElement(newRecipe, 'Conditions\\.');
       }
 
-      h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, perk);
+      h.updateHasPerkCondition(newRecipe, condition, 10000000, 1, p);
     });
 
     if (perk) {
@@ -773,6 +1067,8 @@ export default class WeaponPatcher {
 
   createKeywordMaps() {
     const s = this.statics;
+
+    // prettier-ignore
     this.keywordMaterialMap = [
       { kwda: s.kwWeapMaterialDaedric,      name: 'Daedric'       },
       { kwda: s.kwWeapMaterialDragonbone,   name: 'Dragonbone'    },
@@ -794,31 +1090,33 @@ export default class WeaponPatcher {
       { kwda: s.kwWeapMaterialWood,         name: 'Wood'          }
     ];
 
+    // prettier-ignore
     this.skyreTypesMap = [
-      { kwda: s.kwWeapTypeBastardSword,     name: "Bastard"       },
-      { kwda: s.kwWeapTypeBattlestaff,      name: "Battlestaff"   },
-      { kwda: s.kwWeapTypeClub,             name: "Club"          },
-      { kwda: s.kwWeapTypeCrossbow,         name: "Crossbow"      },
-      { kwda: s.kwWeapTypeGlaive,           name: "Glaive"        },
-      { kwda: s.kwWeapTypeHalberd,          name: "Halberd"       },
-      { kwda: s.kwWeapTypeHatchet,          name: "Hatchet"       },
-      { kwda: s.kwWeapTypeKatana,           name: "Katana"        },
-      { kwda: s.kwWeapTypeLongbow,          name: "Longbow"       },
-      { kwda: s.kwWeapTypeLongmace,         name: "Longmace"      },
-      { kwda: s.kwWeapTypeLongsword,        name: "Longsword"     },
-      { kwda: s.kwWeapTypeMaul,             name: "Maul"          },
-      { kwda: s.kwWeapTypeNodachi,          name: "Nodachi"       },
-      { kwda: s.kwWeapTypeSaber,            name: "Saber"         },
-      { kwda: s.kwWeapTypeScimitar,         name: "Scimitar"      },
-      { kwda: s.kwWeapTypeShortbow,         name: "Shortbow"      },
-      { kwda: s.kwWeapTypeShortspear,       name: "Shortspear"    },
-      { kwda: s.kwWeapTypeShortsword,       name: "Shortsword"    },
-      { kwda: s.kwWeapTypeTanto,            name: "Tanto"         },
-      { kwda: s.kwWeapTypeUnarmed,          name: "Unarmed"       },
-      { kwda: s.kwWeapTypeWakizashi,        name: "Wakizashi"     },
-      { kwda: s.kwWeapTypeYari,             name: "Yari"          }
+      { kwda: s.kwWeapTypeBastardSword,     name: 'Bastard'       },
+      { kwda: s.kwWeapTypeBattlestaff,      name: 'Battlestaff'   },
+      { kwda: s.kwWeapTypeClub,             name: 'Club'          },
+      { kwda: s.kwWeapTypeCrossbow,         name: 'Crossbow'      },
+      { kwda: s.kwWeapTypeGlaive,           name: 'Glaive'        },
+      { kwda: s.kwWeapTypeHalberd,          name: 'Halberd'       },
+      { kwda: s.kwWeapTypeHatchet,          name: 'Hatchet'       },
+      { kwda: s.kwWeapTypeKatana,           name: 'Katana'        },
+      { kwda: s.kwWeapTypeLongbow,          name: 'Longbow'       },
+      { kwda: s.kwWeapTypeLongmace,         name: 'Longmace'      },
+      { kwda: s.kwWeapTypeLongsword,        name: 'Longsword'     },
+      { kwda: s.kwWeapTypeMaul,             name: 'Maul'          },
+      { kwda: s.kwWeapTypeNodachi,          name: 'Nodachi'       },
+      { kwda: s.kwWeapTypeSaber,            name: 'Saber'         },
+      { kwda: s.kwWeapTypeScimitar,         name: 'Scimitar'      },
+      { kwda: s.kwWeapTypeShortbow,         name: 'Shortbow'      },
+      { kwda: s.kwWeapTypeShortspear,       name: 'Shortspear'    },
+      { kwda: s.kwWeapTypeShortsword,       name: 'Shortsword'    },
+      { kwda: s.kwWeapTypeTanto,            name: 'Tanto'         },
+      { kwda: s.kwWeapTypeUnarmed,          name: 'Unarmed'       },
+      { kwda: s.kwWeapTypeWakizashi,        name: 'Wakizashi'     },
+      { kwda: s.kwWeapTypeYari,             name: 'Yari'          }
     ];
 
+    // prettier-ignore
     this.vanillaTypesMap = [
       { kwda: s.kwWeapTypeBattleaxe,        name: "Battleaxe"     },
       { kwda: s.kwWeapTypeBow,              name: "Bow"           },
@@ -832,26 +1130,27 @@ export default class WeaponPatcher {
 
     this.keywordTypesMap = this.skyreTypesMap.concat(this.vanillaTypesMap);
 
+    // prettier-ignore
     this.keywordTemperMap = [
-      { kwda: this.statics.kwWeapMaterialDaedric,       input: s.ingotEbony,          perk: s.perkSmithingDaedric },
-      { kwda: this.statics.kwWeapMaterialDragonbone,    input: s.dragonBone,          perk: s.perkSmithingDragon },
-      { kwda: this.statics.kwWeapMaterialDraugr,        input: s.ingotSteel,          perk: s.perkSmithingSteel },
-      { kwda: this.statics.kwWeapMaterialDraugrHoned,   input: s.ingotSteel,          perk: s.perkSmithinSteel },
-      { kwda: this.statics.kwWeapMaterialDwarven,       input: s.ingotDwarven,        perk: s.perkSmithingDwarven },
-      { kwda: this.statics.kwWeapMaterialEbony,         input: s.ingotEbony,          perk: s.perkSmithingEbony },
-      { kwda: this.statics.kwWeapMaterialElven,         input: s.ingotMoonstone,      perk: s.perkSmithingElven },
-      { kwda: this.statics.kwWeapMaterialFalmer,        input: s.ingotchaurusChitin,  perk: null },
-      { kwda: this.statics.kwWeapMaterialFalmerHoned,   input: s.ingotchaurusChitin,  perk: null },
-      { kwda: this.statics.kwWeapMaterialGlass,         input: s.ingotMalachite,      perk: s.perkSmithingGlass },
-      { kwda: this.statics.kwWeapMaterialImperial,      input: s.ingotSteel,          perk: s.perkSmithingSteel },
-      { kwda: this.statics.kwWeapMaterialIron,          input: s.ingotIron,           perk: null },
-      { kwda: this.statics.kwWeapMaterialOrcish,        input: s.ingotOrichalcum,     perk: s.perkSmithingOrcish },
-      { kwda: this.statics.kwWeapMaterialSilver,        input: s.ingotSilver,         perk: s.perkSmithingSilver },
-      { kwda: this.statics.kwWeapMaterialSilverRefined, input: s.ingotSilver,         perk: s.perkSmithingSilver },
-      { kwda: this.statics.kwWeapMaterialSteel,         input: s.ingotSteel,          perk: s.perkSmithingSteel },
-      { kwda: this.statics.kwWeapMaterialWood,          input: s.ingotIron,           perk: null },
-      { kwda: this.statics.kwWeapMaterialStalhrim,      input: s.oreStalhrim,         perk: s.perkSmithingAdvanced },
-      { kwda: this.statics.kwWeapMaterialNordic,        input: s.ingotQuicksilver,    perk: s.perkSmithingAdvanced }
+      { kwda: this.statics.kwWeapMaterialDaedric,       input: s.ingotEbony,          perk: s.perkSmithingDaedric   },
+      { kwda: this.statics.kwWeapMaterialDragonbone,    input: s.dragonBone,          perk: s.perkSmithingDragon    },
+      { kwda: this.statics.kwWeapMaterialDraugr,        input: s.ingotSteel,          perk: s.perkSmithingSteel     },
+      { kwda: this.statics.kwWeapMaterialDraugrHoned,   input: s.ingotSteel,          perk: s.perkSmithinSteel      },
+      { kwda: this.statics.kwWeapMaterialDwarven,       input: s.ingotDwarven,        perk: s.perkSmithingDwarven   },
+      { kwda: this.statics.kwWeapMaterialEbony,         input: s.ingotEbony,          perk: s.perkSmithingEbony     },
+      { kwda: this.statics.kwWeapMaterialElven,         input: s.ingotMoonstone,      perk: s.perkSmithingElven     },
+      { kwda: this.statics.kwWeapMaterialFalmer,        input: s.ingotchaurusChitin,  perk: null                    },
+      { kwda: this.statics.kwWeapMaterialFalmerHoned,   input: s.ingotchaurusChitin,  perk: null                    },
+      { kwda: this.statics.kwWeapMaterialGlass,         input: s.ingotMalachite,      perk: s.perkSmithingGlass     },
+      { kwda: this.statics.kwWeapMaterialImperial,      input: s.ingotSteel,          perk: s.perkSmithingSteel     },
+      { kwda: this.statics.kwWeapMaterialIron,          input: s.ingotIron,           perk: null                    },
+      { kwda: this.statics.kwWeapMaterialOrcish,        input: s.ingotOrichalcum,     perk: s.perkSmithingOrcish    },
+      { kwda: this.statics.kwWeapMaterialSilver,        input: s.ingotSilver,         perk: s.perkSmithingSilver    },
+      { kwda: this.statics.kwWeapMaterialSilverRefined, input: s.ingotSilver,         perk: s.perkSmithingSilver    },
+      { kwda: this.statics.kwWeapMaterialSteel,         input: s.ingotSteel,          perk: s.perkSmithingSteel     },
+      { kwda: this.statics.kwWeapMaterialWood,          input: s.ingotIron,           perk: null                    },
+      { kwda: this.statics.kwWeapMaterialStalhrim,      input: s.oreStalhrim,         perk: s.perkSmithingAdvanced  },
+      { kwda: this.statics.kwWeapMaterialNordic,        input: s.ingotQuicksilver,    perk: s.perkSmithingAdvanced  }
     ];
   }
 }

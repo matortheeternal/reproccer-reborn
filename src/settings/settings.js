@@ -1,9 +1,6 @@
-import html from './settings.pug';
-
 export default {
   label: 'Reproccer Reborn',
-  template: html,
-  templateUrl: '../modules/reproccer-reborn/settings.html',
+  templateUrl: '../../../modules/reproccerReborn/settings.html',
   patchFileName: 'ReProccer.esp',
 
   defaultSettings: {
@@ -16,7 +13,7 @@ export default {
       bUsePriceLimits: true,
       iDurationBase: 2,
       priceLimitLower: 5,
-      priceLimitUpper: 150,
+      priceLimitUpper: 150
     },
 
     armorBaseStats: {
