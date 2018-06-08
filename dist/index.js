@@ -599,7 +599,8 @@ function () {
 
       if (!override || this.hasMaterialKeyword(armor)) {
         return;
-      }
+      } // prettier-ignore
+
 
       var overrideMap = {
         BONEMOLD_HEAVY: {
@@ -748,7 +749,8 @@ function () {
         return armorRating;
       }
 
-      var s = this.statics;
+      var s = this.statics; // prettier-ignore
+
       var keywordMaterialMap = [{
         kwda: s.kwArmorMaterialBlades,
         name: 'Blades'
@@ -972,7 +974,8 @@ function () {
 
       var noop = function noop(v) {
         return v;
-      };
+      }; // prettier-ignore
+
 
       var keywordMap = [{
         kwda: s.kwArmorMaterialBlades,
@@ -1371,9 +1374,11 @@ function () {
     value: function multiplyBolts(ammo) {
       var _this3 = this;
 
-      if (this.projectiles.baseStats.find(function (bs) {
+      var found = this.projectiles.baseStats.find(function (bs) {
         return _this3.names[ammo].includes(bs.sIdentifier) && bs.sType !== 'BOLT';
-      })) {
+      });
+
+      if (found) {
         return;
       }
 
@@ -1528,10 +1533,11 @@ function () {
       ingredients = [s.pettySoulGem, s.boneMeal];
       perks = [s.perkSneakThiefsToolbox0];
       this.addCraftingRecipe(ammo, noisemakerAmmo, ingredients, perks);
-
-      if (this.projectiles.baseStats.find(function (bs) {
+      var found = this.projectiles.baseStats.find(function (bs) {
         return _this4.names[ammo].includes(bs.sIdentifier) && bs.sType !== 'ARROW';
-      })) {
+      });
+
+      if (found) {
         this.createCrossbowOnlyVariants(ammo);
       }
     }
@@ -1870,7 +1876,8 @@ function () {
 
       var broad = function broad(w) {
         return _this2.checkBroadswordName(w);
-      };
+      }; // prettier-ignore
+
 
       var weaponKeywordMap = {
         BASTARDSWORD: {
@@ -2171,7 +2178,8 @@ function () {
     key: "temperingPerkFromKeyword",
     value: function temperingPerkFromKeyword(weapon) {
       var s = this.statics;
-      var kwda = getKwda(weapon);
+      var kwda = getKwda(weapon); // prettier-ignore
+
       var keywordPerkMap = [{
         kwda: s.kwWeapMaterialDaedric,
         perk: s.perkSmithingDaedric
@@ -2661,7 +2669,8 @@ function () {
   }, {
     key: "createKeywordMaps",
     value: function createKeywordMaps() {
-      var s = this.statics;
+      var s = this.statics; // prettier-ignore
+
       this.keywordMaterialMap = [{
         kwda: s.kwWeapMaterialDaedric,
         name: 'Daedric'
@@ -2716,7 +2725,8 @@ function () {
       }, {
         kwda: s.kwWeapMaterialWood,
         name: 'Wood'
-      }];
+      }]; // prettier-ignore
+
       this.skyreTypesMap = [{
         kwda: s.kwWeapTypeBastardSword,
         name: 'Bastard'
@@ -2783,33 +2793,35 @@ function () {
       }, {
         kwda: s.kwWeapTypeYari,
         name: 'Yari'
-      }];
+      }]; // prettier-ignore
+
       this.vanillaTypesMap = [{
         kwda: s.kwWeapTypeBattleaxe,
-        name: 'Battleaxe'
+        name: "Battleaxe"
       }, {
         kwda: s.kwWeapTypeBow,
-        name: 'Bow'
+        name: "Bow"
       }, {
         kwda: s.kwWeapTypeSword,
-        name: 'Broadsword'
+        name: "Broadsword"
       }, {
         kwda: s.kwWeapTypeDagger,
-        name: 'Dagger'
+        name: "Dagger"
       }, {
         kwda: s.kwWeapTypeGreatsword,
-        name: 'Greatsword'
+        name: "Greatsword"
       }, {
         kwda: s.kwWeapTypeMace,
-        name: 'Mace'
+        name: "Mace"
       }, {
         kwda: s.kwWeapTypeWaraxe,
-        name: 'Waraxe'
+        name: "Waraxe"
       }, {
         kwda: s.kwWeapTypeWarhammer,
-        name: 'Warhammer'
+        name: "Warhammer"
       }];
-      this.keywordTypesMap = this.skyreTypesMap.concat(this.vanillaTypesMap);
+      this.keywordTypesMap = this.skyreTypesMap.concat(this.vanillaTypesMap); // prettier-ignore
+
       this.keywordTemperMap = [{
         kwda: this.statics.kwWeapMaterialDaedric,
         input: s.ingotEbony,
@@ -3214,7 +3226,6 @@ function () {
         perkWeaponSilverRefined: GetHex(0x056b5c, 'SkyRe_Main.esp'),
         perkWeaponYari: GetHex(0x09e623, 'SkyRe_Main.esp')
       };
-      console.log(locals.statics);
     } // eslint-disable-next-line no-unused-vars
 
   }, {
