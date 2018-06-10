@@ -349,6 +349,7 @@ export default class ArmorPatcher {
       kwda(s.kwArmorMaterialEbony) ||
       kwda(s.kwArmorMaterialSteelPlate) ||
       kwda(s.kwArmorMaterialDragonplate) ||
+      kwda(s.kwArmorMaterialForsworn) ||
       kwda(s.kwArmorMaterialFur) ||
       kwda(s.kwArmorMaterialHide) ||
       kwda(s.kwArmorMaterialLeather) ||
@@ -417,6 +418,7 @@ export default class ArmorPatcher {
       { kwda: s.kwArmorMaterialFalmer,           name: 'Falmer'          },
       { kwda: s.kwArmorMaterialFalmerHardened,   name: 'Falmer Hardened' },
       { kwda: s.kwArmorMaterialFalmerHeavy,      name: 'Falmer Heavy'    },
+      { kwda: s.kwArmorMaterialForsworn,         name: 'Forsworn'        },
       { kwda: s.kwArmorMaterialFur,              name: 'Fur'             },
       { kwda: s.kwArmorMaterialGlass,            name: 'Glass'           },
       { kwda: s.kwArmorMaterialHide,             name: 'Hide'            },
@@ -588,6 +590,7 @@ export default class ArmorPatcher {
       { kwda: s.kwArmorMaterialFalmer,          cnam: s.chaurusChitin,    perk: null,                   bnam: s.kwCraftingSmelter    , func: noop  },
       { kwda: s.kwArmorMaterialFalmerHardened,  cnam: s.chaurusChitin,    perk: null,                   bnam: s.kwCraftingSmelter    , func: noop  },
       { kwda: s.kwArmorMaterialFalmerHeavy,     cnam: s.chaurusChitin,    perk: null,                   bnam: s.kwCraftingSmelter    , func: noop  },
+      { kwda: s.kwArmorMaterialForsworn,        cnam: s.leatherStrips,    perk: null,                   bnam: s.kwCraftingTanningRack, func: noop  },
       { kwda: s.kwArmorMaterialFur,             cnam: s.leatherStrips,    perk: null,                   bnam: s.kwCraftingTanningRack, func: noop  },
       { kwda: s.kwArmorMaterialHide,            cnam: s.leatherStrips,    perk: null,                   bnam: s.kwCraftingTanningRack, func: noop  },
       { kwda: s.kwArmorMaterialGlass,           cnam: s.ingotMalachite,   perk: s.perkSmithingGlass,    bnam: s.kwCraftingSmelter    , func: noop  },

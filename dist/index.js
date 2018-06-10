@@ -734,7 +734,7 @@ function () {
     value: function hasMaterialKeyword(armor) {
       var s = this.s;
       var kwda = getKwda(armor);
-      return kwda(s.kwArmorMaterialDaedric) || kwda(s.kwArmorMaterialSteel) || kwda(s.kwArmorMaterialIron) || kwda(s.kwArmorMaterialDwarven) || kwda(s.kwArmorMaterialFalmer) || kwda(s.kwArmorMaterialOrcish) || kwda(s.kwArmorMaterialEbony) || kwda(s.kwArmorMaterialSteelPlate) || kwda(s.kwArmorMaterialDragonplate) || kwda(s.kwArmorMaterialFur) || kwda(s.kwArmorMaterialHide) || kwda(s.kwArmorMaterialLeather) || kwda(s.kwArmorMaterialElven) || kwda(s.kwArmorMaterialScaled) || kwda(s.kwArmorMaterialGlass) || kwda(s.kwArmorMaterialDragonscale) || kwda(s.kwArmorMaterialNordicHeavy) || kwda(s.kwArmorMaterialStalhrimHeavy) || kwda(s.kwArmorMaterialStalhrimLight) || kwda(s.kwArmorMaterialBonemoldHeavy);
+      return kwda(s.kwArmorMaterialDaedric) || kwda(s.kwArmorMaterialSteel) || kwda(s.kwArmorMaterialIron) || kwda(s.kwArmorMaterialDwarven) || kwda(s.kwArmorMaterialFalmer) || kwda(s.kwArmorMaterialOrcish) || kwda(s.kwArmorMaterialEbony) || kwda(s.kwArmorMaterialSteelPlate) || kwda(s.kwArmorMaterialDragonplate) || kwda(s.kwArmorMaterialForsworn) || kwda(s.kwArmorMaterialFur) || kwda(s.kwArmorMaterialHide) || kwda(s.kwArmorMaterialLeather) || kwda(s.kwArmorMaterialElven) || kwda(s.kwArmorMaterialScaled) || kwda(s.kwArmorMaterialGlass) || kwda(s.kwArmorMaterialDragonscale) || kwda(s.kwArmorMaterialNordicHeavy) || kwda(s.kwArmorMaterialStalhrimHeavy) || kwda(s.kwArmorMaterialStalhrimLight) || kwda(s.kwArmorMaterialBonemoldHeavy);
     }
   }, {
     key: "patchArmorRating",
@@ -827,6 +827,9 @@ function () {
       }, {
         kwda: s.kwArmorMaterialFalmerHeavy,
         name: 'Falmer Heavy'
+      }, {
+        kwda: s.kwArmorMaterialForsworn,
+        name: 'Forsworn'
       }, {
         kwda: s.kwArmorMaterialFur,
         name: 'Fur'
@@ -1091,6 +1094,12 @@ function () {
         cnam: s.chaurusChitin,
         perk: null,
         bnam: s.kwCraftingSmelter,
+        func: noop
+      }, {
+        kwda: s.kwArmorMaterialForsworn,
+        cnam: s.leatherStrips,
+        perk: null,
+        bnam: s.kwCraftingTanningRack,
         func: noop
       }, {
         kwda: s.kwArmorMaterialFur,
@@ -2058,7 +2067,7 @@ function () {
       var typeDamage = this.getWeaponTypeDamageModifier(weapon);
 
       if (baseDamage === null || materialDamage === null || typeDamage === null) {
-        this.log("Base: ".concat(baseDamage, " Material: ").concat(materialDamage, " Type: ").concat(typeDamage));
+        this.log(weapon, "Base: ".concat(baseDamage, " Material: ").concat(materialDamage, " Type: ").concat(typeDamage));
       }
 
       xelib.SetUIntValue(weapon, 'DATA\\Damage', baseDamage + materialDamage + typeDamage);
@@ -2087,7 +2096,7 @@ function () {
       }
 
       if (base === null) {
-        this.log("Couldn't set base weapon damage.");
+        this.log(weapon, "Couldn't set base weapon damage.");
       }
 
       return base;
@@ -2105,7 +2114,7 @@ function () {
       modifier = getModifierFromMap(this.keywordMaterialMap, this.rules.materials, weapon, 'name', 'damage');
 
       if (modifier === null) {
-        this.log("Couldn't find material damage modifier for weapon.");
+        this.log(weapon, "Couldn't find material damage modifier for weapon.");
       }
 
       return modifier;
@@ -2116,7 +2125,7 @@ function () {
       var modifier = getModifierFromMap(this.keywordTypesMap, this.rules.types, weapon, 'name', 'damage', false);
 
       if (modifier === null) {
-        this.log("Couldn't find type damage modifier for weapon.");
+        this.log(weapon, "Couldn't find type damage modifier for weapon.");
       }
 
       return modifier;
@@ -2151,7 +2160,7 @@ function () {
       modifier = getModifierFromMap(this.vanillaTypesMap, this.rules.types, weapon, 'name', field2, false);
 
       if (modifier === null) {
-        this.log("Couldn't find type ".concat(field2, " modifier for weapon."));
+        this.log(weapon, "Couldn't find type ".concat(field2, " modifier for weapon."));
       }
 
       return modifier === null ? 0 : modifier;
@@ -2275,7 +2284,7 @@ function () {
       });
 
       if (!perk && !kwda(s.kwWeapMaterialIron) && !kwda(s.kwWeapMaterialWood)) {
-        this.log("Couldn't determine material - tempering recipe not modified.");
+        this.log(weapon, "Couldn't determine material - tempering recipe not modified.");
       }
 
       return perk;
@@ -3143,6 +3152,7 @@ function () {
         kwArmorMaterialFalmerHardened: GetHex(0x012cce, 'Dawnguard.esm'),
         kwArmorMaterialFalmerHeavy: GetHex(0x012ccf, 'Dawnguard.esm'),
         kwArmorMaterialFalmerHeavyOriginal: GetHex(0x012cd0, 'Dawnguard.esm'),
+        kwArmorMaterialForsworn: GetHex(0x0009b9, 'Dawnguard.esm'),
         kwArmorMaterialFur: GetHex(0x008254, 'SkyRe_Main.esp'),
         kwArmorMaterialGlass: GetHex(0x06bbdc, 'Skyrim.esm'),
         kwArmorMaterialHide: GetHex(0x06bbdd, 'Skyrim.esm'),

@@ -159,6 +159,7 @@ export default class ReproccerReborn {
       kwArmorMaterialFalmerHardened: GetHex(0x012cce, 'Dawnguard.esm'),
       kwArmorMaterialFalmerHeavy: GetHex(0x012ccf, 'Dawnguard.esm'),
       kwArmorMaterialFalmerHeavyOriginal: GetHex(0x012cd0, 'Dawnguard.esm'),
+      kwArmorMaterialForsworn: GetHex(0x0009b9, 'Dawnguard.esm'),
       kwArmorMaterialFur: GetHex(0x008254, 'SkyRe_Main.esp'),
       kwArmorMaterialGlass: GetHex(0x06bbdc, 'Skyrim.esm'),
       kwArmorMaterialHide: GetHex(0x06bbdd, 'Skyrim.esm'),

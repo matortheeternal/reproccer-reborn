@@ -256,7 +256,7 @@ export default class WeaponPatcher {
     const typeDamage = this.getWeaponTypeDamageModifier(weapon);
 
     if (baseDamage === null || materialDamage === null || typeDamage === null) {
-      this.log(`Base: ${baseDamage} Material: ${materialDamage} Type: ${typeDamage}`);
+      this.log(weapon, `Base: ${baseDamage} Material: ${materialDamage} Type: ${typeDamage}`);
     }
 
     xelib.SetUIntValue(weapon, 'DATA\\Damage', baseDamage + materialDamage + typeDamage);
@@ -293,7 +293,7 @@ export default class WeaponPatcher {
     }
 
     if (base === null) {
-      this.log(`Couldn't set base weapon damage.`);
+      this.log(weapon, `Couldn't set base weapon damage.`);
     }
 
     return base;
@@ -316,7 +316,7 @@ export default class WeaponPatcher {
     );
 
     if (modifier === null) {
-      this.log(`Couldn't find material damage modifier for weapon.`);
+      this.log(weapon, `Couldn't find material damage modifier for weapon.`);
     }
 
     return modifier;
@@ -333,7 +333,7 @@ export default class WeaponPatcher {
     );
 
     if (modifier === null) {
-      this.log(`Couldn't find type damage modifier for weapon.`);
+      this.log(weapon, `Couldn't find type damage modifier for weapon.`);
     }
 
     return modifier;
@@ -379,7 +379,7 @@ export default class WeaponPatcher {
     );
 
     if (modifier === null) {
-      this.log(`Couldn't find type ${field2} modifier for weapon.`);
+      this.log(weapon, `Couldn't find type ${field2} modifier for weapon.`);
     }
 
     return modifier === null ? 0 : modifier;
@@ -483,7 +483,7 @@ export default class WeaponPatcher {
     });
 
     if (!perk && !kwda(s.kwWeapMaterialIron) && !kwda(s.kwWeapMaterialWood)) {
-      this.log(`Couldn't determine material - tempering recipe not modified.`);
+      this.log(weapon, `Couldn't determine material - tempering recipe not modified.`);
     }
 
     return perk;
