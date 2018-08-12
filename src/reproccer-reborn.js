@@ -68,7 +68,7 @@ export default class ReproccerReborn {
 
     function GetHex(formId, filename) {
       const loadOrder = getLoadOrder(getFile(filename));
-      return xelib.Hex((loadOrder << 24) | formId);
+      return xelib.Hex((loadOrder * 2 ** 24) | formId);
     }
 
     function getLoadOrder(file) {
