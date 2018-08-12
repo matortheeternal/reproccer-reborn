@@ -1,3 +1,9 @@
+<style type="text/css">
+  input[type="number"] {
+    width: 40px;
+  }
+</style>
+
 <h2>Reproccer Reborn</h2>
 <p>Compatibility patch and weapon/armor/alchemy/projectile stat overhaul creator for T3nd0's Skyrim Redone</p>
 
@@ -21,6 +27,40 @@
             <li>Generates Refined Silver variants of silver weapons.</li>
             <li>Generates crossbow variants of all crossbows.</li>
             <li>Links mod-added weapons to Skyrim Redone's perks.</li>
+        </ul>
+
+        <span>Adjusts the damage multipliers used when the below keywords are found</span>
+        <ul>
+          <li>
+            <label>
+              <input min="0" step="0.1" type="number" ng-model="settings.reproccerReborn.weapons.modifiers.weaponStrongerLow" /> SkyRe_WeaponStrongerLow
+            </label>
+          </li>
+          <li>
+            <label>
+              <input min="0" step="0.1" type="number" ng-model="settings.reproccerReborn.weapons.modifiers.weaponStrongerMedium" /> SkyRe_WeaponStrongerMedium
+            </label>
+          </li>
+          <li>
+            <label>
+              <input min="0" step="0.1" type="number" ng-model="settings.reproccerReborn.weapons.modifiers.weaponStrongerHigh" /> SkyRe_WeaponStrongerHigh
+            </label>
+          </li>
+          <li>
+            <label>
+              <input min="0" step="0.1" type="number" ng-model="settings.reproccerReborn.weapons.modifiers.weaponWeakerLow" /> SkyRe_WeaponWeakerLow
+            </label>
+          </li>
+          <li>
+            <label>
+              <input min="0" step="0.1" type="number" ng-model="settings.reproccerReborn.weapons.modifiers.weaponWeakerMedium" /> SkyRe_WeaponWeakerMedium
+            </label>
+          </li>
+          <li>
+            <label>
+              <input min="0" step="0.1" type="number" ng-model="settings.reproccerReborn.weapons.modifiers.weaponWeakerHigh" /> SkyRe_WeaponWeakerHigh
+            </label>
+          </li>
         </ul>
     </div>
     <div>

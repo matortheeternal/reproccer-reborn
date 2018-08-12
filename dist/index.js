@@ -1758,10 +1758,19 @@ function () {
     this.cobj = locals.cobj;
     this.helpers = helpers;
     this.locals = locals;
+    this.modifiers = settings.weapons.modifiers;
     this.patchFile = patch;
     this.rules = locals.rules.weapons;
     this.settings = settings;
-    this.statics = locals.statics;
+    this.statics = locals.statics; // sanitize user modified values
+
+    Object.keys(this.modifiers).map(function (k) {
+      if (_this.modifiers[k] < 0) {
+        _this.modifiers = 0;
+      }
+
+      return _this.modifiers[k];
+    });
     this.createKeywordMaps();
   }
 
@@ -2065,12 +2074,18 @@ function () {
       var baseDamage = this.getBaseDamage(weapon);
       var materialDamage = this.getWeaponMaterialDamageModifier(weapon);
       var typeDamage = this.getWeaponTypeDamageModifier(weapon);
+      var modifier = this.getKeywordWeaponDamageModifier(weapon);
+      var damage = (baseDamage + materialDamage + typeDamage) * modifier;
+
+      if (damage < 0) {
+        damage = 0;
+      }
 
       if (baseDamage === null || materialDamage === null || typeDamage === null) {
         this.log(weapon, "Base: ".concat(baseDamage, " Material: ").concat(materialDamage, " Type: ").concat(typeDamage));
       }
 
-      xelib.SetUIntValue(weapon, 'DATA\\Damage', baseDamage + materialDamage + typeDamage);
+      xelib.SetUIntValue(weapon, 'DATA\\Damage', damage);
     }
   }, {
     key: "getBaseDamage",
@@ -2126,6 +2141,28 @@ function () {
 
       if (modifier === null) {
         this.log(weapon, "Couldn't find type damage modifier for weapon.");
+      }
+
+      return modifier;
+    }
+  }, {
+    key: "getKeywordWeaponDamageModifier",
+    value: function getKeywordWeaponDamageModifier(weapon) {
+      var kwda = getKwda(weapon);
+      var modifier = 1;
+
+      if (kwda(this.statics.weaponStrongerLow)) {
+        modifier = this.modifiers.weaponStrongerLow;
+      } else if (kwda(this.statics.weaponStrongerMedium)) {
+        modifier = this.modifiers.weaponStrongerMedium;
+      } else if (kwda(this.statics.weaponStrongerHigh)) {
+        modifier = this.modifiers.weaponStrongerHigh;
+      } else if (kwda(this.statics.weaponWeakerLow)) {
+        modifier = this.modifiers.weaponWeakerLow;
+      } else if (kwda(this.statics.weaponWeakerMedium)) {
+        modifier = this.modifiers.weaponWeakerMedium;
+      } else if (kwda(this.statics.weaponWeakerHigh)) {
+        modifier = this.modifiers.weaponWeakerHigh;
       }
 
       return modifier;
@@ -2501,8 +2538,19 @@ function () {
       var materialDamage = this.getWeaponMaterialDamageModifier(weapon);
       var typeDamage = this.getWeaponTypeDamageModifier(weapon);
       var recurveDamage = this.baseStats.damageBonuses.recurveCrossbow;
+      var modifier = this.getKeywordWeaponDamageModifier(weapon);
       var desc = xelib.GetValue(weapon, 'DESC');
-      xelib.SetUIntValue(weapon, 'DATA\\Damage', baseDamage + materialDamage + typeDamage + recurveDamage);
+      var damage = (baseDamage + materialDamage + typeDamage + recurveDamage) * modifier;
+
+      if (damage < 0) {
+        damage = 0;
+      }
+
+      if (baseDamage === null || materialDamage === null || typeDamage === null) {
+        this.log(weapon, "Base: ".concat(baseDamage, " Material: ").concat(materialDamage, " Type: ").concat(typeDamage));
+      }
+
+      xelib.SetUIntValue(weapon, 'DATA\\Damage', damage);
       xelib.AddElementValue(weapon, 'DESC', "".concat(desc, " Deals additional damage."));
     }
   }, {
@@ -2977,7 +3025,15 @@ var defaultSettings$3 = {
       lightweightCrossbow: 0.75
     }
   },
-  enabled: true
+  enabled: true,
+  modifiers: {
+    weaponStrongerLow: 1.1,
+    weaponStrongerMedium: 1.2,
+    weaponStrongerHigh: 1.3,
+    weaponWeakerLow: 0.9,
+    weaponWeakerMedium: 0.8,
+    weaponWeakerHigh: 0.7
+  }
 };
 
 var Settings = {
@@ -3085,6 +3141,13 @@ function () {
       }
 
       locals.statics = {
+        // Weapon Modifiers
+        weaponStrongerLow: GetHex(0x01000660, 'Update.esm'),
+        weaponStrongerMedium: GetHex(0x01000661, 'Update.esm'),
+        weaponStrongerHigh: GetHex(0x01000662, 'Update.esm'),
+        weaponWeakerLow: GetHex(0x01000663, 'Update.esm'),
+        weaponWeakerMedium: GetHex(0x01000664, 'Update.esm'),
+        weaponWeakerHigh: GetHex(0x01000665, 'Update.esm'),
         // Explosions
         expBarbed: GetHex(0x0c3421, 'SkyRe_Main.esp'),
         expElementalFire: GetHex(0x010d90, 'Dawnguard.esm'),

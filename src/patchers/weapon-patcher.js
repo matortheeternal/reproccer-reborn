@@ -19,10 +19,20 @@ export default class WeaponPatcher {
     this.cobj = locals.cobj;
     this.helpers = helpers;
     this.locals = locals;
+    this.modifiers = settings.weapons.modifiers;
     this.patchFile = patch;
     this.rules = locals.rules.weapons;
     this.settings = settings;
     this.statics = locals.statics;
+
+    // sanitize user modified values
+    Object.keys(this.modifiers).map(k => {
+      if (this.modifiers[k] < 0) {
+        this.modifiers = 0;
+      }
+
+      return this.modifiers[k];
+    });
 
     this.createKeywordMaps();
   }
@@ -254,12 +264,18 @@ export default class WeaponPatcher {
     const baseDamage = this.getBaseDamage(weapon);
     const materialDamage = this.getWeaponMaterialDamageModifier(weapon);
     const typeDamage = this.getWeaponTypeDamageModifier(weapon);
+    const modifier = this.getKeywordWeaponDamageModifier(weapon);
+    let damage = (baseDamage + materialDamage + typeDamage) * modifier;
+
+    if (damage < 0) {
+      damage = 0;
+    }
 
     if (baseDamage === null || materialDamage === null || typeDamage === null) {
       this.log(weapon, `Base: ${baseDamage} Material: ${materialDamage} Type: ${typeDamage}`);
     }
 
-    xelib.SetUIntValue(weapon, 'DATA\\Damage', baseDamage + materialDamage + typeDamage);
+    xelib.SetUIntValue(weapon, 'DATA\\Damage', damage);
   }
 
   getBaseDamage(weapon) {
@@ -334,6 +350,27 @@ export default class WeaponPatcher {
 
     if (modifier === null) {
       this.log(weapon, `Couldn't find type damage modifier for weapon.`);
+    }
+
+    return modifier;
+  }
+
+  getKeywordWeaponDamageModifier(weapon) {
+    const kwda = getKwda(weapon);
+    let modifier = 1;
+
+    if (kwda(this.statics.weaponStrongerLow)) {
+      modifier = this.modifiers.weaponStrongerLow;
+    } else if (kwda(this.statics.weaponStrongerMedium)) {
+      modifier = this.modifiers.weaponStrongerMedium;
+    } else if (kwda(this.statics.weaponStrongerHigh)) {
+      modifier = this.modifiers.weaponStrongerHigh;
+    } else if (kwda(this.statics.weaponWeakerLow)) {
+      modifier = this.modifiers.weaponWeakerLow;
+    } else if (kwda(this.statics.weaponWeakerMedium)) {
+      modifier = this.modifiers.weaponWeakerMedium;
+    } else if (kwda(this.statics.weaponWeakerHigh)) {
+      modifier = this.modifiers.weaponWeakerHigh;
     }
 
     return modifier;
@@ -740,12 +777,19 @@ export default class WeaponPatcher {
     const materialDamage = this.getWeaponMaterialDamageModifier(weapon);
     const typeDamage = this.getWeaponTypeDamageModifier(weapon);
     const recurveDamage = this.baseStats.damageBonuses.recurveCrossbow;
+    const modifier = this.getKeywordWeaponDamageModifier(weapon);
     const desc = xelib.GetValue(weapon, 'DESC');
-    xelib.SetUIntValue(
-      weapon,
-      'DATA\\Damage',
-      baseDamage + materialDamage + typeDamage + recurveDamage
-    );
+    let damage = (baseDamage + materialDamage + typeDamage + recurveDamage) * modifier;
+
+    if (damage < 0) {
+      damage = 0;
+    }
+
+    if (baseDamage === null || materialDamage === null || typeDamage === null) {
+      this.log(weapon, `Base: ${baseDamage} Material: ${materialDamage} Type: ${typeDamage}`);
+    }
+
+    xelib.SetUIntValue(weapon, 'DATA\\Damage', damage);
     xelib.AddElementValue(weapon, 'DESC', `${desc} Deals additional damage.`);
   }
 
@@ -1120,5 +1164,13 @@ export const defaultSettings = {
       lightweightCrossbow: 0.75
     }
   },
-  enabled: true
+  enabled: true,
+  modifiers: {
+    weaponStrongerLow: 1.1,
+    weaponStrongerMedium: 1.2,
+    weaponStrongerHigh: 1.3,
+    weaponWeakerLow: 0.9,
+    weaponWeakerMedium: 0.8,
+    weaponWeakerHigh: 0.7
+  }
 };

@@ -1,11 +1,26 @@
+<style type="text/css">
+  input[type="number"] {
+    width: 40px;
+  }
+</style>
+
 <h2>Reproccer Reborn</h2>
 <p>Compatibility patch and weapon/armor/alchemy/projectile stat overhaul creator for T3nd0's Skyrim Redone</p>
-<p> Use the below settings to determine which type of records to patch. <br/> Use the data files to tweak the stats of the patched items to your liking. <br/> Remember to re-run the patcher anytime that you change your load order!!</p>
+
+<p>
+    Use the settings below to toggle the patching of different content.<br/>
+    Remember to re-run the patcher whenever you change your load order!
+</p>
+
 <section>
     <ignore-plugins patcher-id="reproccerReborn"></ignore-plugins>
 </section>
+
 <section>
-    <div><span class="input-label">Patch Weapons</span><input type="checkbox" ng-model="settings.reproccerReborn.weapons.enabled" />
+    <div>
+        <label>
+          <input type="checkbox" ng-model="settings.reproccerReborn.weapons.enabled" /> Patch Weapons
+        </label>
         <ul>
             <li>Adjusts weapon stats as specified by Stats.json</li>
             <li>Generates meltdown recipes and modifies tempering recipes.</li>
@@ -13,8 +28,45 @@
             <li>Generates crossbow variants of all crossbows.</li>
             <li>Links mod-added weapons to Skyrim Redone's perks.</li>
         </ul>
+
+        <span>Adjusts the damage multipliers used when the below keywords are found</span>
+        <ul>
+          <li>
+            <label>
+              <input min="0" step="0.1" type="number" ng-model="settings.reproccerReborn.weapons.modifiers.weaponStrongerLow" /> SkyRe_WeaponStrongerLow
+            </label>
+          </li>
+          <li>
+            <label>
+              <input min="0" step="0.1" type="number" ng-model="settings.reproccerReborn.weapons.modifiers.weaponStrongerMedium" /> SkyRe_WeaponStrongerMedium
+            </label>
+          </li>
+          <li>
+            <label>
+              <input min="0" step="0.1" type="number" ng-model="settings.reproccerReborn.weapons.modifiers.weaponStrongerHigh" /> SkyRe_WeaponStrongerHigh
+            </label>
+          </li>
+          <li>
+            <label>
+              <input min="0" step="0.1" type="number" ng-model="settings.reproccerReborn.weapons.modifiers.weaponWeakerLow" /> SkyRe_WeaponWeakerLow
+            </label>
+          </li>
+          <li>
+            <label>
+              <input min="0" step="0.1" type="number" ng-model="settings.reproccerReborn.weapons.modifiers.weaponWeakerMedium" /> SkyRe_WeaponWeakerMedium
+            </label>
+          </li>
+          <li>
+            <label>
+              <input min="0" step="0.1" type="number" ng-model="settings.reproccerReborn.weapons.modifiers.weaponWeakerHigh" /> SkyRe_WeaponWeakerHigh
+            </label>
+          </li>
+        </ul>
     </div>
-    <div><span class="input-label">Patch Armor</span><input type="checkbox" ng-model="settings.reproccerReborn.armor.enabled" />
+    <div>
+        <label>
+            <input type="checkbox" ng-model="settings.reproccerReborn.armor.enabled" /> Patch Armor
+        </label>
         <ul>
             <li>Adjusts armor stats as specified by Stats.json.</li>
             <li>Generates meltdown recipes and modifies tempering recipes</li>
@@ -22,13 +74,19 @@
             <li>Generates dreamcloth variants of regular clothing pieces.</li>
         </ul>
     </div>
-    <div><span class="input-label">Patch Alchemy Ingredients</span><input type="checkbox" ng-model="settings.reproccerReborn.alchemy.enabled" />
+    <div>
+        <label>
+          <input type="checkbox" ng-model="settings.reproccerReborn.alchemy.enabled" /> Patch Alchemy Ingredients
+        </label>
         <ul>
             <li>Adjusts alchemy ingredients to work over time.</li>
             <li>Optionally enforces upper and lower price limits for ingredients.</li>
         </ul>
     </div>
-    <div><span class="input-label">Patch Projectiles</span><input type="checkbox" ng-model="settings.reproccerReborn.projectiles.enabled" />
+    <div>
+        <label>
+          <input type="checkbox" ng-model="settings.reproccerReborn.projectiles.enabled" /> Patch Projectiles
+        </label>
         <ul>
             <li>Adjusts both arrow and bolt speed, gravity influence, reach, and damage. </li>
             <li>Creates explosive, timebomb, barbed, elemental, strong and stronger variants if applicable.</li>

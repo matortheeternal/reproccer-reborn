@@ -88,6 +88,14 @@ export default class ReproccerReborn {
     }
 
     locals.statics = {
+      // Weapon Modifiers
+      weaponStrongerLow: GetHex(0x01000660, 'Update.esm'),
+      weaponStrongerMedium: GetHex(0x01000661, 'Update.esm'),
+      weaponStrongerHigh: GetHex(0x01000662, 'Update.esm'),
+      weaponWeakerLow: GetHex(0x01000663, 'Update.esm'),
+      weaponWeakerMedium: GetHex(0x01000664, 'Update.esm'),
+      weaponWeakerHigh: GetHex(0x01000665, 'Update.esm'),
+
       // Explosions
       expBarbed: GetHex(0x0c3421, 'SkyRe_Main.esp'),
       expElementalFire: GetHex(0x010d90, 'Dawnguard.esm'),
